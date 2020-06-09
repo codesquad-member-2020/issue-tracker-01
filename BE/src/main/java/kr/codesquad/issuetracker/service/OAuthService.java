@@ -1,5 +1,6 @@
 package kr.codesquad.issuetracker.service;
 
+import kr.codesquad.issuetracker.common.GithubPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
