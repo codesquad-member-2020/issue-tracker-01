@@ -1,9 +1,7 @@
-package kr.codesquad.issuetracker.Service;
+package kr.codesquad.issuetracker.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
 public class OAuthService {
     private static final String GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
