@@ -18,15 +18,29 @@
 | BE    | [🚌 Alex][alex], [🐱 Dion][dion] |
 | FE    | [🦄 Reese][reese]               |
 
-## [Wiki](https://github.com/codesquad-member-2020/issue-tracker-01/wiki)
+### [Wiki](https://github.com/codesquad-member-2020/issue-tracker-01/wiki)
 
-## [API Document](https://github.com/codesquad-member-2020/issue-tracker-01/wiki/API-Document)
+### [API Document](https://github.com/codesquad-member-2020/issue-tracker-01/wiki/API-Document)
 
 - 추후 API 서버에서도 제공할 예정
 
-## [Task List](https://docs.google.com/spreadsheets/d/1U-_ApHx159JGWFy9P9KViVSK9zQEAFZmE7JAQ2qmW0c/edit?usp=sharing)
+### [Task List](https://docs.google.com/spreadsheets/d/1U-_ApHx159JGWFy9P9KViVSK9zQEAFZmE7JAQ2qmW0c/edit?usp=sharing)
 
-## [C4 Model](https://github.com/codesquad-member-2020/issue-tracker-01/issues/16)
+### [C4 Model](https://github.com/codesquad-member-2020/issue-tracker-01/issues/16)
+
+### How To Bulid
+
+#### BE
+
+Java Version 1.8+
+
+In project directory, `gradlew build`
+
+and then`java -jar build/libs/1.0.0-Octocat.jar`
+
+background deploy `nohup java -jar build/lib/1.0.0-Octocat.jar &`
+
+#### FE
 
 [alex]: https://github.com/haveagood
 [reese]: https://github.com/reesekimm
