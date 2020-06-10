@@ -24,5 +24,4 @@ class IssueResponseTest {
         List<Issue> issues = new ArrayList<>();
         assertThat(new IssueResponse(issues).getIssues()).isEqualTo(issues);
     }
-
 }
