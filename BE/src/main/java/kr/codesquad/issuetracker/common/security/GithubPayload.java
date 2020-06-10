@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.common;
+package kr.codesquad.issuetracker.common.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

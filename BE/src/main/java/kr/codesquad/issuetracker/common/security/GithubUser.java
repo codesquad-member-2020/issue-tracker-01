@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.common;
+package kr.codesquad.issuetracker.common.security;
 
 import lombok.Getter;
 import lombok.Setter;
