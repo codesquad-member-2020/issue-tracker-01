@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -177,5 +179,39 @@ public class IssueControllerTest {
                        1).getMileStone().getId()),
                        Matchers.equalTo((Number) issues.get(1).getMileStone().getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].mileStone.title", is(issues.get(1).getMileStone().getTitle())));
+    }
+
+    @Test
+    @DisplayName("선택한 이슈 일괄 오픈 테스트")
+    void 선택한_이슈_일괄_오픈_테스트() throws Exception {
+        // given
+        // language=JSON
+        String jsonString = "{\"issueNumbers\": [1], \"state\": \"open\"}";
+
+        // then
+        MockHttpServletRequestBuilder requestBuilder =
+                put("/issues/state").content(jsonString).contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(requestBuilder)
+               .andDo(print())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.success", is(true)))
+               .andExpect(jsonPath("$.message", is("성공")));
+    }
+
+    @Test
+    @DisplayName("선택한 이슈 일괄 클로즈 테스트")
+    void 선택한_이슈_일괄_클로즈_테스트() throws Exception {
+        // given
+        // language=JSON
+        String jsonString = "{\"issueNumbers\": [1,2], \"state\": \"close\"}";
+
+        // then
+        MockHttpServletRequestBuilder requestBuilder =
+                put("/issues/state").content(jsonString).contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(requestBuilder)
+               .andDo(print())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.success", is(true)))
+               .andExpect(jsonPath("$.message", is("성공")));
     }
 }
