@@ -2,6 +2,7 @@ package kr.codesquad.issuetracker.service;
 
 import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.domain.User;
+import kr.codesquad.issuetracker.domain.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,10 @@ public class LoginService {
         User user = authService.getUserInfoToToken(token);
         log.info("User Info : {}", user);
         return user;
+    }
+
+    public UserDTO createUserDTO(User user) {
+        return UserDTO.of(user.getNickName(),user.getEmail());
     }
 
 }

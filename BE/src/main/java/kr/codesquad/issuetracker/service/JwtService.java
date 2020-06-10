@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class JwtService {
@@ -29,5 +31,20 @@ public class JwtService {
             log.error("인증되지 않은 Jwt token jws : {}", jws);
             throw new LoginRequiredException("인증되지 않은 jwt token입니다.");
         }
+    }
+
+    public String createUserJws(UserDTO userDTO) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("typ", "JWT");
+        headers.put("alg", "HS256");
+
+        Map<String, UserDTO> payloads = new HashMap<>();
+        payloads.put(USER_JWT_KEY, userDTO);
+
+        return Jwts.builder()
+                .setHeader(headers)
+                .setClaims(payloads)
+                .signWith(key)
+                .compact();
     }
 }

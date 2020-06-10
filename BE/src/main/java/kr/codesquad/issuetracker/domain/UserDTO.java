@@ -1,7 +1,10 @@
 package kr.codesquad.issuetracker.domain;
 
+import lombok.ToString;
+
 import java.util.Map;
 
+@ToString
 public class UserDTO {
 
     private final String nickName;

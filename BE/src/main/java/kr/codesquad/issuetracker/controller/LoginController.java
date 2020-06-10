@@ -2,6 +2,7 @@ package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
 import kr.codesquad.issuetracker.domain.User;
+import kr.codesquad.issuetracker.domain.UserDTO;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
 import kr.codesquad.issuetracker.service.OAuthService;
@@ -45,6 +46,13 @@ public class LoginController {
         log.debug("AccessToken : {}", accessToken);
 
         User savedUser = loginService.insertUser(accessToken);
-        return new ResponseEntity<>(accessToken, HttpStatus.OK);
+        UserDTO user = loginService.createUserDTO(savedUser);
+
+        log.info("user data : {}", user.toString());
+
+        String jws = jwtService.createUserJws(user);
+        log.info("jws : {}", jws);
+
+        return new ResponseEntity<>("redirect", HttpStatus.FOUND);
     }
 }
