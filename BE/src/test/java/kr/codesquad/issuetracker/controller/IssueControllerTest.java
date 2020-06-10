@@ -17,8 +17,8 @@ public class IssueControllerTest {
     @DisplayName("오픈된 이슈 조회 검색 테스트")
     void 오픈된_이슈_조회_검색_테스트() {
         // given
-        Issue issue1 = new Issue();
-        Issue issue2 = new Issue();
+        Issue issue1 = Issue.builder().isOpened(true).build();
+        Issue issue2 = Issue.builder().isOpened(false).build();
 
         // then
     }
