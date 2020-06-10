@@ -40,14 +40,14 @@ public class IssueControllerTest {
         Issue issue3 = Issue.builder().isOpened(true).build();
 
         List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());
-        when(issueService.findOpenedIssues()).thenReturn(issues);
+        when(issueService.findIssues()).thenReturn(issues);
 
         // then
         mockMvc.perform(get("/issues").contentType(MediaType.APPLICATION_JSON))
                .andDo(print())
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.issues", hasSize(issues.size())))
-               .andExpect(jsonPath("$.issues[0].isOpen", is(true)))
-               .andExpect(jsonPath("$.issues[1].isOpen", is(true)));
+               .andExpect(jsonPath("$.issues[0].opened", is(true)))
+               .andExpect(jsonPath("$.issues[1].opened", is(true)));
     }
 }

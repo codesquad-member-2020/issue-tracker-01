@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class IssueService {
 
-    public List<Issue> findOpenedIssues() {
+    public List<Issue> findIssues() {
         return new ArrayList<>();
     }
 }
