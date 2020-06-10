@@ -1,5 +1,7 @@
 package kr.codesquad.issuetracker.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.common.security.GithubPayload;
@@ -68,6 +70,17 @@ public class OAuthService {
                 .getBody();
 
         log.info("email info : {}",eamil);
-        return eamil;
+        try {
+            JsonNode emailNode = objectMapper.readTree(eamil);
+            for (JsonNode jsonNode : emailNode) {
+                log.info("JsonNode : {}",jsonNode);
+                if (jsonNode.get("primary").asBoolean()) {
+                    return jsonNode.get("email").textValue();
+                }
+            }
+        } catch (JsonProcessingException e) {
+            log.error("Json Type Error", e);
+        }
+        return null;
     }
 }
