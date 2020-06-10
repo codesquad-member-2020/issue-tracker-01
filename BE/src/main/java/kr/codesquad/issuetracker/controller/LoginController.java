@@ -1,6 +1,7 @@
 package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
+import kr.codesquad.issuetracker.domain.User;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
 import kr.codesquad.issuetracker.service.OAuthService;
@@ -41,6 +42,9 @@ public class LoginController {
     @GetMapping("/oauth")
     public ResponseEntity<String> oauthAuthentication(@RequestParam("code") String code) {
         String accessToken = authService.getTokenFromCode(code).getAccessToken();
+        log.debug("AccessToken : {}", accessToken);
+
+        User savedUser = loginService.insertUser(accessToken);
         return new ResponseEntity<>(accessToken, HttpStatus.OK);
     }
 }
