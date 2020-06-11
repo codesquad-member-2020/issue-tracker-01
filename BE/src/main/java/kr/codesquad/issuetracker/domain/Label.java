@@ -14,7 +14,7 @@ public class Label {
     private String color;
 
     @Builder
-    public Label(Long id, String title, String color) {
+    private Label(Long id, String title, String color) {
         this.id = id;
         this.title = title;
         this.color = color;

@@ -21,15 +21,15 @@ public class Issue {
     private List<User> assignees;
 
     @Builder
-    public Issue(Long issueNumber,
-                 boolean isOpened,
-                 String title,
-                 LocalDateTime createdAt,
-                 LocalDateTime updatedAt,
-                 User author,
-                 List<Label> labels,
-                 Milestone mileStone,
-                 List<User> assignees) {
+    private Issue(Long issueNumber,
+                  boolean isOpened,
+                  String title,
+                  LocalDateTime createdAt,
+                  LocalDateTime updatedAt,
+                  User author,
+                  List<Label> labels,
+                  Milestone mileStone,
+                  List<User> assignees) {
         this.issueNumber = issueNumber;
         this.isOpened = isOpened;
         this.title = title;

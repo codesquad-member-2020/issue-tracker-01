@@ -13,7 +13,7 @@ public class Milestone {
     private String title;
 
     @Builder
-    public Milestone(Long id, String title) {
+    private Milestone(Long id, String title) {
         this.id = id;
         this.title = title;
     }

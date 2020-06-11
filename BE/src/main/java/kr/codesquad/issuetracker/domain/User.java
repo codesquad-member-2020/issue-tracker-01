@@ -14,7 +14,7 @@ public class User {
     private String profileImage;
 
     @Builder
-    public User(Long id, String userId, String profileImage) {
+    private User(Long id, String userId, String profileImage) {
         this.id = id;
         this.userId = userId;
         this.profileImage = profileImage;
