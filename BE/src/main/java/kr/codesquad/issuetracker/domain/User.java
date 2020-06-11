@@ -13,6 +13,6 @@ public class User {
     @Id
     private Integer id;
     private String email;
-    private String nickName;
+    private String nickname;
     private String githubToken;
 }

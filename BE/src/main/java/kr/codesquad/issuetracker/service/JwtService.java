@@ -40,11 +40,25 @@ public class JwtService {
 
         Map<String, UserDTO> payloads = new HashMap<>();
         payloads.put(USER_JWT_KEY, userDTO);
-
         return Jwts.builder()
                 .setHeader(headers)
                 .setClaims(payloads)
                 .signWith(key)
                 .compact();
     }
+
+    public Map<String, Object> getDataFromJws(String jwtKey, String jws) {
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jws);
+            return (LinkedHashMap) claims.getBody().get(jwtKey);
+        } catch (JwtException ex) {
+            log.error("인증되지 않은 jwt token입니다. jws: {}", jws);
+            // Custom Exception Unauthorized Exception
+            throw new LoginRequiredException("인증되지 않은 jwt token입니다.");
+        }
+    }
+
 }

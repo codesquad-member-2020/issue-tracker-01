@@ -6,6 +6,7 @@ import kr.codesquad.issuetracker.domain.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,6 +17,7 @@ import java.net.URI;
 public class LoginService {
 
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
+    private static int MAX_AGE = 7 * 24 * 60 * 60;
     private final GithubKey githubKey;
     private final OAuthService authService;
 
@@ -43,7 +45,16 @@ public class LoginService {
     }
 
     public UserDTO createUserDTO(User user) {
-        return UserDTO.of(user.getNickName(),user.getEmail());
+        return UserDTO.of(user.getNickname(), user.getEmail());
+    }
+
+    public HttpHeaders redirectWithCookie(String jwt) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(jwt);
+        headers.add(HttpHeaders.SET_COOKIE, "jwt=" + jwt + "; Path=/" + "; Max-Age=" + MAX_AGE + ";");
+        headers.setLocation(URI.create("http://localhost:8080/okok"));
+        return headers;
     }
 
 }

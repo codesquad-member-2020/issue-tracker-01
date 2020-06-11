@@ -3,6 +3,7 @@ package kr.codesquad.issuetracker.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.codesquad.issuetracker.common.exception.UserNotFoundException;
 import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.common.security.GithubPayload;
 import kr.codesquad.issuetracker.common.security.GithubToken;
@@ -50,7 +51,7 @@ public class OAuthService {
                 restTemplate
                         .exchange(GITHUB_USER_API_URL, HttpMethod.GET, new HttpEntity<>(headers), GithubUser.class)
                         .getBody())
-                .orElse(null);
+                .orElseThrow(UserNotFoundException::new);
 
         log.info("user info from github: {}", user);
 
@@ -58,7 +59,7 @@ public class OAuthService {
             user.setEmail(getEmailFromGithub(headers));
         }
         return User.builder()
-                .nickName(user.getName())
+                .nickname(user.getName())
                 .email(user.getEmail())
                 .githubToken(token)
                 .build();

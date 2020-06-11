@@ -47,12 +47,12 @@ public class LoginController {
 
         User savedUser = loginService.insertUser(accessToken);
         UserDTO user = loginService.createUserDTO(savedUser);
-
         log.info("user data : {}", user.toString());
 
         String jws = jwtService.createUserJws(user);
         log.info("jws : {}", jws);
 
-        return new ResponseEntity<>("redirect", HttpStatus.FOUND);
+        HttpHeaders headers = loginService.redirectWithCookie(jws);
+        return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);
     }
 }

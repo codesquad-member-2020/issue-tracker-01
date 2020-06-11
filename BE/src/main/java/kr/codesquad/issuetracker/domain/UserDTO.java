@@ -1,27 +1,29 @@
 package kr.codesquad.issuetracker.domain;
 
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.Map;
 
+@Getter
 @ToString
 public class UserDTO {
 
-    private final String nickName;
-    private final String eamil;
+    private final String nickname;
+    private final String email;
 
-    private UserDTO(String nickName, String eamil) {
-        this.nickName = nickName;
-        this.eamil = eamil;
+    private UserDTO(String nickname, String email) {
+        this.nickname = nickname;
+        this.email = email;
     }
 
     private UserDTO(Map<String, String> userMap) {
-        this.nickName = userMap.get("nickName");
-        this.eamil = userMap.get("email");
+        this.nickname = userMap.get("nickname");
+        this.email = userMap.get("email");
     }
 
-    public static UserDTO of(String nickName, String eamil) {
-        return new UserDTO(nickName, eamil);
+    public static UserDTO of(String nickname, String email) {
+        return new UserDTO(nickname, email);
     }
 
     public static UserDTO of(Map<String, String> userMap) {
