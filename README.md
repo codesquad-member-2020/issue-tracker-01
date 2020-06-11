@@ -57,7 +57,7 @@ Version
   - 각 주차별로 Phase-{weeknum}을 붙여서 Milestone을 정의한다.
   - 주의 시작에 간단하게 Milestone을 정의한다.
 
-- BE, Team의 경우 Github의 Project Kanban을 활용, 완료된 항목과 진행중인 항목이 눈에 띌 수 있도록 한다.
+- FE, BE, Team의 경우 Github의 Project Kanban을 활용, 완료된 항목과 진행중인 항목이 눈에 띌 수 있도록 한다.
   Phase 별로 구분할 수 있도록 한다.
 
 ### 요구사항 관리(Requirement Management)
