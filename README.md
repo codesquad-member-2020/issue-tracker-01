@@ -5,11 +5,11 @@
 
 ### BE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/🚌 BE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/🚌 BE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE?color=green)
 
 ### FE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/🦄 FE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/🦄 FE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green)
 
 ## Member
 
