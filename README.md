@@ -1,15 +1,15 @@
 # issue-tracker-01
 이슈 트래커 - 1팀![GitHub stars](https://img.shields.io/github/stars/codesquad-member-2020/issue-tracker-01?style=social)
 
-![GitHub language count](https://img.shields.io/github/languages/count/codesquad-member-2020/issue-tracker-01)![GitHub pull requests](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01?color=green)![GitHub issues](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01)![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/1)![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/2)![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/3)
+![GitHub language count](https://img.shields.io/github/languages/count/codesquad-member-2020/issue-tracker-01) ![GitHub pull requests](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01?color=green) ![GitHub issues](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/1) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/2) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/3)
 
 ### BE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE?color=green)
 
 ### FE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE)![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green)
 
 ## Member
 
