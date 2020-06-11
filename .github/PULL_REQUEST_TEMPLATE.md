@@ -1,11 +1,3 @@
----
-name: "PR 템플릿"
-about: PR 템플릿
-title: ""
-labels:
-assignees:
----
-
 Fixes #(issue)
 
 ## 설명
