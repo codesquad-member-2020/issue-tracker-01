@@ -17,7 +17,7 @@ public class Issue {
     private LocalDateTime updatedAt;
     private User author;
     private List<Label> labels;
-    private MileStone mileStone;
+    private Milestone mileStone;
     private List<User> assignees;
 
     @Builder
@@ -28,7 +28,7 @@ public class Issue {
                  LocalDateTime updatedAt,
                  User author,
                  List<Label> labels,
-                 MileStone mileStone,
+                 Milestone mileStone,
                  List<User> assignees) {
         this.issueNumber = issueNumber;
         this.isOpened = isOpened;

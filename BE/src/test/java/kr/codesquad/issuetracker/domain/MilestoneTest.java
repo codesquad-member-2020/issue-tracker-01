@@ -5,18 +5,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MileStoneTest {
+class MilestoneTest {
 
     @Test
     @DisplayName("toString method test")
     void toStringMethodTest() {
-        assertThat(MileStone.builder().id(1L).title("Phase1").build().toString().contains("*")).isFalse();
+        assertThat(Milestone.builder().id(1L).title("Phase1").build().toString().contains("*")).isFalse();
     }
 
     @Test
     @DisplayName("NoArgsConstructor annotation test")
     void noArgsConstructorAnnotationTest() {
-        MileStone mileStone = new MileStone();
+        Milestone mileStone = new Milestone();
         assertThat(mileStone.getId()).isNull();
         assertThat(mileStone.getTitle()).isNull();
     }

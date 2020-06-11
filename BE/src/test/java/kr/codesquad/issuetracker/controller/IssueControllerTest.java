@@ -2,7 +2,7 @@ package kr.codesquad.issuetracker.controller;
 
 import kr.codesquad.issuetracker.domain.Issue;
 import kr.codesquad.issuetracker.domain.Label;
-import kr.codesquad.issuetracker.domain.MileStone;
+import kr.codesquad.issuetracker.domain.Milestone;
 import kr.codesquad.issuetracker.domain.User;
 import kr.codesquad.issuetracker.service.IssueService;
 import org.hamcrest.Matchers;
@@ -53,8 +53,8 @@ public class IssueControllerTest {
         Label label2 = Label.builder().id(2L).color("#000000").title("FE").build();
 
         // milestone
-        MileStone mileStone1 = MileStone.builder().id(1L).title("Phase1").build();
-        MileStone mileStone2 = MileStone.builder().id(1L).title("Phase1").build();
+        Milestone milestone1 = Milestone.builder().id(1L).title("Phase1").build();
+        Milestone milestone2 = Milestone.builder().id(1L).title("Phase1").build();
 
         // issue
         Issue issue1 = Issue.builder()
@@ -66,7 +66,7 @@ public class IssueControllerTest {
                             .author(user1)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(mileStone1)
+                            .mileStone(milestone1)
                             .build();
         Issue issue2 = Issue.builder()
                             .issueNumber(2L)
@@ -77,7 +77,7 @@ public class IssueControllerTest {
                             .author(user1)
                             .assignees(Collections.singletonList(user1))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(mileStone1)
+                            .mileStone(milestone1)
                             .build();
         Issue issue3 = Issue.builder()
                             .issueNumber(3L)
@@ -88,7 +88,7 @@ public class IssueControllerTest {
                             .author(user2)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Arrays.asList(label1, label2))
-                            .mileStone(mileStone2)
+                            .mileStone(milestone2)
                             .build();
 
         List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());

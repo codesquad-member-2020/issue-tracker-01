@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MileStone {
+public class Milestone {
 
     private Long id; // TODO: JPA 연동시 Auto Increment 적용
     private String title;
 
     @Builder
-    public MileStone(Long id, String title) {
+    public Milestone(Long id, String title) {
         this.id = id;
         this.title = title;
     }
