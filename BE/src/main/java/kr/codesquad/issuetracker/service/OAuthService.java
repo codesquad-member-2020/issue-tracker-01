@@ -11,6 +11,7 @@ import kr.codesquad.issuetracker.common.security.GithubUser;
 import kr.codesquad.issuetracker.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,23 +25,18 @@ public class OAuthService {
     private static final String GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
     private static final String GITHUB_USER_API_URL = "https://api.github.com/user";
 
+    @Value("${GITHUB_CLIENT_ID}")
+    private String GITHUB_CLIENT_ID;
+
+    @Value("${GITHUB_CLIENT_SECRET}")
+    private String GITHUB_CLIENT_SECRET;
 
     private static final Logger log = LoggerFactory.getLogger(OAuthService.class);
 
-    private final ObjectMapper objectMapper;
-    private final GithubKey githubKey;
-    private final RestTemplate restTemplate;
-
-    public OAuthService(ObjectMapper objectMapper, GithubKey githubKey, RestTemplate restTemplate) {
-        this.objectMapper = objectMapper;
-        this.githubKey = githubKey;
-        this.restTemplate = restTemplate;
-    }
-
     public GithubToken getTokenFromCode(String code) {
         HttpEntity<GithubPayload> request = new HttpEntity<>(
-                GithubPayload.of(githubKey, code));
-        return restTemplate.postForEntity(GITHUB_ACCESS_TOKEN_URL, request, GithubToken.class)
+                GithubPayload.of(new GithubKey(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET), code));
+        return new RestTemplate().postForEntity(GITHUB_ACCESS_TOKEN_URL, request, GithubToken.class)
                 .getBody();
     }
 
@@ -48,7 +44,7 @@ public class OAuthService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "token " + token);
         GithubUser user = Optional.ofNullable(
-                restTemplate
+                new RestTemplate()
                         .exchange(GITHUB_USER_API_URL, HttpMethod.GET, new HttpEntity<>(headers), GithubUser.class)
                         .getBody())
                 .orElseThrow(UserNotFoundException::new);
@@ -66,15 +62,15 @@ public class OAuthService {
     }
 
     private String getEmailFromGithub(HttpHeaders headers) {
-        String eamil = restTemplate
-                .exchange(GITHUB_USER_API_URL+"/emails",HttpMethod.GET,new HttpEntity<>(headers),String.class)
+        String eamil = new RestTemplate()
+                .exchange(GITHUB_USER_API_URL + "/emails", HttpMethod.GET, new HttpEntity<>(headers), String.class)
                 .getBody();
 
-        log.info("email info : {}",eamil);
+        log.info("email info : {}", eamil);
         try {
-            JsonNode emailNode = objectMapper.readTree(eamil);
+            JsonNode emailNode = new ObjectMapper().readTree(eamil);
             for (JsonNode jsonNode : emailNode) {
-                log.info("JsonNode : {}",jsonNode);
+                log.info("JsonNode : {}", jsonNode);
                 if (jsonNode.get("primary").asBoolean()) {
                     return jsonNode.get("email").textValue();
                 }

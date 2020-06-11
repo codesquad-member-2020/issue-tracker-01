@@ -5,6 +5,7 @@ import kr.codesquad.issuetracker.domain.User;
 import kr.codesquad.issuetracker.domain.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,18 @@ public class LoginService {
 
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
     private static int MAX_AGE = 7 * 24 * 60 * 60;
-    private final GithubKey githubKey;
     private final OAuthService authService;
+    @Value("${GITHUB_CLIENT_ID}")
+    private String GITHUB_CLIENT_ID;
 
-    public LoginService(GithubKey githubKey, OAuthService authService) {
-        this.githubKey = githubKey;
+    public LoginService(OAuthService authService) {
         this.authService = authService;
     }
 
     public HttpHeaders redirectToGithub() {
         HttpHeaders headers = new HttpHeaders();
         URI uri = UriComponentsBuilder.fromUriString("https://github.com/login/oauth/authorize")
-                .queryParam("client_id", githubKey.getClientId())
+                .queryParam("client_id", GITHUB_CLIENT_ID)
                 .queryParam("scope", "user")
                 .build()
                 .toUri();
@@ -53,7 +54,7 @@ public class LoginService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(jwt);
         headers.add(HttpHeaders.SET_COOKIE, "jwt=" + jwt + "; Path=/" + "; Max-Age=" + MAX_AGE + ";");
-        headers.setLocation(URI.create("http://localhost:8080/okok"));
+        headers.setLocation(URI.create("http://localhost:8080"));
         return headers;
     }
 
