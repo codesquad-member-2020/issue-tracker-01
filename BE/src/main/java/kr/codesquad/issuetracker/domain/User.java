@@ -1,18 +1,27 @@
 package kr.codesquad.issuetracker.domain;
-
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    @Id
-    private Integer id;
+    private Long id; // TODO: JPA 연동시 Auto Increment 적용
+    private String userId;
     private String email;
     private String nickname;
     private String githubToken;
+    private String profileImage;
+
+    @Builder
+    public User(Long id, String userId, String email, String nickname, String githubToken, String profileImage) {
+        this.id = id;
+        this.userId = userId;
+        this.email = email;
+        this.nickname = nickname;
+        this.githubToken = githubToken;
+        this.profileImage = profileImage;
+    }
 }
