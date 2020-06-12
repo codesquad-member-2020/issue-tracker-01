@@ -21,7 +21,7 @@ class IssueTrackerApplicationTests {
     @Test
     @DisplayName("main Method Test")
     void main() {
-        IssueTrackerApplication.main(new String[]{});
+        IssueTrackerApplication.main(new String[]{"server.port=8081"});
     }
 
     @Test
