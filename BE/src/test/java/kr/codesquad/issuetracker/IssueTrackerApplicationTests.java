@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = "application.properties")
 class IssueTrackerApplicationTests {
 
     private static final Logger log = LoggerFactory.getLogger(IssueTrackerApplicationTests.class);
@@ -21,7 +21,7 @@ class IssueTrackerApplicationTests {
     @Test
     @DisplayName("main Method Test")
     void main() {
-        IssueTrackerApplication.main(new String[]{"server.port=8081"});
+        IssueTrackerApplication.main(new String[]{});
     }
 
     @Test
