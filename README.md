@@ -1,15 +1,17 @@
 # issue-tracker-01
+
 이슈 트래커 - 1팀![GitHub stars](https://img.shields.io/github/stars/codesquad-member-2020/issue-tracker-01?style=social)
 
 ![GitHub language count](https://img.shields.io/github/languages/count/codesquad-member-2020/issue-tracker-01) ![GitHub pull requests](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01?color=green) ![GitHub issues](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/1) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/2) ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/codesquad-member-2020/issue-tracker-01/3)
 
 ### BE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%9A%8C%20BE?color=green) [![Build Status](http://dion.iptime.org:8080/buildStatus/icon?job=Issue-Tracker-01-BE)](http://dion.iptime.org:8080/job/Issue-Tracker-01-BE/)
 
 ### FE
 
-![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green)
+![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green) 
+
 
 ## Member
 
@@ -34,9 +36,9 @@ Java Version 1.8+
 
 In project directory, `gradlew build`
 
-and then`java -jar build/libs/1.0.0-Octocat.jar`
+and then`java -jar build/libs/issue-tracker-1.0.0-Octocat.jar`
 
-or background deploy `nohup java -jar build/lib/1.0.0-Octocat.jar &`
+or background deploy `nohup java -jar build/libs/issue-tracker-1.0.0-Octocat.jar &`
 
 #### FE
 
