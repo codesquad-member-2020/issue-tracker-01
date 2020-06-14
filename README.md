@@ -12,7 +12,6 @@
 
 ![GitHub issues by-label](https://img.shields.io/github/issues/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE) ![GitHub pull requests by-label](https://img.shields.io/github/issues-pr/codesquad-member-2020/issue-tracker-01/%F0%9F%A6%84%20FE?color=green) 
 
-
 ## Member
 
 | Class | Nickname                       |
@@ -153,4 +152,3 @@ Github의 Communication 기능을 활용한다.
 [alex]: https://github.com/haveagood
 [reese]: https://github.com/reesekimm
 [dion]: https://github.com/ksundong
-
