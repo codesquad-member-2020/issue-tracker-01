@@ -1,9 +1,9 @@
 package kr.codesquad.issuetracker.service;
 
-import kr.codesquad.issuetracker.domain.Issue;
-import kr.codesquad.issuetracker.domain.Label;
-import kr.codesquad.issuetracker.domain.Milestone;
-import kr.codesquad.issuetracker.domain.User;
+import kr.codesquad.issuetracker.domain.entity.Issue;
+import kr.codesquad.issuetracker.domain.entity.Label;
+import kr.codesquad.issuetracker.domain.entity.Milestone;
+import kr.codesquad.issuetracker.domain.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

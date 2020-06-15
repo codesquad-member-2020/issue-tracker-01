@@ -55,7 +55,6 @@ public class JwtService {
             return (LinkedHashMap) claims.getBody().get(jwtKey);
         } catch (JwtException ex) {
             log.error("인증되지 않은 jwt token입니다. jws: {}", jws);
-            // Custom Exception Unauthorized Exception
             throw new LoginRequiredException("인증되지 않은 jwt token입니다.");
         }
     }
