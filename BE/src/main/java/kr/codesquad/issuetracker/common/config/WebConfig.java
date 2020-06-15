@@ -16,21 +16,21 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${GITHUB_CLIENT_ID}")
-    private String GITHUB_CLIENT_ID;
+    private String githubClientId;
 
     @Value("${GITHUB_CLIENT_SECRET}")
-    private String GITHUB_CLIENT_SECRET;
+    private String githubClientSecret;
 
     @Bean
     public GithubKey githubKey() {
-        return new GithubKey(GITHUB_CLIENT_ID,GITHUB_CLIENT_SECRET);
+        return new GithubKey(githubClientId, githubClientSecret);
     }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream()
-                  .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
-                  .findFirst()
-                  .ifPresent(converter -> ((MappingJackson2HttpMessageConverter) converter).setDefaultCharset(UTF_8));
+                .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
+                .findFirst()
+                .ifPresent(converter -> ((MappingJackson2HttpMessageConverter) converter).setDefaultCharset(UTF_8));
     }
 }
