@@ -2,35 +2,31 @@ package kr.codesquad.issuetracker.service;
 
 import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.domain.User;
-import kr.codesquad.issuetracker.domain.UserDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import kr.codesquad.issuetracker.domain.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class LoginService {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginService.class);
-    private static int MAX_AGE = 7 * 24 * 60 * 60;
+    private static final int MAX_AGE = 7 * 24 * 60 * 60;
+    private static final String ROOT_DIR = "https://github.com/login/oauth/authorize";
     private final OAuthService authService;
-    @Value("${GITHUB_CLIENT_ID}")
-    private String GITHUB_CLIENT_ID;
-
-    public LoginService(OAuthService authService) {
-        this.authService = authService;
-    }
+    private final GithubKey githubKey;
 
     public HttpHeaders redirectToGithub() {
         HttpHeaders headers = new HttpHeaders();
-        URI uri = UriComponentsBuilder.fromUriString("https://github.com/login/oauth/authorize")
-                .queryParam("client_id", GITHUB_CLIENT_ID)
+        URI uri = UriComponentsBuilder.fromUriString(ROOT_DIR)
+                .queryParam("client_id", githubKey.getClientId())
                 .queryParam("scope", "user")
                 .build()
                 .toUri();
@@ -38,7 +34,6 @@ public class LoginService {
         return headers;
     }
 
-    @Transactional
     public User insertUser(String token) {
         User user = authService.getUserInfoToToken(token);
         log.info("User Info : {}", user);

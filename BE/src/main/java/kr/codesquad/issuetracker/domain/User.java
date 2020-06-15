@@ -1,4 +1,5 @@
 package kr.codesquad.issuetracker.domain;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    private Long id; // TODO: JPA 연동시 Auto Increment 적용
+    private Long id;
     private String userId;
     private String email;
     private String nickname;
@@ -16,7 +17,7 @@ public class User {
     private String profileImage;
 
     @Builder
-    public User(Long id, String userId, String email, String nickname, String githubToken, String profileImage) {
+    private User(Long id, String userId, String email, String nickname, String githubToken, String profileImage) {
         this.id = id;
         this.userId = userId;
         this.email = email;

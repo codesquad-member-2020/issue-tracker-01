@@ -1,13 +1,12 @@
 package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
-import kr.codesquad.issuetracker.domain.User;
-import kr.codesquad.issuetracker.domain.UserDTO;
+import kr.codesquad.issuetracker.domain.dto.UserDTO;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
 import kr.codesquad.issuetracker.service.OAuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +14,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "Login")
 @RestController
+@RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/login")
 public class LoginController {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
     private final OAuthService authService;
     private final JwtService jwtService;
     private final LoginService loginService;
-
-    public LoginController(OAuthService authService, JwtService jwtService, LoginService loginService) {
-        this.authService = authService;
-        this.jwtService = jwtService;
-        this.loginService = loginService;
-    }
 
     @GetMapping
     public ResponseEntity<String> loginWithGithub(@CookieValue(value = "jwt", required = false) String jwt) {
@@ -45,12 +39,9 @@ public class LoginController {
         String accessToken = authService.getTokenFromCode(code).getAccessToken();
         log.debug("AccessToken : {}", accessToken);
 
-        User savedUser = loginService.insertUser(accessToken);
-        UserDTO user = loginService.createUserDTO(savedUser);
-        log.info("user data : {}", user.toString());
-
+        UserDTO user = UserDTO.of(loginService.insertUser(accessToken));
         String jws = jwtService.createUserJws(user);
-        log.info("jws : {}", jws);
+        log.debug("Jwt String : {}", jws);
 
         HttpHeaders headers = loginService.redirectWithCookie(jws);
         return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);

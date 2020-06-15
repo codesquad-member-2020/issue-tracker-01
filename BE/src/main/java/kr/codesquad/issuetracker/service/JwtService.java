@@ -3,9 +3,8 @@ package kr.codesquad.issuetracker.service;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import kr.codesquad.issuetracker.common.exception.LoginRequiredException;
-import kr.codesquad.issuetracker.domain.UserDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import kr.codesquad.issuetracker.domain.dto.UserDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -13,12 +12,12 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class JwtService {
 
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final String USER_JWT_KEY = "user";
-    private static final Logger log = LoggerFactory.getLogger(JwtService.class);
 
     public UserDTO getUserFromJws(String jws) {
         try {

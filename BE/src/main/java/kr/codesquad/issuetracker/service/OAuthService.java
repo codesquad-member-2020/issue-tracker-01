@@ -9,6 +9,9 @@ import kr.codesquad.issuetracker.common.security.GithubPayload;
 import kr.codesquad.issuetracker.common.security.GithubToken;
 import kr.codesquad.issuetracker.common.security.GithubUser;
 import kr.codesquad.issuetracker.domain.User;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,22 +23,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class OAuthService {
     private static final String GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
     private static final String GITHUB_USER_API_URL = "https://api.github.com/user";
-
-    @Value("${GITHUB_CLIENT_ID}")
-    private String GITHUB_CLIENT_ID;
-
-    @Value("${GITHUB_CLIENT_SECRET}")
-    private String GITHUB_CLIENT_SECRET;
-
-    private static final Logger log = LoggerFactory.getLogger(OAuthService.class);
+    private final GithubKey githubKey;
 
     public GithubToken getTokenFromCode(String code) {
         HttpEntity<GithubPayload> request = new HttpEntity<>(
-                GithubPayload.of(new GithubKey(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET), code));
+                GithubPayload.of(githubKey, code));
         return new RestTemplate().postForEntity(GITHUB_ACCESS_TOKEN_URL, request, GithubToken.class)
                 .getBody();
     }
