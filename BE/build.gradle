@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8' //AsciiDoc 파일을 html로 컨버팅하고 Build 폴더에 복사하기 위한 플러그인입니다.
     id 'java'
 }
 
@@ -16,6 +17,18 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+bootJar {
+    dependsOn asciidoctor //gradle build 시 asciidoctor -> bootJar 순으로 수행됩니다.
+    copy { //gradle build 시 ./build/asciidoc/html5/ 에 html 파일이 생깁니다. 이것을 jar 안에 /static/docs/ 폴더에 복사가 됩니다.
+        from "build/asciidoc/html5"
+        into 'src/main/resources/static/docs/'
+    }
 }
 
 dependencies {
@@ -38,8 +51,16 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용할 수 있게 하는 라이브러리입니다.
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
 }
 
 test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test //gradle build 시 test -> asciidoctor 순으로 수행됩니다.
 }
