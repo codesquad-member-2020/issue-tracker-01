@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +43,6 @@ public class IssueTest {
     @Test
     @DisplayName("NoArgsConstructor test")
     void noArgsConstructorTest() {
-        assertThat(new Issue().isOpened()).isFalse();
+        assertThat(Issue.builder().build().isOpened()).isFalse();
     }
 }

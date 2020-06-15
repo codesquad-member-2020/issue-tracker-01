@@ -1,6 +1,6 @@
 package kr.codesquad.issuetracker.controller.response;
 
-import kr.codesquad.issuetracker.domain.Issue;
+import kr.codesquad.issuetracker.domain.entity.Issue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

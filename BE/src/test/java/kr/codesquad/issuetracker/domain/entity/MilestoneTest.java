@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class MilestoneTest {
     @Test
     @DisplayName("NoArgsConstructor annotation test")
     void noArgsConstructorAnnotationTest() {
-        Milestone mileStone = new Milestone();
+        Milestone mileStone = Milestone.builder().build();
         assertThat(mileStone.getId()).isNull();
         assertThat(mileStone.getTitle()).isNull();
     }

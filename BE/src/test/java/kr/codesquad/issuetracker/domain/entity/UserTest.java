@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class UserTest {
     @Test
     @DisplayName("NoArgsConstructor annotation test")
     void noArgsConstructorAnnotationTest() {
-        User user = new User();
+        User user = User.builder().build();
         assertThat(user.getId()).isNull();
         assertThat(user.getUserId()).isNull();
         assertThat(user.getProfileImage()).isNull();

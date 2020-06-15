@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
