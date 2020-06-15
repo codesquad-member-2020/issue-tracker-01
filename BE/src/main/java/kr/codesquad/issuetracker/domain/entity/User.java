@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    private Long id;
+    private Long id; // TODO: JPA 연동시 Auto Increment 적용
     private String userId;
     private String email;
     private String nickname;
