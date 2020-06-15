@@ -1,0 +1,24 @@
+= new API Docs
+Dion<ksundong@gmail.com> // 작성자
+1.0.0, 2020/09/06 // 버전, 날짜
+:toc: left // 왼쪽 테이블
+:sectnums: // 숫자매기기
+
+// 자유롭게 작성
+== GET issue List 열려있는 모든 이슈 가져오기
+
+=== CURL
+
+include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/curl-request.adoc[]
+
+=== HTTP Request
+
+include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-request.adoc[]
+
+=== HTTP RESPONSE
+
+include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-response.adoc[]
+
+=== Response Fields
+
+include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/response-fields.adoc[]

@@ -25,8 +25,8 @@ ext {
 
 bootJar {
     dependsOn asciidoctor //gradle build 시 asciidoctor -> bootJar 순으로 수행됩니다.
-    copy { //gradle build 시 ./build/asciidoc/html5/ 에 html 파일이 생깁니다. 이것을 jar 안에 /static/docs/ 폴더에 복사가 됩니다.
-        from "build/asciidoc/html5"
+    copy {
+        from "${asciidoctor.outputDir}/html5" //gradle build 시 ./build/asciidoc/html5/ 에 html 파일이 생깁니다. 이것을 jar 안에 /static/docs/ 폴더에 복사가 됩니다.
         into 'src/main/resources/static/docs/'
     }
 }
