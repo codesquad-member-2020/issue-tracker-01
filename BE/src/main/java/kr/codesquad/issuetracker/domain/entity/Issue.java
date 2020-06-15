@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain;
+package kr.codesquad.issuetracker.domain.entity;
 
 import lombok.*;
 
@@ -43,29 +43,29 @@ public class Issue {
 
     public Issue close() {
         return Issue.builder()
-                    .issueNumber(this.issueNumber)
-                    .isOpened(false)
-                    .title(this.title)
-                    .createdAt(this.createdAt)
-                    .updatedAt(LocalDateTime.now())
-                    .author(this.author)
-                    .assignees(this.assignees)
-                    .labels(this.labels)
-                    .mileStone(this.mileStone)
-                    .build();
+                .issueNumber(this.issueNumber)
+                .isOpened(false)
+                .title(this.title)
+                .createdAt(this.createdAt)
+                .updatedAt(LocalDateTime.now())
+                .author(this.author)
+                .assignees(this.assignees)
+                .labels(this.labels)
+                .mileStone(this.mileStone)
+                .build();
     }
 
     public Issue open() {
         return Issue.builder()
-                    .issueNumber(this.issueNumber)
-                    .isOpened(true)
-                    .title(this.title)
-                    .createdAt(this.createdAt)
-                    .updatedAt(LocalDateTime.now())
-                    .author(this.author)
-                    .assignees(this.assignees)
-                    .labels(this.labels)
-                    .mileStone(this.mileStone)
-                    .build();
+                .issueNumber(this.issueNumber)
+                .isOpened(true)
+                .title(this.title)
+                .createdAt(this.createdAt)
+                .updatedAt(LocalDateTime.now())
+                .author(this.author)
+                .assignees(this.assignees)
+                .labels(this.labels)
+                .mileStone(this.mileStone)
+                .build();
     }
 }

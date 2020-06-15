@@ -1,6 +1,6 @@
 package kr.codesquad.issuetracker.controller.response;
 
-import kr.codesquad.issuetracker.domain.Issue;
+import kr.codesquad.issuetracker.domain.entity.Issue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

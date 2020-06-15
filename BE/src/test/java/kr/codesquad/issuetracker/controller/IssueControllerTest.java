@@ -1,9 +1,9 @@
 package kr.codesquad.issuetracker.controller;
 
-import kr.codesquad.issuetracker.domain.Issue;
-import kr.codesquad.issuetracker.domain.Label;
-import kr.codesquad.issuetracker.domain.Milestone;
-import kr.codesquad.issuetracker.domain.User;
+import kr.codesquad.issuetracker.domain.entity.Issue;
+import kr.codesquad.issuetracker.domain.entity.Label;
+import kr.codesquad.issuetracker.domain.entity.Milestone;
+import kr.codesquad.issuetracker.domain.entity.User;
 import kr.codesquad.issuetracker.service.IssueService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
