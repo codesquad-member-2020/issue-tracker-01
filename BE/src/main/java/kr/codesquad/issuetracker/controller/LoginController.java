@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @GetMapping("/oauth")
-    public ResponseEntity<String> oauthAuthentication(@RequestParam("code") String code) {
+    public ResponseEntity<String> oauthAuthentication(@RequestParam String code) {
         String accessToken = authService.getTokenFromCode(code).getAccessToken();
         log.debug("AccessToken : {}", accessToken);
 
