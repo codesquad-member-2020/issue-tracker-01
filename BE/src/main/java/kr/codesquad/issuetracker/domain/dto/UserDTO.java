@@ -1,6 +1,6 @@
 package kr.codesquad.issuetracker.domain.dto;
 
-import kr.codesquad.issuetracker.domain.User;
+import kr.codesquad.issuetracker.domain.entity.User;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -18,17 +18,12 @@ public class UserDTO {
         this.email = email;
     }
 
-    private UserDTO(Map<String, String> userMap) {
-        this.nickname = userMap.get("nickname");
-        this.email = userMap.get("email");
-    }
-
     public static UserDTO of(String nickname, String email) {
         return new UserDTO(nickname, email);
     }
 
     public static UserDTO of(Map<String, String> userMap) {
-        return new UserDTO(userMap);
+        return new UserDTO(userMap.get("nickname"), userMap.get("email"));
     }
 
     public static UserDTO of(User user) {
