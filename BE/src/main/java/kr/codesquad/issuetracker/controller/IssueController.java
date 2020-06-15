@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
-import kr.codesquad.issuetracker.domain.Issue;
+import kr.codesquad.issuetracker.domain.entity.Issue;
 import kr.codesquad.issuetracker.service.IssueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
