@@ -66,7 +66,7 @@ public class IssueControllerTest {
                             .author(user1)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
+                            .milestone(milestone1)
                             .build();
         Issue issue2 = Issue.builder()
                             .issueNumber(2L)
@@ -77,7 +77,7 @@ public class IssueControllerTest {
                             .author(user1)
                             .assignees(Collections.singletonList(user1))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
+                            .milestone(milestone1)
                             .build();
         Issue issue3 = Issue.builder()
                             .issueNumber(3L)
@@ -88,7 +88,7 @@ public class IssueControllerTest {
                             .author(user2)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Arrays.asList(label1, label2))
-                            .mileStone(milestone2)
+                            .milestone(milestone2)
                             .build();
 
         List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());
@@ -132,10 +132,10 @@ public class IssueControllerTest {
                        Matchers.equalTo((Number) issues.get(0).getLabels().get(0).getId().intValue()))))
                .andExpect(jsonPath("$.issues[0].labels[0].title", is(issues.get(0).getLabels().get(0).getTitle())))
                .andExpect(jsonPath("$.issues[0].labels[0].color", is(issues.get(0).getLabels().get(0).getColor())))
-               .andExpect(jsonPath("$.issues[0].mileStone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getMileStone().getId()),
-                       Matchers.equalTo((Number) issues.get(0).getMileStone().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].mileStone.title", is(issues.get(0).getMileStone().getTitle())))
+               .andExpect(jsonPath("$.issues[0].milestone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
+                       0).getMilestone().getId()),
+                       Matchers.equalTo((Number) issues.get(0).getMilestone().getId().intValue()))))
+               .andExpect(jsonPath("$.issues[0].milestone.title", is(issues.get(0).getMilestone().getTitle())))
                // issue3
                .andExpect(jsonPath("$.issues[1].issueNumber").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
                        1).getIssueNumber()), Matchers.equalTo((Number) issues.get(1).getIssueNumber().intValue()))))
@@ -175,10 +175,10 @@ public class IssueControllerTest {
                        Matchers.equalTo((Number) issues.get(1).getLabels().get(1).getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].labels[1].title", is(issues.get(1).getLabels().get(1).getTitle())))
                .andExpect(jsonPath("$.issues[1].labels[1].color", is(issues.get(1).getLabels().get(1).getColor())))
-               .andExpect(jsonPath("$.issues[1].mileStone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getMileStone().getId()),
-                       Matchers.equalTo((Number) issues.get(1).getMileStone().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].mileStone.title", is(issues.get(1).getMileStone().getTitle())));
+               .andExpect(jsonPath("$.issues[1].milestone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
+                       1).getMilestone().getId()),
+                       Matchers.equalTo((Number) issues.get(1).getMilestone().getId().intValue()))))
+               .andExpect(jsonPath("$.issues[1].milestone.title", is(issues.get(1).getMilestone().getTitle())));
     }
 
     @Test

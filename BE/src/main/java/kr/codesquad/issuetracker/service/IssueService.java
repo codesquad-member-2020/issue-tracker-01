@@ -41,7 +41,7 @@ public class IssueService {
                             .author(user1)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
+                            .milestone(milestone1)
                             .build();
         Issue issue2 = Issue.builder()
                             .issueNumber(2L)
@@ -52,7 +52,7 @@ public class IssueService {
                             .author(user1)
                             .assignees(Collections.singletonList(user1))
                             .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
+                            .milestone(milestone1)
                             .build();
         Issue issue3 = Issue.builder()
                             .issueNumber(3L)
@@ -63,7 +63,7 @@ public class IssueService {
                             .author(user2)
                             .assignees(Arrays.asList(user1, user2))
                             .labels(Arrays.asList(label1, label2))
-                            .mileStone(milestone2)
+                            .milestone(milestone2)
                             .build();
 
         List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());
