@@ -54,8 +54,8 @@ public class IssueControllerTest {
     void 오픈된_이슈_조회_검색_테스트() throws Exception {
         // given
         // user
-        User user1 = User.builder().id(1L).userId("dion").profileImage("image1").build();
-        User user2 = User.builder().id(2L).userId("alex").profileImage("image2").build();
+        User user1 = User.builder().id(1L).userId("dion").email("dion@codesquad.kr").nickname("Dion").githubToken("abcd").profileImage("image1").build();
+        User user2 = User.builder().id(2L).userId("alex").email("alex@codesquad.kr").nickname("Alex").githubToken("good").profileImage("image2").build();
 
         // label
         Label label1 = Label.builder().id(1L).color("#FFFFFF").title("BE").build();
@@ -118,15 +118,24 @@ public class IssueControllerTest {
                        Matchers.equalTo((Number) issues.get(0).getAuthor().getId().intValue()))))
                .andExpect(jsonPath("$.issues[0].author.userId", is(issues.get(0).getAuthor().getUserId())))
                .andExpect(jsonPath("$.issues[0].author.profileImage", is(issues.get(0).getAuthor().getProfileImage())))
+               .andExpect(jsonPath("$.issues[0].author.email", is(issues.get(0).getAuthor().getEmail())))
+               .andExpect(jsonPath("$.issues[0].author.nickname", is(issues.get(0).getAuthor().getNickname())))
+               .andExpect(jsonPath("$.issues[0].author.githubToken", is(issues.get(0).getAuthor().getGithubToken())))
                .andExpect(jsonPath("$.issues[0].assignees", hasSize(issues.get(0).getAssignees().size())))
                .andExpect(jsonPath("$.issues[0].assignees[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(0).getAssignees().get(0).getId()),
                        Matchers.equalTo((Number) issues.get(0).getAssignees().get(0).getId().intValue()))))
                .andExpect(jsonPath("$.issues[0].assignees[0].userId", is(issues.get(0).getAssignees().get(0).getUserId())))
                .andExpect(jsonPath("$.issues[0].assignees[0].profileImage", is(issues.get(0).getAssignees().get(0).getProfileImage())))
+               .andExpect(jsonPath("$.issues[0].assignees[0].email", is(issues.get(0).getAssignees().get(0).getEmail())))
+               .andExpect(jsonPath("$.issues[0].assignees[0].nickname", is(issues.get(0).getAssignees().get(0).getNickname())))
+               .andExpect(jsonPath("$.issues[0].assignees[0].githubToken", is(issues.get(0).getAssignees().get(0).getGithubToken())))
                .andExpect(jsonPath("$.issues[0].assignees[1].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(0).getAssignees().get(1).getId()),
                        Matchers.equalTo((Number) issues.get(0).getAssignees().get(1).getId().intValue()))))
                .andExpect(jsonPath("$.issues[0].assignees[1].userId", is(issues.get(0).getAssignees().get(1).getUserId())))
                .andExpect(jsonPath("$.issues[0].assignees[1].profileImage", is(issues.get(0).getAssignees().get(1).getProfileImage())))
+               .andExpect(jsonPath("$.issues[0].assignees[1].email", is(issues.get(0).getAssignees().get(1).getEmail())))
+               .andExpect(jsonPath("$.issues[0].assignees[1].nickname", is(issues.get(0).getAssignees().get(1).getNickname())))
+               .andExpect(jsonPath("$.issues[0].assignees[1].githubToken", is(issues.get(0).getAssignees().get(1).getGithubToken())))
                .andExpect(jsonPath("$.issues[0].labels", hasSize(issues.get(0).getLabels().size())))
                .andExpect(jsonPath("$.issues[0].labels[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(0).getLabels().get(0).getId()),
                        Matchers.equalTo((Number) issues.get(0).getLabels().get(0).getId().intValue()))))
@@ -146,15 +155,24 @@ public class IssueControllerTest {
                        Matchers.equalTo((Number) issues.get(1).getAuthor().getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].author.userId", is(issues.get(1).getAuthor().getUserId())))
                .andExpect(jsonPath("$.issues[1].author.profileImage", is(issues.get(1).getAuthor().getProfileImage())))
+               .andExpect(jsonPath("$.issues[1].author.email", is(issues.get(1).getAuthor().getEmail())))
+               .andExpect(jsonPath("$.issues[1].author.nickname", is(issues.get(1).getAuthor().getNickname())))
+               .andExpect(jsonPath("$.issues[1].author.githubToken", is(issues.get(1).getAuthor().getGithubToken())))
                .andExpect(jsonPath("$.issues[1].assignees", hasSize(issues.get(1).getAssignees().size())))
                .andExpect(jsonPath("$.issues[1].assignees[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(1).getAssignees().get(0).getId()),
                        Matchers.equalTo((Number) issues.get(1).getAssignees().get(0).getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].assignees[0].userId", is(issues.get(1).getAssignees().get(0).getUserId())))
                .andExpect(jsonPath("$.issues[1].assignees[0].profileImage", is(issues.get(1).getAssignees().get(0).getProfileImage())))
+               .andExpect(jsonPath("$.issues[1].assignees[0].email", is(issues.get(1).getAssignees().get(0).getEmail())))
+               .andExpect(jsonPath("$.issues[1].assignees[0].nickname", is(issues.get(1).getAssignees().get(0).getNickname())))
+               .andExpect(jsonPath("$.issues[1].assignees[0].githubToken", is(issues.get(1).getAssignees().get(0).getGithubToken())))
                .andExpect(jsonPath("$.issues[1].assignees[1].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(1).getAssignees().get(1).getId()),
                        Matchers.equalTo((Number) issues.get(1).getAssignees().get(1).getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].assignees[1].userId", is(issues.get(1).getAssignees().get(1).getUserId())))
                .andExpect(jsonPath("$.issues[1].assignees[1].profileImage", is(issues.get(1).getAssignees().get(1).getProfileImage())))
+               .andExpect(jsonPath("$.issues[1].assignees[1].email", is(issues.get(1).getAssignees().get(1).getEmail())))
+               .andExpect(jsonPath("$.issues[1].assignees[1].nickname", is(issues.get(1).getAssignees().get(1).getNickname())))
+               .andExpect(jsonPath("$.issues[1].assignees[1].githubToken", is(issues.get(1).getAssignees().get(1).getGithubToken())))
                .andExpect(jsonPath("$.issues[1].labels", hasSize(issues.get(1).getLabels().size())))
                .andExpect(jsonPath("$.issues[1].labels[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(1).getLabels().get(0).getId()),
                        Matchers.equalTo((Number) issues.get(1).getLabels().get(0).getId().intValue()))))
@@ -167,6 +185,7 @@ public class IssueControllerTest {
                .andExpect(jsonPath("$.issues[1].milestone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(1).getMilestone().getId()),
                        Matchers.equalTo((Number) issues.get(1).getMilestone().getId().intValue()))))
                .andExpect(jsonPath("$.issues[1].milestone.title", is(issues.get(1).getMilestone().getTitle())))
+               .andDo(print())
                .andDo(document("{class-name}/{method-name}",
                        preprocessRequest(prettyPrint()),
                        preprocessResponse(prettyPrint()),
@@ -180,10 +199,16 @@ public class IssueControllerTest {
                                fieldWithPath("issues[].author.id").description("해당 이슈의 작성자의 사용자 고유 id").type(JsonFieldType.NUMBER),
                                fieldWithPath("issues[].author.userId").description("해당 이슈의 작성자의 사용자 계정 Id").type(JsonFieldType.STRING),
                                fieldWithPath("issues[].author.profileImage").description("해당 이슈의 작성자의 프로필 image 주소").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].author.email").description("해당 이슈의 작성자의 email 주소").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].author.nickname").description("해당 이슈의 작성자의 닉네임").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].author.githubToken").description("해당 이슈의 작성자의 github Token 값").type(JsonFieldType.STRING),
                                fieldWithPath("issues[].assignees").description("해당 이슈의 담당자 목록").type(JsonFieldType.ARRAY),
                                fieldWithPath("issues[].assignees[].id").description("해당 이슈의 해당 담당자의 사용자 고유 id").type(JsonFieldType.NUMBER),
                                fieldWithPath("issues[].assignees[].userId").description("해당 이슈의 해당 담당자의 사용자 계정 Id").type(JsonFieldType.STRING),
                                fieldWithPath("issues[].assignees[].profileImage").description("해당 이슈의 해당 담당자의 프로필 image 주소").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].assignees[].email").description("해당 이슈의 해당 담당자의 email 주소").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].assignees[].nickname").description("해당 이슈의 해당 담당자의 닉네임").type(JsonFieldType.STRING),
+                               fieldWithPath("issues[].assignees[].githubToken").description("해당 이슈의 해당 담당자의 github Token 값").type(JsonFieldType.STRING),
                                fieldWithPath("issues[].labels[]").description("해당 이슈의 라벨 목록").type(JsonFieldType.ARRAY),
                                fieldWithPath("issues[].labels[].id").description("해당 이슈의 해당 라벨의 고유 id").type(JsonFieldType.NUMBER),
                                fieldWithPath("issues[].labels[].title").description("해당 이슈의 해당 라벨의 타이틀").type(JsonFieldType.STRING),
