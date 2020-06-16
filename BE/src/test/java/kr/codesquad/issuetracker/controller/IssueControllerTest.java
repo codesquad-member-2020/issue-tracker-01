@@ -32,7 +32,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -170,7 +170,7 @@ public class IssueControllerTest {
                .andDo(document("{class-name}/{method-name}",
                        preprocessRequest(prettyPrint()),
                        preprocessResponse(prettyPrint()),
-                       relaxedResponseFields(fieldWithPath("issues").description("이슈의 목록").type(JsonFieldType.ARRAY),
+                       responseFields(fieldWithPath("issues").description("이슈의 목록").type(JsonFieldType.ARRAY),
                                fieldWithPath("issues[].issueNumber").description("해당 이슈의 번호").type(JsonFieldType.NUMBER),
                                fieldWithPath("issues[].opened").description("해당 이슈가 열렸는지 여부").type(JsonFieldType.BOOLEAN),
                                fieldWithPath("issues[].title").description("해당 이슈의 제목").type(JsonFieldType.STRING),
