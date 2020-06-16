@@ -9,16 +9,16 @@ Dion<ksundong@gmail.com> // 작성자
 
 === CURL
 
-include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/curl-request.adoc[]
+include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/curl-request.adoc[]
 
 === HTTP Request
 
-include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-request.adoc[]
+include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-request.adoc[]
 
 === HTTP RESPONSE
 
-include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-response.adoc[]
+include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-response.adoc[]
 
 === Response Fields
 
-include::../../../build/generated-snippets/issue-controller-test/오픈된_이슈_조회_검색_테스트/response-fields.adoc[]
+include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/response-fields.adoc[]
