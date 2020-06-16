@@ -16,7 +16,7 @@ class LabelTest {
     @Test
     @DisplayName("NoArgsConstructor annotation test")
     void noArgsConstructorAnnotationTest() {
-        Label label = Label.builder().build();
+        Label label = new Label();
         assertThat(label.getId()).isNull();
         assertThat(label.getColor()).isNull();
         assertThat(label.getTitle()).isNull();

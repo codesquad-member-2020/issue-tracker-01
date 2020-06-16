@@ -22,7 +22,7 @@ class UserTest {
     @Test
     @DisplayName("NoArgsConstructor annotation test")
     void noArgsConstructorAnnotationTest() {
-        User user = User.builder().build();
+        User user = new User();
         assertThat(user.getId()).isNull();
         assertThat(user.getUserId()).isNull();
         assertThat(user.getProfileImage()).isNull();
