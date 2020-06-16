@@ -23,11 +23,20 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
 }
 
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
 bootJar {
     dependsOn asciidoctor //gradle build 시 asciidoctor -> bootJar 순으로 수행됩니다.
-    copy {
-        from "${asciidoctor.outputDir}/html5" //gradle build 시 ./build/asciidoc/html5/ 에 html 파일이 생깁니다. 이것을 jar 안에 /static/docs/ 폴더에 복사가 됩니다.
-        into 'src/main/resources/static/docs/'
+    from ("${asciidoctor.outputDir}/html5") {//gradle build 시 ./build/asciidoc/html5/ 에 html 파일이 생깁니다. 이것을 jar 안에 /static/docs/ 폴더에 복사가 됩니다.
+        into 'static/docs'
     }
 }
 
@@ -53,14 +62,4 @@ dependencies {
     }
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용할 수 있게 하는 라이브러리입니다.
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
-}
-
-test {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    dependsOn test //gradle build 시 test -> asciidoctor 순으로 수행됩니다.
 }
