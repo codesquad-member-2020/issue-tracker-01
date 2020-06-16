@@ -1,24 +1,25 @@
-= new API Docs
-Dion<ksundong@gmail.com> // 작성자
-1.0.0, 2020/09/06 // 버전, 날짜
+= Issue Tracker API Docs
+Dion[ksundong@gmail.com]
+1.0.0, 2020/09/06
 :toc: left // 왼쪽 테이블
 :sectnums: // 숫자매기기
 
-// 자유롭게 작성
-== GET issue List 열려있는 모든 이슈 가져오기
+== Issue 목록 API
 
-=== CURL
+=== GET issue List 열려있는 모든 이슈 가져오기
+
+==== CURL
 
 include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/curl-request.adoc[]
 
-=== HTTP Request
+==== HTTP Request
 
 include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-request.adoc[]
 
-=== HTTP RESPONSE
+==== HTTP RESPONSE
 
 include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/http-response.adoc[]
 
-=== Response Fields
+==== Response Fields
 
 include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/response-fields.adoc[]
