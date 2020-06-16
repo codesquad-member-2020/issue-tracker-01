@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain;
 
 import lombok.*;
 
@@ -17,7 +17,7 @@ public class Issue {
     private LocalDateTime updatedAt;
     private User author;
     private List<Label> labels;
-    private Milestone mileStone;
+    private Milestone milestone;
     private List<User> assignees;
 
     @Builder
@@ -28,7 +28,7 @@ public class Issue {
                   LocalDateTime updatedAt,
                   User author,
                   List<Label> labels,
-                  Milestone mileStone,
+                  Milestone milestone,
                   List<User> assignees) {
         this.issueNumber = issueNumber;
         this.isOpened = isOpened;
@@ -37,35 +37,35 @@ public class Issue {
         this.updatedAt = updatedAt;
         this.author = author;
         this.labels = labels;
-        this.mileStone = mileStone;
+        this.milestone = milestone;
         this.assignees = assignees;
     }
 
     public Issue close() {
         return Issue.builder()
-                .issueNumber(this.issueNumber)
-                .isOpened(false)
-                .title(this.title)
-                .createdAt(this.createdAt)
-                .updatedAt(LocalDateTime.now())
-                .author(this.author)
-                .assignees(this.assignees)
-                .labels(this.labels)
-                .mileStone(this.mileStone)
-                .build();
+                    .issueNumber(this.issueNumber)
+                    .isOpened(false)
+                    .title(this.title)
+                    .createdAt(this.createdAt)
+                    .updatedAt(LocalDateTime.now())
+                    .author(this.author)
+                    .assignees(this.assignees)
+                    .labels(this.labels)
+                    .milestone(this.milestone)
+                    .build();
     }
 
     public Issue open() {
         return Issue.builder()
-                .issueNumber(this.issueNumber)
-                .isOpened(true)
-                .title(this.title)
-                .createdAt(this.createdAt)
-                .updatedAt(LocalDateTime.now())
-                .author(this.author)
-                .assignees(this.assignees)
-                .labels(this.labels)
-                .mileStone(this.mileStone)
-                .build();
+                    .issueNumber(this.issueNumber)
+                    .isOpened(true)
+                    .title(this.title)
+                    .createdAt(this.createdAt)
+                    .updatedAt(LocalDateTime.now())
+                    .author(this.author)
+                    .assignees(this.assignees)
+                    .labels(this.labels)
+                    .milestone(this.milestone)
+                    .build();
     }
 }
