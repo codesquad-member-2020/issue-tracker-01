@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'org.springframework.boot' version '2.2.8.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8' //AsciiDoc 파일을 html로 컨버팅하고 Build 폴더에 복사하기 위한 플러그인입니다.
     id 'java'
@@ -13,7 +13,12 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
+
 
 repositories {
     mavenCentral()
