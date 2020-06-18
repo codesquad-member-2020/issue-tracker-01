@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,8 +37,6 @@ public class IssueService {
                             .createdAt(LocalDateTime.now())
                             .updatedAt(LocalDateTime.now())
                             .author(user1)
-                            .assignees(Arrays.asList(user1, user2))
-                            .labels(Collections.singletonList(label1))
                             .milestone(milestone1)
                             .build();
         Issue issue2 = Issue.builder()
@@ -50,8 +46,6 @@ public class IssueService {
                             .createdAt(LocalDateTime.now())
                             .updatedAt(LocalDateTime.now())
                             .author(user1)
-                            .assignees(Collections.singletonList(user1))
-                            .labels(Collections.singletonList(label1))
                             .milestone(milestone1)
                             .build();
         Issue issue3 = Issue.builder()
@@ -61,8 +55,6 @@ public class IssueService {
                             .createdAt(LocalDateTime.now())
                             .updatedAt(LocalDateTime.now())
                             .author(user2)
-                            .assignees(Arrays.asList(user1, user2))
-                            .labels(Arrays.asList(label1, label2))
                             .milestone(milestone2)
                             .build();
 

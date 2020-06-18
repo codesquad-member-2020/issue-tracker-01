@@ -18,11 +18,18 @@ public class User {
     private String userId;
     private String email;
     private String nickname;
+    private String password;
     private String githubToken;
     private String profileImage;
 
+    @OneToMany(mappedBy = "author")
+    private List<Issue> issues;
+
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "assignee")
+    private List<IssueAssignee> issueAssignees;
 
     @Builder
     private User(Long id, String userId, String email, String nickname, String githubToken, String profileImage) {

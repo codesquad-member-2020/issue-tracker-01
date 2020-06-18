@@ -2,43 +2,51 @@ package kr.codesquad.issuetracker.domain.entity;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @ToString(of = {"issueNumber", "isOpened", "title", "createdAt", "updatedAt"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Issue {
 
-    private Long issueNumber; // TODO: JPA 연동시 Auto Increment 적용
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long issueNumber;
+
     private boolean isOpened;
+
     private String title;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     private User author;
-    private List<Label> labels;
+
+    @OneToMany(mappedBy = "issue")
+    private List<IssueLabel> issueLabels;
+
+    @ManyToOne
+    @JoinColumn(name = "milestone_id")
     private Milestone milestone;
-    private List<User> assignees;
+
+    @OneToMany(mappedBy = "issue")
+    private List<IssueAssignee> issueAssignees;
 
     @Builder
-    private Issue(Long issueNumber,
-                  boolean isOpened,
-                  String title,
-                  LocalDateTime createdAt,
-                  LocalDateTime updatedAt,
-                  User author,
-                  List<Label> labels,
-                  Milestone milestone,
-                  List<User> assignees) {
+    private Issue(Long issueNumber, boolean isOpened, String title, LocalDateTime createdAt, LocalDateTime updatedAt, User author, Milestone milestone) {
         this.issueNumber = issueNumber;
         this.isOpened = isOpened;
         this.title = title;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.author = author;
-        this.labels = labels;
         this.milestone = milestone;
-        this.assignees = assignees;
     }
 
     public Issue close() {
@@ -49,8 +57,6 @@ public class Issue {
                     .createdAt(this.createdAt)
                     .updatedAt(LocalDateTime.now())
                     .author(this.author)
-                    .assignees(this.assignees)
-                    .labels(this.labels)
                     .milestone(this.milestone)
                     .build();
     }
@@ -63,8 +69,6 @@ public class Issue {
                     .createdAt(this.createdAt)
                     .updatedAt(LocalDateTime.now())
                     .author(this.author)
-                    .assignees(this.assignees)
-                    .labels(this.labels)
                     .milestone(this.milestone)
                     .build();
     }

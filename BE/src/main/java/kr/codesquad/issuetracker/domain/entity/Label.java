@@ -2,10 +2,8 @@ package kr.codesquad.issuetracker.domain.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @ToString
@@ -19,11 +17,16 @@ public class Label {
 
     private String title;
     private String color;
+    private String description;
+
+    @OneToMany(mappedBy = "label")
+    private List<IssueLabel> issueLabels;
 
     @Builder
-    private Label(Long id, String title, String color) {
+    private Label(Long id, String title, String color, String description) {
         this.id = id;
         this.title = title;
         this.color = color;
+        this.description = description;
     }
 }
