@@ -29,14 +29,17 @@ public class Issue {
     private User author;
 
     @OneToMany(mappedBy = "issue")
-    private List<IssueLabel> issueLabels;
+    private List<IssueLabel> labels;
 
     @ManyToOne
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
     @OneToMany(mappedBy = "issue")
-    private List<IssueAssignee> issueAssignees;
+    private List<IssueAssignee> assignees;
+
+    @OneToMany(mappedBy = "issue")
+    private List<Comment> comments;
 
     @Builder
     private Issue(Long issueNumber, boolean isOpened, String title, LocalDateTime createdAt, LocalDateTime updatedAt, User author, Milestone milestone) {

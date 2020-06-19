@@ -29,7 +29,7 @@ public class User {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "assignee")
-    private List<IssueAssignee> issueAssignees;
+    private List<IssueAssignee> assignedIssues;
 
     @Builder
     private User(Long id, String userId, String email, String nickname, String githubToken, String profileImage) {

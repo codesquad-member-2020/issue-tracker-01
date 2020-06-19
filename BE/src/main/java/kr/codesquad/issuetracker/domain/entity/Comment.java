@@ -31,9 +31,13 @@ public class Comment {
 
     @OneToMany(mappedBy = "comment",
             fetch = FetchType.EAGER)
-    private List<Image> commentImages;
+    private List<Image> images;
 
     @ManyToOne
     @JoinColumn(name = "writer_id")
     private User writer;
+
+    @ManyToOne
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
 }
