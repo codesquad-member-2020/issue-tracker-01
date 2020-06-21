@@ -1,64 +1,23 @@
 package kr.codesquad.issuetracker.service;
 
-import kr.codesquad.issuetracker.domain.entity.Issue;
-import kr.codesquad.issuetracker.domain.entity.Label;
-import kr.codesquad.issuetracker.domain.entity.Milestone;
-import kr.codesquad.issuetracker.domain.entity.User;
+import kr.codesquad.issuetracker.domain.dto.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.repository.IssueRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class IssueService {
 
-    public List<Issue> findIssues() {
-        // user
-        User user1 = User.builder().id(1L).userId("dion").profileImage("image1").build();
-        User user2 = User.builder().id(2L).userId("alex").profileImage("image2").build();
+    private final IssueRepository issueRepository;
 
-        // label
-        Label label1 = Label.builder().id(1L).color("#FFFFFF").title("BE").build();
-        Label label2 = Label.builder().id(2L).color("#000000").title("FE").build();
-
-        // milestone
-        Milestone milestone1 = Milestone.builder().id(1L).title("Phase1").build();
-        Milestone milestone2 = Milestone.builder().id(1L).title("Phase1").build();
-
-        // issue
-        Issue issue1 = Issue.builder()
-                            .issueNumber(1L)
-                            .isOpened(true)
-                            .title("Test Issue")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user1)
-                            .milestone(milestone1)
-                            .build();
-        Issue issue2 = Issue.builder()
-                            .issueNumber(2L)
-                            .isOpened(false)
-                            .title("Test Issue2")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user1)
-                            .milestone(milestone1)
-                            .build();
-        Issue issue3 = Issue.builder()
-                            .issueNumber(3L)
-                            .isOpened(true)
-                            .title("Test Issue3")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user2)
-                            .milestone(milestone2)
-                            .build();
-
-        List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());
-        return issues;
+    public List<IssueOfIssueList> findOpenedIssues() {
+        return issueRepository.findOpenedIssues().stream().map(IssueOfIssueList::new).collect(toList());
     }
 }
