@@ -8,11 +8,11 @@ import lombok.ToString;
 @ToString
 public class UserOfIssue {
 
-    private String nickname;
-    private String profileImage;
+  private String nickname;
+  private String profileImage;
 
-    public UserOfIssue(User user) {
-        this.nickname = user.getNickname();
-        this.profileImage = user.getProfileImage();
-    }
+  public UserOfIssue(User user) {
+    this.nickname = user.getNickname();
+    this.profileImage = user.getProfileImage();
+  }
 }

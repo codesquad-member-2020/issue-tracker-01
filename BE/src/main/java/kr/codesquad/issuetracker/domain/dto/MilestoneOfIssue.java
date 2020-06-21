@@ -8,9 +8,9 @@ import lombok.ToString;
 @ToString
 public class MilestoneOfIssue {
 
-    private String title;
+  private String title;
 
-    public MilestoneOfIssue(Milestone milestone) {
-        this.title = milestone.getTitle();
-    }
+  public MilestoneOfIssue(Milestone milestone) {
+    this.title = milestone.getTitle();
+  }
 }

@@ -9,6 +9,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class JobResponse {
 
-    private final boolean success;
-    private final String message;
+  private final boolean success;
+  private final String message;
 }

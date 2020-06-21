@@ -8,11 +8,11 @@ import lombok.ToString;
 @ToString
 public class LabelOfIssue {
 
-    private String title;
-    private String color;
+  private String title;
+  private String color;
 
-    public LabelOfIssue(Label label) {
-        this.title = label.getTitle();
-        this.color = label.getColor();
-    }
+  public LabelOfIssue(Label label) {
+    this.title = label.getTitle();
+    this.color = label.getColor();
+  }
 }

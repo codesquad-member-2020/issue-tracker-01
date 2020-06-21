@@ -1,11 +1,15 @@
 package kr.codesquad.issuetracker.domain.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
 
 @Getter
 @ToString
@@ -13,15 +17,15 @@ import javax.persistence.*;
 @Entity
 public class IssueLabel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "label_id")
-    private Label label;
+  @ManyToOne
+  @JoinColumn(name = "label_id")
+  private Label label;
 
-    @ManyToOne
-    @JoinColumn(name = "issue_id")
-    private Issue issue;
+  @ManyToOne
+  @JoinColumn(name = "issue_id")
+  private Issue issue;
 }
