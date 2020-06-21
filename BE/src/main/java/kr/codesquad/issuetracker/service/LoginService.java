@@ -2,12 +2,15 @@ package kr.codesquad.issuetracker.service;
 
 import java.net.URI;
 import kr.codesquad.issuetracker.common.security.GithubKey;
+import kr.codesquad.issuetracker.domain.dto.UserDTO;
 import kr.codesquad.issuetracker.domain.entity.User;
+import kr.codesquad.issuetracker.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
@@ -21,6 +24,7 @@ public class LoginService {
 
   private final OAuthService authService;
   private final GithubKey githubKey;
+  private final UserRepository userRepository;
 
   public HttpHeaders redirectToGithub() {
     HttpHeaders headers = new HttpHeaders();
@@ -34,10 +38,16 @@ public class LoginService {
     return headers;
   }
 
-  public User insertUser(String token) {
+  @Transactional
+  public UserDTO insertUser(String token) {
     User user = authService.getUserInfoToToken(token);
-    log.info("User Info : {}", user);
-    return user;
+    log.debug("User Info : {}", user);
+
+    Long id = userRepository.save(user);
+    user = userRepository.find(id);
+    log.debug("저장 후 유저 정보: {}", user);
+
+    return UserDTO.of(user);
   }
 
   public HttpHeaders redirectWithCookie(String jwt) {

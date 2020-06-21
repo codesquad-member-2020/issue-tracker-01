@@ -59,6 +59,8 @@ public class OAuthService {
         .nickname(user.getName())
         .email(user.getEmail())
         .githubToken(token)
+        .profileImage(user.getAvatarUrl())
+        .userId(user.getLogin())
         .build();
   }
 

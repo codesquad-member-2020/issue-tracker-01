@@ -44,7 +44,7 @@ public class LoginController {
     String accessToken = authService.getTokenFromCode(code).getAccessToken();
     log.debug("AccessToken : {}", accessToken);
 
-    UserDTO user = UserDTO.of(loginService.insertUser(accessToken));
+    UserDTO user = loginService.insertUser(accessToken);
     String jws = jwtService.createUserJws(user);
     log.debug("Jwt String : {}", jws);
 
