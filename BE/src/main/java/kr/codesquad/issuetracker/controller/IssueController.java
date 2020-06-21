@@ -42,6 +42,6 @@ public class IssueController {
       @RequestBody IssuesOpenStatusChangeRequest statusChangeRequest) {
     log.debug("요청 객체: {}", statusChangeRequest);
 
-    return new JobResponse(true, "성공");
+    return JobResponse.of(issueService.updateIssuesOpenStatus(statusChangeRequest));
   }
 }

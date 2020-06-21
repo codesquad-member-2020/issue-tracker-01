@@ -11,5 +11,9 @@ import lombok.ToString;
 public class IssuesOpenStatusChangeRequest {
 
   private List<Long> issueNumbers;
-  private String state;
+  private IssueOpenState state;
+
+  public void setState(String state) {
+    this.state = IssueOpenState.valueOfState(state);
+  }
 }

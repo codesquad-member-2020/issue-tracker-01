@@ -68,27 +68,8 @@ public class Issue {
     this.milestone = milestone;
   }
 
-  public Issue close() {
-    return Issue.builder()
-        .issueNumber(this.issueNumber)
-        .isOpened(false)
-        .title(this.title)
-        .createdAt(this.createdAt)
-        .updatedAt(LocalDateTime.now())
-        .author(this.author)
-        .milestone(this.milestone)
-        .build();
-  }
-
-  public Issue open() {
-    return Issue.builder()
-        .issueNumber(this.issueNumber)
-        .isOpened(true)
-        .title(this.title)
-        .createdAt(this.createdAt)
-        .updatedAt(LocalDateTime.now())
-        .author(this.author)
-        .milestone(this.milestone)
-        .build();
+  public Issue changeOpenState(boolean openState) {
+    this.isOpened = openState;
+    return this;
   }
 }
