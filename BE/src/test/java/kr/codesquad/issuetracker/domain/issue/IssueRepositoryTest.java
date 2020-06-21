@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,19 +30,6 @@ class IssueRepositoryTest {
   }
 
   @Test
-  @DisplayName("findAll method Test")
-  @Transactional
-  void findAllMethodTest() {
-    Issue issue1 = Issue.builder().build();
-    Issue issue2 = Issue.builder().build();
-    List<Issue> issues = Arrays.asList(issue1, issue2);
-    List<Issue> savedIssues =
-        issues.stream().map(issueRepository::save).map(issueRepository::find).collect(toList());
-    List<Issue> foundIssues = issueRepository.findAll();
-    Assertions.assertThat(foundIssues).isEqualTo(savedIssues);
-  }
-
-  @Test
   @DisplayName("findOpenedIssues method Test")
   @Transactional
   void findOpenedIssuesMethodTest() {
@@ -49,11 +37,14 @@ class IssueRepositoryTest {
     Issue issue2 = Issue.builder().isOpened(false).build();
     List<Issue> issues = Arrays.asList(issue1, issue2);
     List<Issue> openedIssues =
-        issues.stream()
-            .map(issueRepository::save)
-            .map(issueRepository::find)
-            .filter(Issue::isOpened)
+        Stream.concat(
+            Stream.of(issueRepository.find(1L)),
+            issues.stream()
+                .map(issueRepository::save)
+                .map(issueRepository::find)
+                .filter(Issue::isOpened))
             .collect(toList());
+
     List<Issue> foundIssues = issueRepository.findOpenedIssues();
     Assertions.assertThat(foundIssues).isEqualTo(openedIssues);
   }

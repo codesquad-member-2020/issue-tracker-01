@@ -20,10 +20,6 @@ public class IssueRepository {
     return em.find(Issue.class, issueNumber);
   }
 
-  public List<Issue> findAll() {
-    return em.createQuery("select i from Issue i", Issue.class).getResultList();
-  }
-
   public List<Issue> findOpenedIssues() {
     return em.createQuery("select i from Issue i where i.isOpened = true", Issue.class)
         .getResultList();
