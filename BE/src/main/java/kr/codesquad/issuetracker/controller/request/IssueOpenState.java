@@ -1,14 +1,8 @@
 package kr.codesquad.issuetracker.controller.request;
 
-import kr.codesquad.issuetracker.common.error.ErrorCode;
-import kr.codesquad.issuetracker.common.error.exception.BusinessException;
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public enum IssueOpenState {
-  OPEN("open"), CLOSE("close");
-
-  private final String state;
+  OPEN,
+  CLOSE;
 
   public static IssueOpenState valueOfState(String state) {
     switch (state) {
@@ -17,7 +11,7 @@ public enum IssueOpenState {
       case "close":
         return IssueOpenState.CLOSE;
       default:
-        throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
+        return IssueOpenState.valueOf(state);
     }
   }
 }
