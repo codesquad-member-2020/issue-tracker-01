@@ -9,11 +9,16 @@ import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
 import kr.codesquad.issuetracker.domain.relation.IssueAssignee;
 import kr.codesquad.issuetracker.domain.relation.IssueLabel;
 import kr.codesquad.issuetracker.domain.user.UserOfIssue;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
+@Builder
 @ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class IssueOfIssueList {
 
   private Long issueNumber;
