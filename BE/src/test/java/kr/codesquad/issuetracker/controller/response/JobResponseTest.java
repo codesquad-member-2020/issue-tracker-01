@@ -7,19 +7,16 @@ import org.junit.jupiter.api.Test;
 
 class JobResponseTest {
 
-  public static final String SUCCESS_STRING = "성공";
-
   @Test
   @DisplayName("toString method test")
   void toStringMethodTest() {
-    assertThat(new JobResponse(true, SUCCESS_STRING).toString().contains("@")).isFalse();
+    assertThat(JobResponse.of(true).toString().contains("@")).isFalse();
   }
 
   @Test
   @DisplayName("AllArgsConstructor annotation test")
   void allArgsConstructorAnnotationTest() {
-    JobResponse jobResponse = new JobResponse(true, SUCCESS_STRING);
+    JobResponse jobResponse = JobResponse.of(true);
     assertThat(jobResponse.isSuccess()).isTrue();
-    assertThat(jobResponse.getMessage()).isEqualTo(SUCCESS_STRING);
   }
 }
