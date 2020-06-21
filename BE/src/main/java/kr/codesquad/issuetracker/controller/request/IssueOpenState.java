@@ -1,7 +1,7 @@
 package kr.codesquad.issuetracker.controller.request;
 
-import kr.codesquad.issuetracker.common.exception.BusinessException;
-import kr.codesquad.issuetracker.common.exception.ErrorCode;
+import kr.codesquad.issuetracker.common.error.ErrorCode;
+import kr.codesquad.issuetracker.common.error.exception.BusinessException;
 
 public enum IssueOpenState {
   OPEN("open"), CLOSE("close");

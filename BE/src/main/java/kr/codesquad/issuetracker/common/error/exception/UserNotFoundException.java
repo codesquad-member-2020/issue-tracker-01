@@ -1,4 +1,6 @@
-package kr.codesquad.issuetracker.common.exception;
+package kr.codesquad.issuetracker.common.error.exception;
+
+import kr.codesquad.issuetracker.common.error.ErrorCode;
 
 public class UserNotFoundException extends EntityNotFoundException {
 

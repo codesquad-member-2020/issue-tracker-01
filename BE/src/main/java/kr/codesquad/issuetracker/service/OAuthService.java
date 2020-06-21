@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
-import kr.codesquad.issuetracker.common.exception.UserNotFoundException;
+import kr.codesquad.issuetracker.common.error.exception.UserNotFoundException;
 import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.common.security.GithubPayload;
 import kr.codesquad.issuetracker.common.security.GithubToken;

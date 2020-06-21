@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.common.exception;
+package kr.codesquad.issuetracker.common.error;
 
 import lombok.Getter;
 
