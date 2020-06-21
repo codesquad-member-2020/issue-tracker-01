@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
-import kr.codesquad.issuetracker.domain.dto.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

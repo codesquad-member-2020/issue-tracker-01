@@ -1,7 +1,7 @@
 package kr.codesquad.issuetracker.controller.response;
 
 import java.util.List;
-import kr.codesquad.issuetracker.domain.dto.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

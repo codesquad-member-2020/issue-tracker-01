@@ -1,7 +1,7 @@
 package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
-import kr.codesquad.issuetracker.domain.dto.UserDTO;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
 import kr.codesquad.issuetracker.service.OAuthService;

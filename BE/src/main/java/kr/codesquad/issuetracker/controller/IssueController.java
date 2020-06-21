@@ -6,7 +6,7 @@ import java.util.List;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
-import kr.codesquad.issuetracker.domain.dto.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.service.IssueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
