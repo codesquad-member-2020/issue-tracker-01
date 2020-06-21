@@ -43,6 +43,12 @@ public class IssueTest {
   @Test
   @DisplayName("NoArgsConstructor test")
   void noArgsConstructorTest() {
-    assertThat(new Issue().isOpened()).isFalse();
+    Issue issue = new Issue();
+    assertThat(issue.isOpened()).isFalse();
+    assertThat(issue.getAuthor()).isNull();
+    assertThat(issue.getLabels()).isNull();
+    assertThat(issue.getMilestone()).isNull();
+    assertThat(issue.getAssignees()).isNull();
+    assertThat(issue.getComments()).isNull();
   }
 }
