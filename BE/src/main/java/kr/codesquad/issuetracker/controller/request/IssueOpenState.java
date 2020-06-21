@@ -2,15 +2,13 @@ package kr.codesquad.issuetracker.controller.request;
 
 import kr.codesquad.issuetracker.common.error.ErrorCode;
 import kr.codesquad.issuetracker.common.error.exception.BusinessException;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public enum IssueOpenState {
   OPEN("open"), CLOSE("close");
 
   private final String state;
-
-  IssueOpenState(String state) {
-    this.state = state;
-  }
 
   public static IssueOpenState valueOfState(String state) {
     switch (state) {
