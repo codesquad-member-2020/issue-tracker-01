@@ -1,8 +1,10 @@
 package kr.codesquad.issuetracker.common.error;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum ErrorCode {
   ENTITY_NOT_FOUND(404, "COM001", " Entity Not Found"),
   INVALID_TYPE_VALUE(400, "COM002", "Wrong Type"),
@@ -14,13 +16,7 @@ public enum ErrorCode {
   LOGIN_REQUIRED(401, "U002", " 로그인을 해주세요."),
   ;
 
+  private final int status;
   private final String code;
   private final String message;
-  private final int status;
-
-  ErrorCode(final int status, final String code, final String message) {
-    this.status = status;
-    this.code = code;
-    this.message = message;
-  }
 }
