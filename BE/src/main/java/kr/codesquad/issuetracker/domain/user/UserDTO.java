@@ -1,7 +1,6 @@
-package kr.codesquad.issuetracker.domain.dto;
+package kr.codesquad.issuetracker.domain.user;
 
 import java.util.Map;
-import kr.codesquad.issuetracker.domain.entity.User;
 import lombok.Getter;
 import lombok.ToString;
 

@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.issue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,14 +24,14 @@ public class IssueTest {
   @Test
   @DisplayName("이슈 상태 열림에서 닫힘으로 변경 테스트")
   void 이슈_상태_열림에서_닫힘으로_변경_테스트() {
-    assertThat(openedIssue.close().isOpened()).isFalse();
+    assertThat(openedIssue.changeOpenState(false).isOpened()).isFalse();
   }
 
   @Test
   @DisplayName("이슈 상태 닫힘에서 열림으로 변경 테스트")
   void 이슈_상태_닫힘에서_열림으로_변경_테스트() {
     Issue closedIssue = Issue.builder().isOpened(false).build();
-    assertThat(closedIssue.open().isOpened()).isTrue();
+    assertThat(closedIssue.changeOpenState(true).isOpened()).isTrue();
   }
 
   @Test
@@ -43,6 +43,12 @@ public class IssueTest {
   @Test
   @DisplayName("NoArgsConstructor test")
   void noArgsConstructorTest() {
-    assertThat(new Issue().isOpened()).isFalse();
+    Issue issue = new Issue();
+    assertThat(issue.isOpened()).isFalse();
+    assertThat(issue.getAuthor()).isNull();
+    assertThat(issue.getLabels()).isNull();
+    assertThat(issue.getMilestone()).isNull();
+    assertThat(issue.getAssignees()).isNull();
+    assertThat(issue.getComments()).isNull();
   }
 }

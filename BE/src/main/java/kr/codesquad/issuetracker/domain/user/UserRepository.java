@@ -1,8 +1,7 @@
-package kr.codesquad.issuetracker.domain.repository;
+package kr.codesquad.issuetracker.domain.user;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import kr.codesquad.issuetracker.domain.entity.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

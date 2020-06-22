@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.comment;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

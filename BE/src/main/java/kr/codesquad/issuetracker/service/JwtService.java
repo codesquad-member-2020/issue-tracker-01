@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import kr.codesquad.issuetracker.common.error.exception.LoginRequiredException;
-import kr.codesquad.issuetracker.domain.dto.UserDTO;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

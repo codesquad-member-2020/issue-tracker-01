@@ -9,7 +9,7 @@ import kr.codesquad.issuetracker.common.security.GithubKey;
 import kr.codesquad.issuetracker.common.security.GithubPayload;
 import kr.codesquad.issuetracker.common.security.GithubToken;
 import kr.codesquad.issuetracker.common.security.GithubUser;
-import kr.codesquad.issuetracker.domain.entity.User;
+import kr.codesquad.issuetracker.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

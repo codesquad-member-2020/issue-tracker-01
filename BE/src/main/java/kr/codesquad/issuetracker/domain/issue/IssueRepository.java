@@ -1,9 +1,8 @@
-package kr.codesquad.issuetracker.domain.repository;
+package kr.codesquad.issuetracker.domain.issue;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import kr.codesquad.issuetracker.domain.entity.Issue;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,10 +18,6 @@ public class IssueRepository {
 
   public Issue find(Long issueNumber) {
     return em.find(Issue.class, issueNumber);
-  }
-
-  public List<Issue> findAll() {
-    return em.createQuery("select i from Issue i", Issue.class).getResultList();
   }
 
   public List<Issue> findOpenedIssues() {

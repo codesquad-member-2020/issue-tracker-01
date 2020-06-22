@@ -5,8 +5,8 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import kr.codesquad.issuetracker.controller.request.IssueOpenState;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
-import kr.codesquad.issuetracker.domain.dto.IssueOfIssueList;
-import kr.codesquad.issuetracker.domain.repository.IssueRepository;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.issue.IssueRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,11 +28,12 @@ public class IssueService {
     boolean state = statusChangeRequest.getState().equals(IssueOpenState.OPEN);
 
     List<Long> issueNumbers = statusChangeRequest.getIssueNumbers();
-    List<Long> updatedIssueNumbers = issueNumbers.stream()
-        .map(issueRepository::find)
-        .map(i -> i.changeOpenState(state))
-        .map(issueRepository::save)
-        .collect(toList());
+    List<Long> updatedIssueNumbers =
+        issueNumbers.stream()
+            .map(issueRepository::find)
+            .map(i -> i.changeOpenState(state))
+            .map(issueRepository::save)
+            .collect(toList());
     return issueNumbers.equals(updatedIssueNumbers);
   }
 }

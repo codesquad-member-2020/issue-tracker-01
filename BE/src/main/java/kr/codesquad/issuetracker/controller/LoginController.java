@@ -1,7 +1,7 @@
 package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
-import kr.codesquad.issuetracker.domain.dto.UserDTO;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
 import kr.codesquad.issuetracker.service.OAuthService;
@@ -28,12 +28,12 @@ public class LoginController {
   private final LoginService loginService;
 
   @GetMapping
-  public ResponseEntity<String> loginWithGithub(
+  public ResponseEntity<Object> loginWithGithub(
       @CookieValue(value = "jwt", required = false) String jwt) {
     if (jwt != null) {
       log.debug("jwt token : {}", jwt);
       log.debug("jwt token value : {}", jwtService.getUserFromJws(jwt));
-      return ResponseEntity.ok(jwtService.getUserFromJws(jwt).toString());
+      return ResponseEntity.ok(jwtService.getUserFromJws(jwt));
     }
     HttpHeaders headers = loginService.redirectToGithub();
     return new ResponseEntity<>("redirect", headers, HttpStatus.SEE_OTHER);

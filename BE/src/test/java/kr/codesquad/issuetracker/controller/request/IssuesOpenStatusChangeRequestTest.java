@@ -21,10 +21,9 @@ class IssuesOpenStatusChangeRequestTest {
     IssuesOpenStatusChangeRequest issuesOpenStatusChangeRequest =
         new IssuesOpenStatusChangeRequest();
     List<Long> issueNumbers = Arrays.asList(1L, 2L);
-    String open = "open";
     issuesOpenStatusChangeRequest.setIssueNumbers(issueNumbers);
-    issuesOpenStatusChangeRequest.setState(open);
+    issuesOpenStatusChangeRequest.setState("open");
     assertThat(issuesOpenStatusChangeRequest.getIssueNumbers()).isEqualTo(issueNumbers);
-    assertThat(issuesOpenStatusChangeRequest.getState()).isEqualTo(open);
+    assertThat(issuesOpenStatusChangeRequest.getState()).isEqualTo(IssueOpenState.OPEN);
   }
 }

@@ -1,17 +1,24 @@
-package kr.codesquad.issuetracker.domain.dto;
+package kr.codesquad.issuetracker.domain.issue;
 
 import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import kr.codesquad.issuetracker.domain.entity.Issue;
-import kr.codesquad.issuetracker.domain.entity.IssueAssignee;
-import kr.codesquad.issuetracker.domain.entity.IssueLabel;
+import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
+import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
+import kr.codesquad.issuetracker.domain.relation.IssueAssignee;
+import kr.codesquad.issuetracker.domain.relation.IssueLabel;
+import kr.codesquad.issuetracker.domain.user.UserOfIssue;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
+@Builder
 @ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class IssueOfIssueList {
 
   private Long issueNumber;

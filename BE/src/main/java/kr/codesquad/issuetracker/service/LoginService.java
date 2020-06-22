@@ -2,9 +2,9 @@ package kr.codesquad.issuetracker.service;
 
 import java.net.URI;
 import kr.codesquad.issuetracker.common.security.GithubKey;
-import kr.codesquad.issuetracker.domain.dto.UserDTO;
-import kr.codesquad.issuetracker.domain.entity.User;
-import kr.codesquad.issuetracker.domain.repository.UserRepository;
+import kr.codesquad.issuetracker.domain.user.User;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
+import kr.codesquad.issuetracker.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
