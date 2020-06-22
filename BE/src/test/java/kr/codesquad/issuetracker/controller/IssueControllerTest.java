@@ -1,9 +1,25 @@
 package kr.codesquad.issuetracker.controller;
 
-import kr.codesquad.issuetracker.domain.entity.Issue;
-import kr.codesquad.issuetracker.domain.entity.Label;
-import kr.codesquad.issuetracker.domain.entity.Milestone;
-import kr.codesquad.issuetracker.domain.entity.User;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.util.List;
+import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
+import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
+import kr.codesquad.issuetracker.domain.user.UserOfIssue;
 import kr.codesquad.issuetracker.service.IssueService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -15,203 +31,157 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {IssueController.class})
-public class IssueControllerTest {
+class IssueControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
+  @Autowired
+  MockMvc mockMvc;
 
-    @MockBean
-    IssueService issueService;
+  @MockBean
+  IssueService issueService;
 
-    @Test
-    @DisplayName("오픈된 이슈 조회 검색 테스트")
-    void 오픈된_이슈_조회_검색_테스트() throws Exception {
-        // given
-        // user
-        User user1 = User.builder().id(1L).userId("dion").profileImage("image1").build();
-        User user2 = User.builder().id(2L).userId("alex").profileImage("image2").build();
-
-        // label
-        Label label1 = Label.builder().id(1L).color("#FFFFFF").title("BE").build();
-        Label label2 = Label.builder().id(2L).color("#000000").title("FE").build();
-
-        // milestone
-        Milestone milestone1 = Milestone.builder().id(1L).title("Phase1").build();
-        Milestone milestone2 = Milestone.builder().id(1L).title("Phase1").build();
-
-        // issue
-        Issue issue1 = Issue.builder()
-                            .issueNumber(1L)
-                            .isOpened(true)
-                            .title("Test Issue")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user1)
-                            .assignees(Arrays.asList(user1, user2))
-                            .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
-                            .build();
-        Issue issue2 = Issue.builder()
-                            .issueNumber(2L)
-                            .isOpened(false)
-                            .title("Test Issue2")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user1)
-                            .assignees(Collections.singletonList(user1))
-                            .labels(Collections.singletonList(label1))
-                            .mileStone(milestone1)
-                            .build();
-        Issue issue3 = Issue.builder()
-                            .issueNumber(3L)
-                            .isOpened(true)
-                            .title("Test Issue3")
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .author(user2)
-                            .assignees(Arrays.asList(user1, user2))
-                            .labels(Arrays.asList(label1, label2))
-                            .mileStone(milestone2)
-                            .build();
-
-        List<Issue> issues = Stream.of(issue1, issue2, issue3).filter(Issue::isOpened).collect(Collectors.toList());
-        when(issueService.findIssues()).thenReturn(issues);
-
-        // then
-        mockMvc.perform(get("/issues").contentType(MediaType.APPLICATION_JSON))
-               .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.issues", hasSize(issues.size())))
-               .andExpect(jsonPath("$.issues[0].issueNumber").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getIssueNumber()), Matchers.equalTo((Number) issues.get(0).getIssueNumber().intValue()))))
-               .andExpect(jsonPath("$.issues[0].opened", is(issues.get(0).isOpened())))
-               .andExpect(jsonPath("$.issues[0].title", is(issues.get(0).getTitle())))
-               .andExpect(jsonPath("$.issues[0].createdAt", is(issues.get(0).getCreatedAt().toString())))
-               .andExpect(jsonPath("$.issues[0].updatedAt", is(issues.get(0).getUpdatedAt().toString())))
-               .andExpect(jsonPath("$.issues[0].author.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(0)
-                                                                                                                 .getAuthor()
-                                                                                                                 .getId()),
-                       Matchers.equalTo((Number) issues.get(0).getAuthor().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].author.userId", is(issues.get(0).getAuthor().getUserId())))
-               .andExpect(jsonPath("$.issues[0].author.profileImage", is(issues.get(0).getAuthor().getProfileImage())))
-               .andExpect(jsonPath("$.issues[0].assignees", hasSize(issues.get(0).getAssignees().size())))
-               .andExpect(jsonPath("$.issues[0].assignees[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getAssignees().get(0).getId()),
-                       Matchers.equalTo((Number) issues.get(0).getAssignees().get(0).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].assignees[0].userId",
-                       is(issues.get(0).getAssignees().get(0).getUserId())))
-               .andExpect(jsonPath("$.issues[0].assignees[0].profileImage",
-                       is(issues.get(0).getAssignees().get(0).getProfileImage())))
-               .andExpect(jsonPath("$.issues[0].assignees[1].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getAssignees().get(1).getId()),
-                       Matchers.equalTo((Number) issues.get(0).getAssignees().get(1).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].assignees[1].userId",
-                       is(issues.get(0).getAssignees().get(1).getUserId())))
-               .andExpect(jsonPath("$.issues[0].assignees[1].profileImage",
-                       is(issues.get(0).getAssignees().get(1).getProfileImage())))
-               .andExpect(jsonPath("$.issues[0].labels", hasSize(issues.get(0).getLabels().size())))
-               .andExpect(jsonPath("$.issues[0].labels[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getLabels().get(0).getId()),
-                       Matchers.equalTo((Number) issues.get(0).getLabels().get(0).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].labels[0].title", is(issues.get(0).getLabels().get(0).getTitle())))
-               .andExpect(jsonPath("$.issues[0].labels[0].color", is(issues.get(0).getLabels().get(0).getColor())))
-               .andExpect(jsonPath("$.issues[0].mileStone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       0).getMileStone().getId()),
-                       Matchers.equalTo((Number) issues.get(0).getMileStone().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[0].mileStone.title", is(issues.get(0).getMileStone().getTitle())))
-               // issue3
-               .andExpect(jsonPath("$.issues[1].issueNumber").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getIssueNumber()), Matchers.equalTo((Number) issues.get(1).getIssueNumber().intValue()))))
-               .andExpect(jsonPath("$.issues[1].opened", is(issues.get(1).isOpened())))
-               .andExpect(jsonPath("$.issues[1].title", is(issues.get(1).getTitle())))
-               .andExpect(jsonPath("$.issues[1].createdAt", is(issues.get(1).getCreatedAt().toString())))
-               .andExpect(jsonPath("$.issues[1].updatedAt", is(issues.get(1).getUpdatedAt().toString())))
-               .andExpect(jsonPath("$.issues[1].author.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(1)
-                                                                                                                 .getAuthor()
-                                                                                                                 .getId()),
-                       Matchers.equalTo((Number) issues.get(1).getAuthor().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].author.userId", is(issues.get(1).getAuthor().getUserId())))
-               .andExpect(jsonPath("$.issues[1].author.profileImage", is(issues.get(1).getAuthor().getProfileImage())))
-               .andExpect(jsonPath("$.issues[1].assignees", hasSize(issues.get(1).getAssignees().size())))
-               .andExpect(jsonPath("$.issues[1].assignees[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getAssignees().get(0).getId()),
-                       Matchers.equalTo((Number) issues.get(1).getAssignees().get(0).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].assignees[0].userId",
-                       is(issues.get(1).getAssignees().get(0).getUserId())))
-               .andExpect(jsonPath("$.issues[1].assignees[0].profileImage",
-                       is(issues.get(1).getAssignees().get(0).getProfileImage())))
-               .andExpect(jsonPath("$.issues[1].assignees[1].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getAssignees().get(1).getId()),
-                       Matchers.equalTo((Number) issues.get(1).getAssignees().get(1).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].assignees[1].userId",
-                       is(issues.get(1).getAssignees().get(1).getUserId())))
-               .andExpect(jsonPath("$.issues[1].assignees[1].profileImage",
-                       is(issues.get(1).getAssignees().get(1).getProfileImage())))
-               .andExpect(jsonPath("$.issues[1].labels", hasSize(issues.get(1).getLabels().size())))
-               .andExpect(jsonPath("$.issues[1].labels[0].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getLabels().get(0).getId()),
-                       Matchers.equalTo((Number) issues.get(1).getLabels().get(0).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].labels[0].title", is(issues.get(1).getLabels().get(0).getTitle())))
-               .andExpect(jsonPath("$.issues[1].labels[0].color", is(issues.get(1).getLabels().get(0).getColor())))
-               .andExpect(jsonPath("$.issues[1].labels[1].id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getLabels().get(1).getId()),
-                       Matchers.equalTo((Number) issues.get(1).getLabels().get(1).getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].labels[1].title", is(issues.get(1).getLabels().get(1).getTitle())))
-               .andExpect(jsonPath("$.issues[1].labels[1].color", is(issues.get(1).getLabels().get(1).getColor())))
-               .andExpect(jsonPath("$.issues[1].mileStone.id").value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
-                       1).getMileStone().getId()),
-                       Matchers.equalTo((Number) issues.get(1).getMileStone().getId().intValue()))))
-               .andExpect(jsonPath("$.issues[1].mileStone.title", is(issues.get(1).getMileStone().getTitle())));
+  public static String asJsonString(final Object obj) {
+    try {
+      return new ObjectMapper().writeValueAsString(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Test
-    @DisplayName("선택한 이슈 일괄 오픈 테스트")
-    void 선택한_이슈_일괄_오픈_테스트() throws Exception {
-        // given
-        // language=JSON
-        String jsonString = "{\"issueNumbers\": [1], \"state\": \"open\"}";
+  @Test
+  @DisplayName("오픈된 이슈 조회 검색 테스트")
+  void 오픈된_이슈_조회_검색_테스트() throws Exception {
+    // given
+    LocalDateTime now = LocalDateTime.now();
 
-        // then
-        MockHttpServletRequestBuilder requestBuilder =
-                put("/issues/state").content(jsonString).contentType(MediaType.APPLICATION_JSON);
-        mockMvc.perform(requestBuilder)
-               .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.success", is(true)))
-               .andExpect(jsonPath("$.message", is("성공")));
-    }
+    // user
+    UserOfIssue user1 = UserOfIssue.builder().nickname("dion").profileImage("dion image").build();
+    UserOfIssue user2 = UserOfIssue.builder().nickname("reese").profileImage("reese image").build();
 
-    @Test
-    @DisplayName("선택한 이슈 일괄 클로즈 테스트")
-    void 선택한_이슈_일괄_클로즈_테스트() throws Exception {
-        // given
-        // language=JSON
-        String jsonString = "{\"issueNumbers\": [1,2], \"state\": \"close\"}";
+    // label
+    LabelOfIssue label1 = LabelOfIssue.builder().title("BE").color("#FFFFFF").build();
+    LabelOfIssue label2 = LabelOfIssue.builder().title("FE").color("#000000").build();
 
-        // then
-        MockHttpServletRequestBuilder requestBuilder =
-                put("/issues/state").content(jsonString).contentType(MediaType.APPLICATION_JSON);
-        mockMvc.perform(requestBuilder)
-               .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.success", is(true)))
-               .andExpect(jsonPath("$.message", is("성공")));
-    }
+    // milestone
+    MilestoneOfIssue milestone1 = MilestoneOfIssue.builder().title("Phase1").build();
+    MilestoneOfIssue milestone2 = MilestoneOfIssue.builder().title("Phase2").build();
+    MilestoneOfIssue milestone3 = MilestoneOfIssue.builder().title("Phase3").build();
+
+    // issue
+    IssueOfIssueList issue1 = IssueOfIssueList.builder().issueNumber(1L).author(user1)
+        .isOpened(true).createdAt(now).updatedAt(now).title("밥을 못먹어서 문제")
+        .assignees(asList(user1, user2)).labels(singletonList(label1)).milestone(milestone1)
+        .build();
+    IssueOfIssueList issue2 = IssueOfIssueList.builder().issueNumber(2L).author(user2)
+        .isOpened(false).createdAt(now).updatedAt(now).title("운동을 하고싶어서 문제")
+        .assignees(singletonList(user2)).labels(singletonList(label2)).milestone(milestone2)
+        .build();
+    IssueOfIssueList issue3 = IssueOfIssueList.builder().issueNumber(3L).author(user2)
+        .isOpened(true).createdAt(now).updatedAt(now).title("열심히 하고싶어서 문제")
+        .assignees(singletonList(user2)).labels(asList(label1, label2)).milestone(milestone3)
+        .build();
+
+    List<IssueOfIssueList> issues = asList(issue1, issue3);
+    when(issueService.findOpenedIssues()).thenReturn(issues);
+
+    // then
+    mockMvc.perform(get("/issues").contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.issues", hasSize(issues.size())))
+        .andExpect(jsonPath("$.issues[0].issueNumber")
+            .value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
+                0).getIssueNumber()),
+                Matchers.equalTo(issues.get(0).getIssueNumber().intValue()))))
+        .andExpect(jsonPath("$.issues[0].opened", is(issues.get(0).isOpened())))
+        .andExpect(jsonPath("$.issues[0].title", is(issues.get(0).getTitle())))
+        .andExpect(
+            jsonPath("$.issues[0].author.nickname", is(issues.get(0).getAuthor().getNickname())))
+        .andExpect(jsonPath("$.issues[0].author.profileImage",
+            is(issues.get(0).getAuthor().getProfileImage())))
+        .andExpect(jsonPath("$.issues[0].assignees", hasSize(issues.get(0).getAssignees().size())))
+        .andExpect(jsonPath("$.issues[0].assignees[0].profileImage",
+            is(issues.get(0).getAssignees().get(0).getProfileImage())))
+        .andExpect(jsonPath("$.issues[0].assignees[0].nickname",
+            is(issues.get(0).getAssignees().get(0).getNickname())))
+        .andExpect(jsonPath("$.issues[0].assignees[1].profileImage",
+            is(issues.get(0).getAssignees().get(1).getProfileImage())))
+        .andExpect(jsonPath("$.issues[0].assignees[1].nickname",
+            is(issues.get(0).getAssignees().get(1).getNickname())))
+        .andExpect(jsonPath("$.issues[0].labels", hasSize(issues.get(0).getLabels().size())))
+        .andExpect(jsonPath("$.issues[0].labels[0].title",
+            is(issues.get(0).getLabels().get(0).getTitle())))
+        .andExpect(jsonPath("$.issues[0].labels[0].color",
+            is(issues.get(0).getLabels().get(0).getColor())))
+        .andExpect(
+            jsonPath("$.issues[0].milestone.title", is(issues.get(0).getMilestone().getTitle())))
+        // issue3
+        .andExpect(jsonPath("$.issues[1].issueNumber")
+            .value(Matchers.anyOf(Matchers.equalTo((Number) issues.get(
+                1).getIssueNumber()),
+                Matchers.equalTo(issues.get(1).getIssueNumber().intValue()))))
+        .andExpect(jsonPath("$.issues[1].opened", is(issues.get(1).isOpened())))
+        .andExpect(jsonPath("$.issues[1].title", is(issues.get(1).getTitle())))
+        .andExpect(jsonPath("$.issues[1].author.profileImage",
+            is(issues.get(1).getAuthor().getProfileImage())))
+        .andExpect(jsonPath("$.issues[1].author.nickname",
+            is(issues.get(1).getAuthor().getNickname())))
+        .andExpect(jsonPath("$.issues[1].assignees", hasSize(issues.get(1).getAssignees().size())))
+        .andExpect(jsonPath("$.issues[1].assignees[0].profileImage",
+            is(issues.get(1).getAssignees().get(0).getProfileImage())))
+        .andExpect(jsonPath("$.issues[1].assignees[0].nickname",
+            is(issues.get(1).getAssignees().get(0).getNickname())))
+        .andExpect(jsonPath("$.issues[1].labels", hasSize(issues.get(1).getLabels().size())))
+        .andExpect(jsonPath("$.issues[1].labels[0].title",
+            is(issues.get(1).getLabels().get(0).getTitle())))
+        .andExpect(jsonPath("$.issues[1].labels[0].color",
+            is(issues.get(1).getLabels().get(0).getColor())))
+        .andExpect(jsonPath("$.issues[1].labels[1].title",
+            is(issues.get(1).getLabels().get(1).getTitle())))
+        .andExpect(jsonPath("$.issues[1].labels[1].color",
+            is(issues.get(1).getLabels().get(1).getColor())))
+        .andExpect(
+            jsonPath("$.issues[1].milestone.title", is(issues.get(1).getMilestone().getTitle())));
+  }
+
+  @Test
+  @DisplayName("선택한 이슈 일괄 오픈 테스트")
+  void 선택한_이슈_일괄_오픈_테스트() throws Exception {
+    // given
+    IssuesOpenStatusChangeRequest request = new IssuesOpenStatusChangeRequest();
+    request.setState("open");
+    request.setIssueNumbers(singletonList(1L));
+    when(issueService.updateIssuesOpenStatus(any(IssuesOpenStatusChangeRequest.class)))
+        .thenReturn(true);
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder =
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.message", is("성공")));
+  }
+
+  @Test
+  @DisplayName("선택한 이슈 일괄 클로즈 테스트")
+  void 선택한_이슈_일괄_클로즈_테스트() throws Exception {
+    // given
+    IssuesOpenStatusChangeRequest request = new IssuesOpenStatusChangeRequest();
+    request.setState("close");
+    request.setIssueNumbers(asList(1L, 2L));
+    when(issueService.updateIssuesOpenStatus(any(IssuesOpenStatusChangeRequest.class)))
+        .thenReturn(true);
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder =
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.message", is("성공")));
+  }
 }

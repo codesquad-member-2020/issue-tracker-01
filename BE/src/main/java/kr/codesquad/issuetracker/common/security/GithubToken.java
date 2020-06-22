@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 public class GithubToken {
 
-    @JsonProperty("access_token")
-    private String accessToken;
+  @JsonProperty("access_token")
+  private String accessToken;
 
-    @JsonProperty("token_type")
-    private String tokenType;
+  @JsonProperty("token_type")
+  private String tokenType;
 
-    @JsonProperty("scope")
-    private String scope;
+  @JsonProperty("scope")
+  private String scope;
 }
