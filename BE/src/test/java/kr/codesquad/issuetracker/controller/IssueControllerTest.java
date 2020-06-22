@@ -22,6 +22,7 @@ import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
 import kr.codesquad.issuetracker.domain.user.UserOfIssue;
 import kr.codesquad.issuetracker.service.IssueService;
 import kr.codesquad.issuetracker.service.LabelService;
+import kr.codesquad.issuetracker.service.UserService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,9 @@ class IssueControllerTest {
 
   @MockBean
   LabelService labelService;
+
+  @MockBean
+  UserService userService;
 
   public static String asJsonString(final Object obj) {
     try {

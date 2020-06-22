@@ -7,9 +7,11 @@ import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeReques
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.SearchFilterLabelResponse;
+import kr.codesquad.issuetracker.controller.response.SearchFilterUserResponse;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.service.IssueService;
 import kr.codesquad.issuetracker.service.LabelService;
+import kr.codesquad.issuetracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ public class IssueController {
 
   private final IssueService issueService;
   private final LabelService labelService;
+  private final UserService userService;
 
   @ApiOperation(value = "이슈 목록 조회")
   @GetMapping("")
@@ -55,5 +58,13 @@ public class IssueController {
     log.debug("검색한 keyword: {}", keyword);
 
     return new SearchFilterLabelResponse(labelService.findLabelsByFilteringKeyword(keyword));
+  }
+
+  @GetMapping("/search-filter/users")
+  public SearchFilterUserResponse getUserSearchFilter(
+      @RequestParam(required = false) String keyword) {
+    log.debug("검색한 keyword: {}", keyword);
+
+    return new SearchFilterUserResponse(userService.findUsersByFilteringKeyword(keyword));
   }
 }
