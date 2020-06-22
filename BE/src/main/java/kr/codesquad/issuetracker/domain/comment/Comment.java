@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import kr.codesquad.issuetracker.domain.issue.Issue;
+import kr.codesquad.issuetracker.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

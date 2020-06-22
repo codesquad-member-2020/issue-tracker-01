@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.milestone;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import kr.codesquad.issuetracker.domain.issue.Issue;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.relation;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import kr.codesquad.issuetracker.domain.issue.Issue;
+import kr.codesquad.issuetracker.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

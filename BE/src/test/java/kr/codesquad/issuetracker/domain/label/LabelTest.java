@@ -1,4 +1,4 @@
-package kr.codesquad.issuetracker.domain.entity;
+package kr.codesquad.issuetracker.domain.label;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

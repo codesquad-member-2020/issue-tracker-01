@@ -66,9 +66,7 @@ public class ErrorResponse {
     private static List<FieldError> of(final BindingResult bindingResult) {
       final List<org.springframework.validation.FieldError> fieldErrors =
           bindingResult.getFieldErrors();
-      return fieldErrors.stream()
-          .map(FieldError::with)
-          .collect(Collectors.toList());
+      return fieldErrors.stream().map(FieldError::with).collect(Collectors.toList());
     }
   }
 }
