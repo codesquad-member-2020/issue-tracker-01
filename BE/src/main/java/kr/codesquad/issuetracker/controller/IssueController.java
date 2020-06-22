@@ -6,14 +6,17 @@ import java.util.List;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
+import kr.codesquad.issuetracker.controller.response.SearchFilterLabelResponse;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.service.IssueService;
+import kr.codesquad.issuetracker.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(value = "이슈에 관련된 API")
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IssueController {
 
   private final IssueService issueService;
+  private final LabelService labelService;
 
   @ApiOperation(value = "이슈 목록 조회")
   @GetMapping("")
@@ -43,5 +47,13 @@ public class IssueController {
     log.debug("요청 객체: {}", statusChangeRequest);
 
     return JobResponse.of(issueService.updateIssuesOpenStatus(statusChangeRequest));
+  }
+
+  @GetMapping("/search-filter/labels")
+  public SearchFilterLabelResponse getLabelSearchFilter(
+      @RequestParam(required = false) String keyword) {
+    log.debug("검색한 keyword: {}", keyword);
+
+    return new SearchFilterLabelResponse(labelService.findLabelsByFilteringKeyword(keyword));
   }
 }

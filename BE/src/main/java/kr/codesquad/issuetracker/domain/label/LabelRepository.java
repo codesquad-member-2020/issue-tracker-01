@@ -1,5 +1,6 @@
 package kr.codesquad.issuetracker.domain.label;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,16 @@ public class LabelRepository {
 
   public Label find(Long id) {
     return em.find(Label.class, id);
+  }
+
+  public List<Label> findBySearchParam(String searchParam) {
+    return em.createQuery("select l from Label l where l.title like '%" + searchParam + "%'",
+        Label.class).getResultList();
+  }
+
+  public List<Label> findByFilteringKeyword(String keyword) {
+    return em.createQuery(
+        "select l from Label l where l.title like '%" + keyword + "%'"
+            + " or l.description like '%" + keyword + "%'", Label.class).getResultList();
   }
 }
