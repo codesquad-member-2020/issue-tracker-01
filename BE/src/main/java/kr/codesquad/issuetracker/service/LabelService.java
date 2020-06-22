@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import kr.codesquad.issuetracker.controller.request.LabelCreateRequest;
 import kr.codesquad.issuetracker.domain.label.Label;
+import kr.codesquad.issuetracker.domain.label.LabelOfFilter;
 import kr.codesquad.issuetracker.domain.label.LabelOfLabelList;
 import kr.codesquad.issuetracker.domain.label.LabelRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +32,27 @@ public class LabelService {
   }
 
   public List<LabelOfLabelList> findLabelsByQueryString(String queryString) {
-    if (queryString == null) {
-      queryString = "";
-    }
+    queryString = stringNullCheck(queryString);
+
     return labelRepository.findBySearchParam(queryString)
         .stream()
         .map(LabelOfLabelList::new)
         .collect(toList());
+  }
+
+  public List<LabelOfFilter> findLabelsByFilteringKeyword(String keyword) {
+    keyword = stringNullCheck(keyword);
+
+    return labelRepository.findByFilteringKeyword(keyword)
+        .stream()
+        .map(LabelOfFilter::new)
+        .collect(toList());
+  }
+
+  private String stringNullCheck(String keyword) {
+    if (keyword == null) {
+      keyword = "";
+    }
+    return keyword;
   }
 }

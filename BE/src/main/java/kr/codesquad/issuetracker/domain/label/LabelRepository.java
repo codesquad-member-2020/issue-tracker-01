@@ -24,4 +24,10 @@ public class LabelRepository {
     return em.createQuery("select l from Label l where l.title like '%" + searchParam + "%'",
         Label.class).getResultList();
   }
+
+  public List<Label> findByFilteringKeyword(String keyword) {
+    return em.createQuery(
+        "select l from Label l where l.title like '%" + keyword + "%'"
+            + " or l.description like '%" + keyword + "%'", Label.class).getResultList();
+  }
 }
