@@ -32,7 +32,7 @@ public class LabelService {
   }
 
   public List<LabelOfLabelList> findLabelsByQueryString(String queryString) {
-    queryString = stringNullCheck(queryString);
+    queryString = changeNullToEmptyString(queryString);
 
     return labelRepository.findBySearchParam(queryString)
         .stream()
@@ -41,7 +41,7 @@ public class LabelService {
   }
 
   public List<LabelOfFilter> findLabelsByFilteringKeyword(String keyword) {
-    keyword = stringNullCheck(keyword);
+    keyword = changeNullToEmptyString(keyword);
 
     return labelRepository.findByFilteringKeyword(keyword)
         .stream()
@@ -49,7 +49,7 @@ public class LabelService {
         .collect(toList());
   }
 
-  private String stringNullCheck(String keyword) {
+  private String changeNullToEmptyString(String keyword) {
     if (keyword == null) {
       keyword = "";
     }
