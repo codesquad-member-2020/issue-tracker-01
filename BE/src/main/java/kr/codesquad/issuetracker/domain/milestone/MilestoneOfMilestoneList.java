@@ -26,6 +26,7 @@ public class MilestoneOfMilestoneList {
 
   public MilestoneOfMilestoneList(Milestone milestone) {
     this.id = milestone.getId();
+    this.isOpened = milestone.isOpened();
     this.title = milestone.getTitle();
     this.description = milestone.getDescription();
     this.dueDate = milestone.getDueDate();
