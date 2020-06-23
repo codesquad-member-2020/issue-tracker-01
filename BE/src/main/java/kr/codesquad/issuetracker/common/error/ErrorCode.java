@@ -12,8 +12,12 @@ public enum ErrorCode {
   METHOD_NOT_ALLOWED(405, "COM004", "Change Http Method"),
   INTERNAL_SERVER_ERROR(500, "COM005", "백엔드 개발자라 죄송합니다..."),
 
+  // user
   USER_NOT_FOUND(404, "U001", " 해당 사용자가 존재하지 않습니다."),
   LOGIN_REQUIRED(401, "U002", " 로그인을 해주세요."),
+
+  // domain
+  LABEL_NOT_FOUND(404, "L001", "해당 Label은 존재하지 않는 Label입니다."),
   ;
 
   private final int status;
