@@ -36,7 +36,7 @@ public class LabelService {
   public List<LabelOfLabelList> findLabelsByQueryString(String queryString) {
     queryString = changeNullToEmptyString(queryString);
 
-    return labelRepository.findBySearchParam(queryString)
+    return labelRepository.findByTitle(queryString)
         .stream()
         .map(LabelOfLabelList::new)
         .collect(toList());
@@ -46,7 +46,7 @@ public class LabelService {
   public List<LabelOfFilter> findLabelsByFilteringKeyword(String keyword) {
     keyword = changeNullToEmptyString(keyword);
 
-    return labelRepository.findByFilteringKeyword(keyword)
+    return labelRepository.findByTitleAndDescription(keyword)
         .stream()
         .map(LabelOfFilter::new)
         .collect(toList());

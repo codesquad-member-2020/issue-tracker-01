@@ -25,12 +25,12 @@ public class LabelRepository {
     em.remove(label);
   }
 
-  public List<Label> findBySearchParam(String searchParam) {
-    return em.createQuery("select l from Label l where l.title like '%" + searchParam + "%'",
+  public List<Label> findByTitle(String title) {
+    return em.createQuery("select l from Label l where l.title like '%" + title + "%'",
         Label.class).getResultList();
   }
 
-  public List<Label> findByFilteringKeyword(String keyword) {
+  public List<Label> findByTitleAndDescription(String keyword) {
     return em.createQuery(
         "select l from Label l where l.title like '%" + keyword + "%'"
             + " or l.description like '%" + keyword + "%'", Label.class).getResultList();
