@@ -45,4 +45,10 @@ public class Milestone {
     this.description = milestoneRequest.getDescription();
     this.dueDate = milestoneRequest.getDueDate();
   }
+
+  public void changeInformation(MilestoneRequest milestoneRequest) {
+    this.title = milestoneRequest.getTitle();
+    this.description = milestoneRequest.getDescription();
+    this.dueDate = milestoneRequest.getDueDate();
+  }
 }

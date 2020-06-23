@@ -26,4 +26,15 @@ public class MilestoneService {
     log.debug("저장 후 milestone: {}", milestone);
     return milestone.getId() != null;
   }
+
+  public boolean updateMilestone(Long id, MilestoneRequest milestoneRequest) {
+    Milestone milestone = milestoneRepository.find(id).orElseThrow(MilestoneNotFoundException::new);
+    log.debug("조회된 Milestone 정보: {}", milestone);
+
+    milestone.changeInformation(milestoneRequest);
+    log.debug("변경된 Milestone 정보: {}", milestone);
+
+    Long milestoneId = milestoneRepository.save(milestone);
+    return id.equals(milestoneId);
+  }
 }
