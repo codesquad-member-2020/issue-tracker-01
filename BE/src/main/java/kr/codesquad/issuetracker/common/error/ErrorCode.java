@@ -18,6 +18,7 @@ public enum ErrorCode {
 
   // domain
   LABEL_NOT_FOUND(404, "L001", "해당 Label은 존재하지 않는 Label입니다."),
+  MILESTONE_NOT_FOUND(404, "M001", "해당 Milestone은 존재하지 않는 Milestone입니다."),
   ;
 
   private final int status;

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import kr.codesquad.issuetracker.controller.request.MilestoneRequest;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,5 +37,12 @@ public class Milestone {
   private Milestone(Long id, String title) {
     this.id = id;
     this.title = title;
+  }
+
+  public Milestone(MilestoneRequest milestoneRequest) {
+    this.isOpened = true;
+    this.title = milestoneRequest.getTitle();
+    this.description = milestoneRequest.getDescription();
+    this.dueDate = milestoneRequest.getDueDate();
   }
 }
