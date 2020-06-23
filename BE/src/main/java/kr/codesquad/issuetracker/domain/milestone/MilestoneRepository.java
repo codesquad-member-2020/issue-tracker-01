@@ -28,4 +28,10 @@ public class MilestoneRepository {
   public List<Milestone> findAll() {
     return em.createQuery("select m from Milestone m", Milestone.class).getResultList();
   }
+
+  public List<Milestone> findOpenedMilestoneByTitle(String keyword) {
+    return em.createQuery(
+        "select m from Milestone m where m.isOpened = true and m.title like '%" + keyword + "%'",
+        Milestone.class).getResultList();
+  }
 }
