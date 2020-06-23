@@ -1,13 +1,16 @@
 package kr.codesquad.issuetracker.controller;
 
-import kr.codesquad.issuetracker.controller.request.LabelCreateRequest;
+import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.LabelListResponse;
 import kr.codesquad.issuetracker.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +35,24 @@ public class LabelController {
   }
 
   @PostMapping("")
-  public JobResponse createLabel(@RequestBody LabelCreateRequest labelCreateRequest) {
-    log.debug("요청 객체: {}", labelCreateRequest);
+  public JobResponse createLabel(@RequestBody LabelRequest labelRequest) {
+    log.debug("요청 객체: {}", labelRequest);
 
-    return JobResponse.of(labelService.createLabel(labelCreateRequest));
+    return JobResponse.of(labelService.createLabel(labelRequest));
+  }
+
+  @PutMapping("/{id}")
+  public JobResponse updateLabel(@PathVariable Long id, @RequestBody LabelRequest labelRequest) {
+    log.debug("조회한 Label의 id: {}, 요청 객체: {}", id, labelRequest);
+
+    return JobResponse.of(labelService.updateLabel(id, labelRequest));
+  }
+
+  @DeleteMapping("/{id}")
+  public JobResponse deleteLabel(@PathVariable Long id) {
+    log.debug("조회한 Label의 id: {}", id);
+
+    labelService.deleteLabel(id);
+    return JobResponse.of(!labelService.isExists(id));
   }
 }
