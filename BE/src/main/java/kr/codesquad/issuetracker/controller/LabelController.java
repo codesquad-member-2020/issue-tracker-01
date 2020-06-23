@@ -1,6 +1,6 @@
 package kr.codesquad.issuetracker.controller;
 
-import kr.codesquad.issuetracker.controller.request.LabelCreateRequest;
+import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.LabelListResponse;
 import kr.codesquad.issuetracker.service.LabelService;
@@ -32,9 +32,9 @@ public class LabelController {
   }
 
   @PostMapping("")
-  public JobResponse createLabel(@RequestBody LabelCreateRequest labelCreateRequest) {
-    log.debug("요청 객체: {}", labelCreateRequest);
+  public JobResponse createLabel(@RequestBody LabelRequest labelRequest) {
+    log.debug("요청 객체: {}", labelRequest);
 
-    return JobResponse.of(labelService.createLabel(labelCreateRequest));
+    return JobResponse.of(labelService.createLabel(labelRequest));
   }
 }

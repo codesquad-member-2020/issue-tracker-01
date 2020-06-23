@@ -3,7 +3,7 @@ package kr.codesquad.issuetracker.service;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-import kr.codesquad.issuetracker.controller.request.LabelCreateRequest;
+import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.domain.label.Label;
 import kr.codesquad.issuetracker.domain.label.LabelOfFilter;
 import kr.codesquad.issuetracker.domain.label.LabelOfLabelList;
@@ -21,8 +21,8 @@ public class LabelService {
   private final LabelRepository labelRepository;
 
   @Transactional
-  public boolean createLabel(LabelCreateRequest labelCreateRequest) {
-    Label label = new Label(labelCreateRequest);
+  public boolean createLabel(LabelRequest labelRequest) {
+    Label label = new Label(labelRequest);
     log.debug("저장 전 label: {}", label);
 
     Long labelId = labelRepository.save(label);

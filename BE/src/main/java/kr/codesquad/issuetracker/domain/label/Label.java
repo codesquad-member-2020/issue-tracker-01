@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import kr.codesquad.issuetracker.controller.request.LabelCreateRequest;
+import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.domain.relation.IssueLabel;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,9 +39,9 @@ public class Label {
     this.description = description;
   }
 
-  public Label(LabelCreateRequest labelCreateRequest) {
-    this.title = labelCreateRequest.getTitle();
-    this.color = labelCreateRequest.getColor();
-    this.description = labelCreateRequest.getDescription();
+  public Label(LabelRequest labelRequest) {
+    this.title = labelRequest.getTitle();
+    this.color = labelRequest.getColor();
+    this.description = labelRequest.getDescription();
   }
 }
