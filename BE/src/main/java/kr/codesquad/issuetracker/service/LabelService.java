@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class LabelService {
 
   private final LabelRepository labelRepository;
 
-  @Transactional
   public boolean createLabel(LabelRequest labelRequest) {
     Label label = new Label(labelRequest);
     log.debug("저장 전 label: {}", label);
@@ -31,6 +31,7 @@ public class LabelService {
     return label.getId() != null;
   }
 
+  @Transactional(readOnly = true)
   public List<LabelOfLabelList> findLabelsByQueryString(String queryString) {
     queryString = changeNullToEmptyString(queryString);
 
@@ -40,6 +41,7 @@ public class LabelService {
         .collect(toList());
   }
 
+  @Transactional(readOnly = true)
   public List<LabelOfFilter> findLabelsByFilteringKeyword(String keyword) {
     keyword = changeNullToEmptyString(keyword);
 
@@ -47,6 +49,17 @@ public class LabelService {
         .stream()
         .map(LabelOfFilter::new)
         .collect(toList());
+  }
+
+  public boolean updateLabel(Long id, LabelRequest labelRequest) {
+    Label label = labelRepository.find(id);
+    log.debug("조회된 Label 정보: {}", label);
+
+    label.changeInformation(labelRequest);
+    log.debug("변경된 Label 정보: {}", label);
+
+    Long labelId = labelRepository.save(label);
+    return id.equals(labelId);
   }
 
   private String changeNullToEmptyString(String keyword) {

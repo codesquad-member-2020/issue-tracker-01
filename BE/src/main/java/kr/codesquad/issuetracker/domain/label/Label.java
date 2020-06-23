@@ -44,4 +44,10 @@ public class Label {
     this.color = labelRequest.getColor();
     this.description = labelRequest.getDescription();
   }
+
+  public void changeInformation(LabelRequest labelRequest) {
+    this.title = labelRequest.getTitle();
+    this.color = labelRequest.getColor();
+    this.description = labelRequest.getDescription();
+  }
 }
