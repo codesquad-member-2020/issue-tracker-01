@@ -37,4 +37,17 @@ public class MilestoneService {
     Long milestoneId = milestoneRepository.save(milestone);
     return id.equals(milestoneId);
   }
+
+  public void deleteMilestone(Long id) {
+    Milestone milestone = milestoneRepository.find(id).orElseThrow(MilestoneNotFoundException::new);
+    log.debug("조회된 Milestone 정보: {}", milestone);
+
+    milestoneRepository.remove(milestone);
+    log.debug("삭제 후 Milestone 정보: {}", milestone);
+  }
+
+  @Transactional(readOnly = true)
+  public boolean isExists(Long id) {
+    return milestoneRepository.find(id).isPresent();
+  }
 }

@@ -19,4 +19,8 @@ public class MilestoneRepository {
   public Optional<Milestone> find(Long milestoneId) {
     return Optional.ofNullable(em.find(Milestone.class, milestoneId));
   }
+
+  public void remove(Milestone milestone) {
+    em.remove(milestone);
+  }
 }
