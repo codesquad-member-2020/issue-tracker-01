@@ -3,6 +3,7 @@ package kr.codesquad.issuetracker.service;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import kr.codesquad.issuetracker.common.error.exception.domain.label.LabelNotFoundException;
 import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.domain.label.Label;
 import kr.codesquad.issuetracker.domain.label.LabelOfFilter;
@@ -26,7 +27,7 @@ public class LabelService {
     log.debug("저장 전 label: {}", label);
 
     Long labelId = labelRepository.save(label);
-    label = labelRepository.find(labelId);
+    label = labelRepository.find(labelId).orElseThrow(LabelNotFoundException::new);
     log.debug("저장 후 label: {}", label);
     return label.getId() != null;
   }
@@ -52,7 +53,7 @@ public class LabelService {
   }
 
   public boolean updateLabel(Long id, LabelRequest labelRequest) {
-    Label label = labelRepository.find(id);
+    Label label = labelRepository.find(id).orElseThrow(LabelNotFoundException::new);
     log.debug("조회된 Label 정보: {}", label);
 
     label.changeInformation(labelRequest);
@@ -60,6 +61,19 @@ public class LabelService {
 
     Long labelId = labelRepository.save(label);
     return id.equals(labelId);
+  }
+
+  public void deleteLabel(Long id) {
+    Label label = labelRepository.find(id).orElseThrow(LabelNotFoundException::new);
+    log.debug("조회된 Label 정보: {}", label);
+
+    labelRepository.remove(label);
+    log.debug("삭제 후 Label 정보: {}", label);
+  }
+
+  @Transactional(readOnly = true)
+  public boolean isExists(Long id) {
+    return labelRepository.find(id).isPresent();
   }
 
   private String changeNullToEmptyString(String keyword) {

@@ -6,6 +6,7 @@ import kr.codesquad.issuetracker.controller.response.LabelListResponse;
 import kr.codesquad.issuetracker.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,5 +46,13 @@ public class LabelController {
     log.debug("조회한 Label의 id: {}, 요청 객체: {}", id, labelRequest);
 
     return JobResponse.of(labelService.updateLabel(id, labelRequest));
+  }
+
+  @DeleteMapping("/{id}")
+  public JobResponse deleteLabel(@PathVariable Long id) {
+    log.debug("조회한 Label의 id: {}", id);
+
+    labelService.deleteLabel(id);
+    return JobResponse.of(!labelService.isExists(id));
   }
 }
