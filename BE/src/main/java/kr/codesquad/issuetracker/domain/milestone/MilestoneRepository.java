@@ -1,5 +1,6 @@
 package kr.codesquad.issuetracker.domain.milestone;
 
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,5 +23,9 @@ public class MilestoneRepository {
 
   public void remove(Milestone milestone) {
     em.remove(milestone);
+  }
+
+  public List<Milestone> findAll() {
+    return em.createQuery("select m from Milestone m", Milestone.class).getResultList();
   }
 }

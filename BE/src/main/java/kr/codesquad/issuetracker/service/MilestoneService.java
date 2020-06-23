@@ -1,8 +1,12 @@
 package kr.codesquad.issuetracker.service;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
 import kr.codesquad.issuetracker.common.error.exception.domain.milestone.MilestoneNotFoundException;
 import kr.codesquad.issuetracker.controller.request.MilestoneRequest;
 import kr.codesquad.issuetracker.domain.milestone.Milestone;
+import kr.codesquad.issuetracker.domain.milestone.MilestoneOfMilestoneList;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +53,13 @@ public class MilestoneService {
   @Transactional(readOnly = true)
   public boolean isExists(Long id) {
     return milestoneRepository.find(id).isPresent();
+  }
+
+  @Transactional(readOnly = true)
+  public List<MilestoneOfMilestoneList> findAll() {
+    return milestoneRepository.findAll()
+        .stream()
+        .map(MilestoneOfMilestoneList::new)
+        .collect(toList());
   }
 }
