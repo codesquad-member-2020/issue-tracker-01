@@ -4,25 +4,24 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.util.List;
 import kr.codesquad.issuetracker.common.security.GithubKey;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-  @Value("${GITHUB_CLIENT_ID}")
-  private String githubClientId;
-
-  @Value("${GITHUB_CLIENT_SECRET}")
-  private String githubClientSecret;
+  private final HandlerInterceptor interceptor;
 
   @Bean
   public GithubKey githubKey() {
-    return new GithubKey(githubClientId, githubClientSecret);
+    return new GithubKey(System.getenv("GITHUB_CLIENT_ID"), System.getenv("GITHUB_CLIENT_SECRET"));
   }
 
   @Override
@@ -33,5 +32,17 @@ public class WebConfig implements WebMvcConfigurer {
         .ifPresent(
             converter ->
                 ((MappingJackson2HttpMessageConverter) converter).setDefaultCharset(UTF_8));
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(interceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(
+            "/login/**",
+            "/v2/api-docs",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/webjars/**");
   }
 }
