@@ -3,6 +3,7 @@ package kr.codesquad.issuetracker.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import kr.codesquad.issuetracker.controller.request.CommentRequest;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueUpdateRequest;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
@@ -105,5 +106,13 @@ public class IssueController {
     log.debug("검색한 keyword: {}", keyword);
 
     return new SearchFilterUserResponse(userService.findUsersByFilteringKeyword(keyword));
+  }
+
+  @PostMapping("/{issueNumber}/comments")
+  public JobResponse createComment(@PathVariable Long issueNumber,
+      @RequestBody CommentRequest commentRequest) {
+    log.debug("Comment를 추가하려는 issueNumber: {}, Comment 추가 정보: {}", issueNumber, commentRequest);
+
+    return JobResponse.of(issueService.createComment(issueNumber, commentRequest));
   }
 }

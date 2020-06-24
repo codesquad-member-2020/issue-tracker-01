@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import kr.codesquad.issuetracker.common.error.exception.domain.label.LabelNotFoundException;
 import kr.codesquad.issuetracker.common.error.exception.domain.milestone.MilestoneNotFoundException;
+import kr.codesquad.issuetracker.controller.request.CommentRequest;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueOpenState;
 import kr.codesquad.issuetracker.controller.request.IssueUpdateRequest;
@@ -124,5 +125,18 @@ public class IssueService {
 
     Long savedIssueNumber = issueRepository.save(issue);
     return issueNumber.equals(savedIssueNumber);
+  }
+
+  public boolean createComment(Long issueNumber, CommentRequest commentRequest) {
+    Issue issue = issueRepository.find(issueNumber);
+    LocalDateTime now = LocalDateTime.now();
+    User writer = userRepository.find(1L); // TODO: 유저정보 토큰에서 파싱해오기
+
+    Comment comment = new Comment(commentRequest, issue, now, writer);
+    log.debug("저장 전 코멘트 정보: {}", comment);
+
+    Long commentId = issueRepository.saveComment(comment);
+    log.debug("저장 후 코멘트 정보: {}", comment);
+    return commentId != null;
   }
 }

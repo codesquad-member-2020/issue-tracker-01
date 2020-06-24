@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import kr.codesquad.issuetracker.controller.request.CommentRequest;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.user.User;
 import lombok.AccessLevel;
@@ -59,5 +60,13 @@ public class Comment {
     this.images = images;
     this.writer = writer;
     this.issue = issue;
+  }
+
+  public Comment(CommentRequest commentRequest, Issue issue, LocalDateTime now, User writer) {
+    this.description = commentRequest.getDescription();
+    this.issue = issue;
+    this.createdAt = now;
+    this.updatedAt = now;
+    this.writer = writer;
   }
 }
