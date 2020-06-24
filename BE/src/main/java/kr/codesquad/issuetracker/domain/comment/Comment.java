@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -47,4 +48,17 @@ public class Comment {
   @ManyToOne
   @JoinColumn(name = "issue_id")
   private Issue issue;
+
+  @Builder
+
+  public Comment(Long id, String description, LocalDateTime createdAt, LocalDateTime updatedAt,
+      List<Image> images, User writer, Issue issue) {
+    this.id = id;
+    this.description = description;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.images = images;
+    this.writer = writer;
+    this.issue = issue;
+  }
 }

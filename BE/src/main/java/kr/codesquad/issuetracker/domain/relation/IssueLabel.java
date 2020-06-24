@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.label.Label;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,4 +31,11 @@ public class IssueLabel {
   @ManyToOne
   @JoinColumn(name = "issue_id")
   private Issue issue;
+
+  @Builder
+  public IssueLabel(Long id, Label label, Issue issue) {
+    this.id = id;
+    this.label = label;
+    this.issue = issue;
+  }
 }

@@ -3,6 +3,7 @@ package kr.codesquad.issuetracker.domain.user;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -24,5 +25,12 @@ public class UserRepository {
     return em.createQuery(
         "select u from User u where u.userId like '%" + keyword + "%'"
             + " or u.nickname like '%" + keyword + "%'", User.class).getResultList();
+  }
+
+  public User findByUserId(String userId) {
+    TypedQuery<User> query = em
+        .createQuery("select u from User u where u.userId = :userId", User.class);
+    query.setParameter("userId", userId);
+    return query.getSingleResult();
   }
 }

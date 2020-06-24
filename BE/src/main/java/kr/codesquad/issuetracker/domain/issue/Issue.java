@@ -63,7 +63,8 @@ public class Issue {
       LocalDateTime createdAt,
       LocalDateTime updatedAt,
       User author,
-      Milestone milestone) {
+      Milestone milestone,
+      List<Comment> comments) {
     this.issueNumber = issueNumber;
     this.isOpened = isOpened;
     this.title = title;
@@ -71,6 +72,7 @@ public class Issue {
     this.updatedAt = updatedAt;
     this.author = author;
     this.milestone = milestone;
+    this.comments = comments;
   }
 
   public Issue changeOpenState(boolean openState) {
