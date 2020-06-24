@@ -50,7 +50,6 @@ public class Comment {
   private Issue issue;
 
   @Builder
-
   public Comment(Long id, String description, LocalDateTime createdAt, LocalDateTime updatedAt,
       List<Image> images, User writer, Issue issue) {
     this.id = id;

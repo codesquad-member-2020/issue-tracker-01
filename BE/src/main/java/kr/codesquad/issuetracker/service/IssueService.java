@@ -9,6 +9,7 @@ import kr.codesquad.issuetracker.common.error.exception.domain.milestone.Milesto
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueOpenState;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.domain.comment.Comment;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
@@ -38,7 +39,10 @@ public class IssueService {
 
   @Transactional(readOnly = true)
   public List<IssueOfIssueList> findOpenedIssues() {
-    return issueRepository.findOpenedIssues().stream().map(IssueOfIssueList::new).collect(toList());
+    return issueRepository.findOpenedIssues().stream()
+        .map(IssueOfIssueList::new)
+        .sorted(((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt())))
+        .collect(toList());
   }
 
   public boolean updateIssuesOpenStatus(IssuesOpenStatusChangeRequest statusChangeRequest) {
@@ -95,5 +99,10 @@ public class IssueService {
         .build());
 
     return newIssue.getIssueNumber() != null;
+  }
+
+  @Transactional(readOnly = true)
+  public IssueDetail findIssueDetail(Long issueNumber) {
+    return new IssueDetail(issueRepository.find(issueNumber));
   }
 }
