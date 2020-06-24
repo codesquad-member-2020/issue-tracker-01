@@ -61,16 +61,16 @@ public class IssueService {
     return issueNumbers.equals(updatedIssueNumbers);
   }
 
-  public boolean createIssue(IssueCreateRequest issueCreateRequest) {
+  public boolean createIssue(IssueCreateRequest issueCreateRequest, Long id) {
     LocalDateTime now = LocalDateTime.now();
-    User author = userRepository.find(1L); // TODO: 유저정보 토큰에서 파싱해오기
+    User author = userRepository.find(id);
     List<User> assignees = issueCreateRequest.getAssigneeUserIdList()
         .stream()
         .map(userRepository::findByUserId)
         .collect(toList());
     List<Label> labels = issueCreateRequest.getLabelIdList()
         .stream()
-        .map(id -> labelRepository.find(id).orElseThrow(LabelNotFoundException::new))
+        .map(labelId -> labelRepository.find(labelId).orElseThrow(LabelNotFoundException::new))
         .collect(toList());
 
     Issue newIssue = Issue.builder()
@@ -127,10 +127,10 @@ public class IssueService {
     return issueNumber.equals(savedIssueNumber);
   }
 
-  public boolean createComment(Long issueNumber, CommentRequest commentRequest) {
+  public boolean createComment(Long issueNumber, CommentRequest commentRequest, Long id) {
     Issue issue = issueRepository.find(issueNumber);
     LocalDateTime now = LocalDateTime.now();
-    User writer = userRepository.find(1L); // TODO: 유저정보 토큰에서 파싱해오기
+    User writer = userRepository.find(id);
 
     Comment comment = new Comment(commentRequest, issue, now, writer);
     log.debug("저장 전 코멘트 정보: {}", comment);

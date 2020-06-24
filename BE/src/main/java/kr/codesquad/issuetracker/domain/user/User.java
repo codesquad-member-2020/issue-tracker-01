@@ -56,4 +56,8 @@ public class User {
     this.githubToken = githubToken;
     this.profileImage = profileImage;
   }
+
+  public void changeGithubToken(String githubToken) {
+    this.githubToken = githubToken;
+  }
 }
