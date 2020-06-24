@@ -42,4 +42,8 @@ public class IssueRepository {
     em.persist(issueLabel);
     return issueLabel.getId();
   }
+
+  public Comment findComment(Long commentId) {
+    return em.find(Comment.class, commentId);
+  }
 }

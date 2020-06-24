@@ -139,4 +139,15 @@ public class IssueService {
     log.debug("저장 후 코멘트 정보: {}", comment);
     return commentId != null;
   }
+
+  public boolean updateComment(Long issueNumber, int commentOrder, CommentRequest commentRequest) {
+    Comment comment = issueRepository.find(issueNumber).getComments().get(commentOrder);
+    log.debug("불러온 코멘트 정보: {}", comment);
+    comment.updateInformation(commentRequest);
+
+    Long id = issueRepository.saveComment(comment);
+    log.debug("저장 후 코멘트 정보: {}", comment);
+
+    return id.equals(comment.getId());
+  }
 }
