@@ -3,6 +3,7 @@ package kr.codesquad.issuetracker.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import kr.codesquad.issuetracker.controller.request.CommentRequest;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueUpdateRequest;
@@ -14,6 +15,7 @@ import kr.codesquad.issuetracker.controller.response.SearchFilterLabelResponse;
 import kr.codesquad.issuetracker.controller.response.SearchFilterMilestoneResponse;
 import kr.codesquad.issuetracker.controller.response.SearchFilterUserResponse;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.service.IssueService;
 import kr.codesquad.issuetracker.service.LabelService;
 import kr.codesquad.issuetracker.service.MilestoneService;
@@ -61,10 +63,13 @@ public class IssueController {
   }
 
   @PostMapping("")
-  public JobResponse createIssue(@RequestBody IssueCreateRequest issueCreateRequest) {
+  public JobResponse createIssue(@RequestBody IssueCreateRequest issueCreateRequest,
+      HttpServletRequest request
+  ) {
     log.debug("요청 객체: {}", issueCreateRequest);
+    Long id = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
 
-    return JobResponse.of(issueService.createIssue(issueCreateRequest));
+    return JobResponse.of(issueService.createIssue(issueCreateRequest, id));
   }
 
   @PutMapping("{issueNumber}")
@@ -110,14 +115,15 @@ public class IssueController {
 
   @PostMapping("/{issueNumber}/comments")
   public JobResponse createComment(@PathVariable Long issueNumber,
-      @RequestBody CommentRequest commentRequest) {
+      @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
     log.debug("Comment를 추가하려는 issueNumber: {}, Comment 추가 정보: {}", issueNumber, commentRequest);
+    Long id = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
 
-    return JobResponse.of(issueService.createComment(issueNumber, commentRequest));
+    return JobResponse.of(issueService.createComment(issueNumber, commentRequest, id));
   }
 
   @PutMapping("/{issueNumber}/comments/{commentOrder}")
-  public JobResponse createComment(@PathVariable Long issueNumber,
+  public JobResponse updateComment(@PathVariable Long issueNumber,
       @PathVariable int commentOrder,
       @RequestBody CommentRequest commentRequest) {
     log.debug("Comment를 변경하려는 issueNumber: {}, comment id: {}, Comment 추가 정보: {}", issueNumber,

@@ -43,7 +43,14 @@ public class LoginService {
     User user = authService.getUserInfoToToken(token);
     log.debug("User Info : {}", user);
 
-    Long id = userRepository.save(user);
+    User existedUser = userRepository.findByUserId(user.getUserId());
+    Long id;
+    if (existedUser != null) {
+      existedUser.changeGithubToken(user.getGithubToken());
+      id = userRepository.save(existedUser);
+    } else {
+      id = userRepository.save(user);
+    }
     user = userRepository.find(id);
     log.debug("저장 후 유저 정보: {}", user);
 
