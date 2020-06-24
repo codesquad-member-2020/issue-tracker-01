@@ -8,6 +8,7 @@ import kr.codesquad.issuetracker.common.error.exception.domain.label.LabelNotFou
 import kr.codesquad.issuetracker.common.error.exception.domain.milestone.MilestoneNotFoundException;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueOpenState;
+import kr.codesquad.issuetracker.controller.request.IssueUpdateRequest;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.domain.comment.Comment;
@@ -16,6 +17,7 @@ import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.domain.issue.IssueRepository;
 import kr.codesquad.issuetracker.domain.label.Label;
 import kr.codesquad.issuetracker.domain.label.LabelRepository;
+import kr.codesquad.issuetracker.domain.milestone.Milestone;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneRepository;
 import kr.codesquad.issuetracker.domain.relation.IssueAssignee;
 import kr.codesquad.issuetracker.domain.relation.IssueLabel;
@@ -104,5 +106,23 @@ public class IssueService {
   @Transactional(readOnly = true)
   public IssueDetail findIssueDetail(Long issueNumber) {
     return new IssueDetail(issueRepository.find(issueNumber));
+  }
+
+  public boolean updateIssue(Long issueNumber, IssueUpdateRequest issueUpdateRequest) {
+    Issue issue = issueRepository.find(issueNumber);
+    List<IssueAssignee> assignees = issueUpdateRequest.getAssigneeUserIdList().stream()
+        .map(userRepository::findByUserId)
+        .map(user -> IssueAssignee.builder().assignee(user).issue(issue).build())
+        .collect(toList());
+    List<IssueLabel> labels = issueUpdateRequest.getLabelIdList().stream()
+        .map(id -> labelRepository.find(id).orElseThrow(LabelNotFoundException::new))
+        .map(label -> IssueLabel.builder().label(label).issue(issue).build())
+        .collect(toList());
+    Milestone milestone = milestoneRepository.find(issueUpdateRequest.getMilestoneId())
+        .orElseThrow(MilestoneNotFoundException::new);
+    issue.changeInformation(issueUpdateRequest.getTitle(), assignees, labels, milestone);
+
+    Long savedIssueNumber = issueRepository.save(issue);
+    return issueNumber.equals(savedIssueNumber);
   }
 }

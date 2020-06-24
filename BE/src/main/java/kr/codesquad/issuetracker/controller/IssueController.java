@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
+import kr.codesquad.issuetracker.controller.request.IssueUpdateRequest;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
@@ -58,11 +59,19 @@ public class IssueController {
     return issueService.findIssueDetail(issueNumber);
   }
 
-  @PostMapping
+  @PostMapping("")
   public JobResponse createIssue(@RequestBody IssueCreateRequest issueCreateRequest) {
     log.debug("요청 객체: {}", issueCreateRequest);
 
     return JobResponse.of(issueService.createIssue(issueCreateRequest));
+  }
+
+  @PutMapping("{issueNumber}")
+  public JobResponse updateIssue(@PathVariable Long issueNumber,
+      @RequestBody IssueUpdateRequest issueUpdateRequest) {
+    log.debug("변경하려는 이슈 번호: {}, 요청 객체: {}", issueNumber, issueUpdateRequest);
+
+    return JobResponse.of(issueService.updateIssue(issueNumber, issueUpdateRequest));
   }
 
   @PutMapping("/state")

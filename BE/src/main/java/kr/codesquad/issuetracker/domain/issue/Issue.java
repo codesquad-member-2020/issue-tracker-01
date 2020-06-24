@@ -79,4 +79,13 @@ public class Issue {
     this.isOpened = openState;
     return this;
   }
+
+  public void changeInformation(String title, List<IssueAssignee> assignees,
+      List<IssueLabel> labels, Milestone milestone) {
+    this.title = title;
+    this.assignees = assignees;
+    this.labels = labels;
+    this.milestone = milestone;
+    this.updatedAt = LocalDateTime.now();
+  }
 }
