@@ -38,7 +38,10 @@ public class IssueService {
 
   @Transactional(readOnly = true)
   public List<IssueOfIssueList> findOpenedIssues() {
-    return issueRepository.findOpenedIssues().stream().map(IssueOfIssueList::new).collect(toList());
+    return issueRepository.findOpenedIssues().stream()
+        .map(IssueOfIssueList::new)
+        .sorted(((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt())))
+        .collect(toList());
   }
 
   public boolean updateIssuesOpenStatus(IssuesOpenStatusChangeRequest statusChangeRequest) {
