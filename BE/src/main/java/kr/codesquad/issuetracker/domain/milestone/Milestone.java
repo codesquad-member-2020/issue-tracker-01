@@ -51,4 +51,12 @@ public class Milestone {
     this.description = milestoneRequest.getDescription();
     this.dueDate = milestoneRequest.getDueDate();
   }
+
+  public void open() {
+    this.isOpened = true;
+  }
+
+  public void close() {
+    this.isOpened = false;
+  }
 }
