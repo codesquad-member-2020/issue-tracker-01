@@ -117,7 +117,7 @@ public class IssueController {
   }
 
   @PutMapping("/{issueNumber}/comments/{commentOrder}")
-  public JobResponse createComment(@PathVariable Long issueNumber,
+  public JobResponse updateComment(@PathVariable Long issueNumber,
       @PathVariable int commentOrder,
       @RequestBody CommentRequest commentRequest) {
     log.debug("Comment를 변경하려는 issueNumber: {}, comment id: {}, Comment 추가 정보: {}", issueNumber,
