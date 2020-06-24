@@ -1,6 +1,10 @@
 package kr.codesquad.issuetracker.common.error;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import kr.codesquad.issuetracker.common.error.exception.BusinessException;
+import kr.codesquad.issuetracker.common.error.exception.LoginRequiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +48,25 @@ public class GlobalRestExceptionHandler {
     log.info("handleHttpRequestMethodNotSupportedException", e);
     final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
     return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  /**
+   * 로그인시 쿠키가 만료된 경우 자동으로 삭제할 수 있도록 설정
+   */
+  @ExceptionHandler(LoginRequiredException.class)
+  protected ResponseEntity<ErrorResponse> handleLoginRequiredException(LoginRequiredException e,
+      HttpServletRequest request, HttpServletResponse response) {
+    log.error("handleLoginRequiredException:", e);
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals("jwt")) {
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+      }
+    }
+    final ErrorCode errorCode = e.getErrorCode();
+    final ErrorResponse errorResponse = ErrorResponse.of(errorCode);
+    return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCode.getStatus()));
   }
 
   /**
