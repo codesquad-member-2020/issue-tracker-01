@@ -150,4 +150,18 @@ public class IssueService {
 
     return id.equals(comment.getId());
   }
+
+  public boolean openIssue(Long issueNumber) {
+    Issue issue = issueRepository.find(issueNumber);
+    issue.open();
+    Long id = issueRepository.save(issue);
+    return issueNumber.equals(id);
+  }
+
+  public boolean closeIssue(Long issueNumber) {
+    Issue issue = issueRepository.find(issueNumber);
+    issue.close();
+    Long id = issueRepository.save(issue);
+    return issueNumber.equals(id);
+  }
 }

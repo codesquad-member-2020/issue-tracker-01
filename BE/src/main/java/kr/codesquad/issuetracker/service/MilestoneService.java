@@ -80,4 +80,18 @@ public class MilestoneService {
     }
     return keyword;
   }
+
+  public boolean openMilestone(Long id) {
+    Milestone milestone = milestoneRepository.find(id).orElseThrow(MilestoneNotFoundException::new);
+    milestone.open();
+    Long milestoneId = milestoneRepository.save(milestone);
+    return id.equals(milestoneId);
+  }
+
+  public boolean closeMilestone(Long id) {
+    Milestone milestone = milestoneRepository.find(id).orElseThrow(MilestoneNotFoundException::new);
+    milestone.close();
+    Long milestoneId = milestoneRepository.save(milestone);
+    return id.equals(milestoneId);
+  }
 }

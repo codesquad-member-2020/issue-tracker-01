@@ -88,4 +88,12 @@ public class Issue {
     this.milestone = milestone;
     this.updatedAt = LocalDateTime.now();
   }
+
+  public void open() {
+    this.isOpened = true;
+  }
+
+  public void close() {
+    this.isOpened = false;
+  }
 }

@@ -54,4 +54,18 @@ public class MilestoneController {
     milestoneService.deleteMilestone(id);
     return JobResponse.of(!milestoneService.isExists(id));
   }
+
+  @PutMapping("/{id}/open")
+  public JobResponse openMilestone(@PathVariable Long id) {
+    log.debug("열려는 milestone의 id: {}", id);
+
+    return JobResponse.of(milestoneService.openMilestone(id));
+  }
+
+  @PutMapping("/{id}/close")
+  public JobResponse closeMilestone(@PathVariable Long id) {
+    log.debug("닫으려는 milestone의 id: {}", id);
+
+    return JobResponse.of(milestoneService.closeMilestone(id));
+  }
 }

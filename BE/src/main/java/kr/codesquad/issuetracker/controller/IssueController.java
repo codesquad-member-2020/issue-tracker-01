@@ -125,4 +125,18 @@ public class IssueController {
 
     return JobResponse.of(issueService.updateComment(issueNumber, commentOrder, commentRequest));
   }
+
+  @PutMapping("/{issueNumber}/open")
+  public JobResponse openIssue(@PathVariable Long issueNumber) {
+    log.debug("열려는 issue의 번호: {}", issueNumber);
+
+    return JobResponse.of(issueService.openIssue(issueNumber));
+  }
+
+  @PutMapping("/{issueNumber}/close")
+  public JobResponse closeIssue(@PathVariable Long issueNumber) {
+    log.debug("닫으려는 issue의 번호: {}", issueNumber);
+
+    return JobResponse.of(issueService.closeIssue(issueNumber));
+  }
 }
