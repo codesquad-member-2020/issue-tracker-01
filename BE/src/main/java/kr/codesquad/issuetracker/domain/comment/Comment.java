@@ -69,4 +69,9 @@ public class Comment {
     this.updatedAt = now;
     this.writer = writer;
   }
+
+  public void updateInformation(CommentRequest commentRequest) {
+    this.updatedAt = LocalDateTime.now();
+    this.description = commentRequest.getDescription();
+  }
 }
