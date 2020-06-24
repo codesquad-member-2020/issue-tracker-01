@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,4 +31,11 @@ public class IssueAssignee {
   @ManyToOne
   @JoinColumn(name = "issue_id")
   private Issue issue;
+
+  @Builder
+  public IssueAssignee(Long id, User assignee, Issue issue) {
+    this.id = id;
+    this.assignee = assignee;
+    this.issue = issue;
+  }
 }
