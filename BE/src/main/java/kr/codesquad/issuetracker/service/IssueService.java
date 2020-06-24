@@ -9,6 +9,7 @@ import kr.codesquad.issuetracker.common.error.exception.domain.milestone.Milesto
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssueOpenState;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.domain.comment.Comment;
 import kr.codesquad.issuetracker.domain.issue.Issue;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
@@ -98,5 +99,10 @@ public class IssueService {
         .build());
 
     return newIssue.getIssueNumber() != null;
+  }
+
+  @Transactional(readOnly = true)
+  public IssueDetail findIssueDetail(Long issueNumber) {
+    return new IssueDetail(issueRepository.find(issueNumber));
   }
 }

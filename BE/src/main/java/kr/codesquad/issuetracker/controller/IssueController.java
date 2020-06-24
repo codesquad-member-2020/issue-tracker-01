@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.controller.response.IssueResponse;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.SearchFilterLabelResponse;
@@ -18,6 +19,7 @@ import kr.codesquad.issuetracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +49,13 @@ public class IssueController {
     log.debug("이슈 목록 반환 객체: {}", issueResponse);
 
     return issueResponse;
+  }
+
+  @GetMapping("/{issueNumber}")
+  public IssueDetail showIssueDetail(@PathVariable Long issueNumber) {
+    log.debug("상세 정보를 보기 원하는 issue의 번호: {}", issueNumber);
+
+    return issueService.findIssueDetail(issueNumber);
   }
 
   @PostMapping
