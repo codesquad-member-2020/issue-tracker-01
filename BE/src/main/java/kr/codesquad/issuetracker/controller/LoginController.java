@@ -33,7 +33,8 @@ public class LoginController {
     if (jwt != null) {
       log.debug("jwt token : {}", jwt);
       log.debug("jwt token value : {}", jwtService.getUserFromJws(jwt));
-      return ResponseEntity.ok(jwtService.getUserFromJws(jwt));
+      HttpHeaders headers = loginService.redirectWithCookie(jwt);
+      return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);
     }
     HttpHeaders headers = loginService.redirectToGithub();
     return new ResponseEntity<>("redirect", headers, HttpStatus.SEE_OTHER);

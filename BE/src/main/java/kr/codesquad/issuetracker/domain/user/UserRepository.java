@@ -31,6 +31,6 @@ public class UserRepository {
     TypedQuery<User> query = em
         .createQuery("select u from User u where u.userId = :userId", User.class);
     query.setParameter("userId", userId);
-    return query.getSingleResult();
+    return query.getResultList().stream().findFirst().orElse(null);
   }
 }
