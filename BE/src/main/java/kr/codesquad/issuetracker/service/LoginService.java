@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class LoginService {
 
-  public static final URI ROOT_URL = URI.create("http://localhost:52330");
+  private static final URI ROOT_URL = URI.create(System.getenv("ROOT_URL"));
   private static final int MAX_AGE = 7 * 24 * 60 * 60;
   private static final String AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 
