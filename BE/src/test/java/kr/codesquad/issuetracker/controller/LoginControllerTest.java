@@ -68,7 +68,7 @@ class LoginControllerTest {
   void JWT_있을_떄_로그인_테스트() throws Exception {
     // given
     String jwt = "jwt";
-    UserDTO userDTO = UserDTO.of("test", "test@test.com");
+    UserDTO userDTO = UserDTO.of("1", "test", "test", "test@test.com");
     when(jwtService.getUserFromJws(jwt)).thenReturn(userDTO);
 
     mockMvc.perform(
@@ -87,7 +87,7 @@ class LoginControllerTest {
     String accessToken = "token";
     GithubToken githubToken = new GithubToken();
     githubToken.setAccessToken(accessToken);
-    UserDTO userDTO = UserDTO.of("test", "test@test.com");
+    UserDTO userDTO = UserDTO.of("1", "test", "test", "test@test.com");
 
     String redirectUrl = "http://localhost:8080";
     HttpHeaders headers = new HttpHeaders();

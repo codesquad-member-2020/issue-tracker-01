@@ -12,7 +12,7 @@ class UserDTOTest {
   @Test
   @DisplayName("toString method test")
   void toStringMethodTest() {
-    String str = UserDTO.of("test", "test@email.com").toString();
+    String str = UserDTO.of("1", "test", "test", "test@email.com").toString();
     assertThat(str).isEqualTo("UserDTO(nickname=test, email=test@email.com)");
   }
 
@@ -20,6 +20,8 @@ class UserDTOTest {
   @DisplayName("of method test")
   void ofMethodTest() {
     // given
+    String id = "1";
+    String userId = "test";
     String nickname = "test";
     String email = "test@email.com";
 
@@ -30,7 +32,7 @@ class UserDTOTest {
     User user = User.builder().nickname(nickname).email(email).build();
 
     // then
-    UserDTO actual1 = UserDTO.of(nickname, email);
+    UserDTO actual1 = UserDTO.of(id, userId, nickname, email);
     UserDTO actual2 = UserDTO.of(userMap);
     UserDTO actual3 = UserDTO.of(user);
 
