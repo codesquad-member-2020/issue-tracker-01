@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(of = {"id", "userId", "email", "nickname", "password", "githubToken", "profileImage"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User {
