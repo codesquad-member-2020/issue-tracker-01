@@ -23,3 +23,39 @@ include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스�
 ==== Response Fields
 
 include::{snippets}/issue-controller-test/오픈된_이슈_조회_검색_테스트/response-fields.adoc[]
+
+=== PUT 선택한 이슈 전체 Open
+
+==== CURL
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/http-response.adoc[]
+
+//==== Response Fields
+//
+//include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/response-fields.adoc[]
+
+=== PUT 선택한 이슈 전체 Open
+
+==== CURL
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/http-response.adoc[]
+
+//==== Response Fields
+//
+//include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/response-fields.adoc[]

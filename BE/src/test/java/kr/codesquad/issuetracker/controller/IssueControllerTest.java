@@ -6,6 +6,12 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -15,26 +21,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.servlet.http.Cookie;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
+import kr.codesquad.issuetracker.domain.user.User;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.domain.user.UserOfIssue;
 import kr.codesquad.issuetracker.service.IssueService;
+import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LabelService;
 import kr.codesquad.issuetracker.service.MilestoneService;
 import kr.codesquad.issuetracker.service.UserService;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-
+@AutoConfigureRestDocs
 @WebMvcTest(controllers = {IssueController.class})
 class IssueControllerTest {
 
@@ -53,12 +66,24 @@ class IssueControllerTest {
   @MockBean
   MilestoneService milestoneService;
 
+  @MockBean
+  JwtService jwtService;
+
+  String jwt = "jwt";
+  UserDTO userDTO = UserDTO
+      .of(User.builder().id(1L).userId("jwtUser").email("jwt@idion.dev").nickname("jwt").build());
+
   public static String asJsonString(final Object obj) {
     try {
       return new ObjectMapper().writeValueAsString(obj);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @BeforeEach
+  void setUp() {
+    when(jwtService.getUserFromJws(jwt)).thenReturn(userDTO);
   }
 
   @Test
@@ -98,7 +123,8 @@ class IssueControllerTest {
     when(issueService.findOpenedIssues()).thenReturn(issues);
 
     // then
-    mockMvc.perform(get("/issues").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(
+        get("/issues").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.issues", hasSize(issues.size())))
@@ -154,7 +180,43 @@ class IssueControllerTest {
         .andExpect(jsonPath("$.issues[1].labels[1].color",
             is(issues.get(1).getLabels().get(1).getColor())))
         .andExpect(
-            jsonPath("$.issues[1].milestone.title", is(issues.get(1).getMilestone().getTitle())));
+            jsonPath("$.issues[1].milestone.title", is(issues.get(1).getMilestone().getTitle())))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            responseFields(
+                fieldWithPath("issues").description("이슈의 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].issueNumber").description("이슈의 번호(고유한 값)")
+                    .type(JsonFieldType.NUMBER),
+                fieldWithPath("issues[].title").description("이슈의 제목").type(JsonFieldType.STRING),
+                fieldWithPath("issues[].createdAt").description("이슈 생성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].updatedAt").description("이슈 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].author").description("이슈 작성자").type(JsonFieldType.OBJECT),
+                fieldWithPath("issues[].author.nickname").description("이슈 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].author.profileImage").description("이슈 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].assignees").description("이슈 담당자 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].assignees[].nickname").description("이슈 담당자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].assignees[].profileImage").description("이슈 담당자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].labels").description("이슈에 해당하는 라벨 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].labels[].title").description("라벨의 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].labels[].color").description("라벨의 배경 컬러(Hex Code)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].milestone").description("이슈의 마일스톤")
+                    .type(JsonFieldType.OBJECT),
+                fieldWithPath("issues[].milestone.title").description("이슈의 마일스톤 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].opened").description("이슈가 Open 되어있는지의 여부")
+                    .type(JsonFieldType.BOOLEAN)
+            )));
   }
 
   @Test
@@ -169,12 +231,16 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder =
-        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")));
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -189,11 +255,15 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder =
-        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")));
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 }
