@@ -10,7 +10,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -42,6 +43,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -182,7 +184,39 @@ class IssueControllerTest {
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
-            relaxedResponseFields()));
+            responseFields(
+                fieldWithPath("issues").description("이슈의 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].issueNumber").description("이슈의 번호(고유한 값)")
+                    .type(JsonFieldType.NUMBER),
+                fieldWithPath("issues[].title").description("이슈의 제목").type(JsonFieldType.STRING),
+                fieldWithPath("issues[].createdAt").description("이슈 생성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].updatedAt").description("이슈 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].author").description("이슈 작성자").type(JsonFieldType.OBJECT),
+                fieldWithPath("issues[].author.nickname").description("이슈 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].author.profileImage").description("이슈 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].assignees").description("이슈 담당자 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].assignees[].nickname").description("이슈 담당자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].assignees[].profileImage").description("이슈 담당자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].labels").description("이슈에 해당하는 라벨 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("issues[].labels[].title").description("라벨의 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].labels[].color").description("라벨의 배경 컬러(Hex Code)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].milestone").description("이슈의 마일스톤")
+                    .type(JsonFieldType.OBJECT),
+                fieldWithPath("issues[].milestone.title").description("이슈의 마일스톤 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("issues[].opened").description("이슈가 Open 되어있는지의 여부")
+                    .type(JsonFieldType.BOOLEAN)
+            )));
   }
 
   @Test
