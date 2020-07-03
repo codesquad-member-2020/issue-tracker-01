@@ -20,5 +20,4 @@ else
 fi
 
 echo "> $JAR_PATH 배포"
-nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
-# TODO: Dspring.profile.active 추가 필요
+nohup java -jar -Dspring.profiles.active=deploy $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
