@@ -237,7 +237,10 @@ class IssueControllerTest {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")));
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -258,6 +261,9 @@ class IssueControllerTest {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")));
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 }
