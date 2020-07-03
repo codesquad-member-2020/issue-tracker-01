@@ -15,16 +15,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.servlet.http.Cookie;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
+import kr.codesquad.issuetracker.domain.user.User;
+import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.domain.user.UserOfIssue;
 import kr.codesquad.issuetracker.service.IssueService;
+import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LabelService;
 import kr.codesquad.issuetracker.service.MilestoneService;
 import kr.codesquad.issuetracker.service.UserService;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +58,24 @@ class IssueControllerTest {
   @MockBean
   MilestoneService milestoneService;
 
+  @MockBean
+  JwtService jwtService;
+
+  String jwt = "jwt";
+  UserDTO userDTO = UserDTO
+      .of(User.builder().id(1L).userId("jwtUser").email("jwt@idion.dev").nickname("jwt").build());
+
   public static String asJsonString(final Object obj) {
     try {
       return new ObjectMapper().writeValueAsString(obj);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @BeforeEach
+  void setUp() {
+    when(jwtService.getUserFromJws(jwt)).thenReturn(userDTO);
   }
 
   @Test
@@ -98,7 +115,8 @@ class IssueControllerTest {
     when(issueService.findOpenedIssues()).thenReturn(issues);
 
     // then
-    mockMvc.perform(get("/issues").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(
+        get("/issues").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.issues", hasSize(issues.size())))
@@ -169,7 +187,8 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder =
-        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isOk())
@@ -189,7 +208,8 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder =
-        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON);
+        put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isOk())
