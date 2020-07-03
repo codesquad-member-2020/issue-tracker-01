@@ -1,11 +1,9 @@
 package kr.codesquad.issuetracker.controller;
 
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,11 +69,17 @@ class LoginControllerTest {
     UserDTO userDTO = UserDTO.of("1", "test", "test", "test@test.com");
     when(jwtService.getUserFromJws(jwt)).thenReturn(userDTO);
 
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    headers.setLocation(URI.create(System.getenv("ROOT_URL")));
+
+    when(loginService.redirectWithCookie(jwt)).thenReturn(headers);
+
     mockMvc.perform(
         get("/login").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
-        .andDo(print()).andExpect(status().isOk())
-        .andExpect(jsonPath("$.nickname", is(userDTO.getNickname())))
-        .andExpect(jsonPath("$.email", is(userDTO.getEmail())));
+        .andDo(print())
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl(headers.getLocation().toString()));
   }
 
   @Test
