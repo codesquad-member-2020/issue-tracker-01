@@ -28,6 +28,12 @@ public class AuthInterceptor implements HandlerInterceptor {
       return true;
     }
 
+    String requestURI = request.getRequestURI();
+    if (requestURI.equals("/") || requestURI.equals("/error") || requestURI.equals("/csrf")) {
+      log.debug("Swagger에서 사용하는 Request Pattern 통과");
+      return true;
+    }
+
     Optional<Cookie> jwtCookie = Optional.ofNullable(WebUtils.getCookie(request, "jwt"));
     UserDTO user = jwtService
         .getUserFromJws(jwtCookie.orElseThrow(LoginRequiredException::new).getValue());
