@@ -20,9 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.controller.response.IssueDetail;
+import kr.codesquad.issuetracker.domain.comment.CommentOfIssue;
+import kr.codesquad.issuetracker.domain.comment.ImageOfComment;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
@@ -265,5 +269,51 @@ class IssueControllerTest {
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @DisplayName("이슈 상세정보 보기 테스트")
+  void 이슈_상세정보_보기_테스트() throws Exception {
+    // given
+    Long issueNumber = 1L;
+
+    LocalDateTime now = LocalDateTime.now();
+
+    // user
+    UserOfIssue user1 = UserOfIssue.builder().nickname("dion").profileImage("dion image").build();
+    UserOfIssue user2 = UserOfIssue.builder().nickname("reese").profileImage("reese image").build();
+
+    // image
+    ImageOfComment image = ImageOfComment.builder().url("image url").build();
+
+    // comment
+    CommentOfIssue comment1 = CommentOfIssue.builder().description("이슈 만들었어요.")
+        .images(Arrays.asList(image)).writer(user1).createdAt(now).updatedAt(now).build();
+
+    // label
+    LabelOfIssue label1 = LabelOfIssue.builder().title("BE").color("#FFFFFF").build();
+
+    // milestone
+    MilestoneOfIssue milestone1 = MilestoneOfIssue.builder().title("Phase1").build();
+
+    // issue
+    IssueDetail issue = IssueDetail.builder()
+        .issueNumber(issueNumber)
+        .assignees(asList(user1, user2))
+        .author(user1)
+        .comments(asList(comment1))
+        .isOpened(true)
+        .labels(asList(label1))
+        .milestone(milestone1)
+        .title("이슈 생성 테스트입니다.")
+        .createdAt(now)
+        .updatedAt(now)
+        .build();
+    when(issueService.findIssueDetail(issueNumber)).thenReturn(issue);
+
+    // then
+    mockMvc.perform(
+        get("/issues/" + issueNumber.intValue()).contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt))).andDo(print());
   }
 }
