@@ -47,7 +47,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriHost = "13.124.148.192/api", uriPort = 80)
 @WebMvcTest(controllers = {IssueController.class})
 class IssueControllerTest {
 
