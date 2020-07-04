@@ -38,10 +38,6 @@ include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스�
 
 include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/http-response.adoc[]
 
-//==== Response Fields
-//
-//include::{snippets}/issue-controller-test/선택한_이슈_일괄_오픈_테스트/response-fields.adoc[]
-
 === PUT 선택한 이슈 전체 Open
 
 ==== CURL
@@ -56,6 +52,46 @@ include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테�
 
 include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/http-response.adoc[]
 
-//==== Response Fields
-//
-//include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/response-fields.adoc[]
+== Login 관련 API
+
+=== GET JWT 없이 로그인 하는 경우
+
+==== CURL
+
+include::{snippets}/login-controller-test/j-w-t_없이_로그인_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/login-controller-test/j-w-t_없이_로그인_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/login-controller-test/j-w-t_없이_로그인_테스트/http-response.adoc[]
+
+=== GET JWT를 가지고 로그인 요청을 하는 경우
+
+==== CURL
+
+include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-response.adoc[]
+
+=== GET OAuth 요청이 들어오는 경우(Github에서만 사용)
+
+==== CURL
+
+include::{snippets}/login-controller-test/o-auth-redirect-test/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/login-controller-test/o-auth-redirect-test/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/login-controller-test/o-auth-redirect-test/http-response.adoc[]
