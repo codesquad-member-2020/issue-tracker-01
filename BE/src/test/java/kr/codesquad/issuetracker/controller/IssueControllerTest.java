@@ -312,8 +312,42 @@ class IssueControllerTest {
     when(issueService.findIssueDetail(issueNumber)).thenReturn(issue);
 
     // then
-    mockMvc.perform(
-        get("/issues/" + issueNumber.intValue()).contentType(MediaType.APPLICATION_JSON)
-            .cookie(new Cookie("jwt", jwt))).andDo(print());
+    MockHttpServletRequestBuilder requestBuilder = get("/issues/" + issueNumber.intValue())
+        .contentType(MediaType.APPLICATION_JSON)
+        .cookie(new Cookie("jwt", this.jwt));
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.issueNumber").value(Matchers
+            .anyOf(Matchers.equalTo((Number) issue.getIssueNumber()),
+                Matchers.equalTo(issue.getIssueNumber().intValue()))))
+        .andExpect(jsonPath("$.title", is(issue.getTitle())))
+        .andExpect(jsonPath("$.author.nickname", is(issue.getAuthor().getNickname())))
+        .andExpect(jsonPath("$.author.profileImage", is(issue.getAuthor().getProfileImage())))
+        .andExpect(jsonPath("$.assignees", hasSize(issue.getAssignees().size())))
+        .andExpect(jsonPath("$.assignees[0].nickname",
+            is(issue.getAssignees().get(0).getNickname())))
+        .andExpect(jsonPath("$.assignees[0].profileImage",
+            is(issue.getAssignees().get(0).getProfileImage())))
+        .andExpect(jsonPath("$.assignees[1].nickname",
+            is(issue.getAssignees().get(1).getNickname())))
+        .andExpect(jsonPath("$.assignees[1].profileImage",
+            is(issue.getAssignees().get(1).getProfileImage())))
+        .andExpect(jsonPath("$.labels", hasSize(issue.getLabels().size())))
+        .andExpect(jsonPath("$.labels[0].title", is(issue.getLabels().get(0).getTitle())))
+        .andExpect(jsonPath("$.labels[0].color", is(issue.getLabels().get(0).getColor())))
+        .andExpect(jsonPath("$.milestone.title", is(issue.getMilestone().getTitle())))
+        .andExpect(jsonPath("$.comments", hasSize(issue.getComments().size())))
+        .andExpect(jsonPath("$.comments[0].description",
+            is(issue.getComments().get(0).getDescription())))
+        .andExpect(jsonPath("$.comments[0].images",
+            hasSize(issue.getComments().get(0).getImages().size())))
+        .andExpect(jsonPath("$.comments[0].images[0].url",
+            is(issue.getComments().get(0).getImages().get(0).getUrl())))
+        .andExpect(jsonPath("$.comments[0].writer.nickname",
+            is(issue.getComments().get(0).getWriter().getNickname())))
+        .andExpect(jsonPath("$.comments[0].writer.profileImage",
+            is(issue.getComments().get(0).getWriter().getProfileImage())))
+        .andExpect(jsonPath("$.opened", is(issue.isOpened())));
   }
 }
