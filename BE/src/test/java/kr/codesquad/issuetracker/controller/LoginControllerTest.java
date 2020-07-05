@@ -1,6 +1,10 @@
 package kr.codesquad.issuetracker.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
@@ -17,6 +21,7 @@ import kr.codesquad.issuetracker.service.OAuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@AutoConfigureRestDocs(uriHost = "13.124.148.192/api", uriPort = 80)
 @WebMvcTest(controllers = {LoginController.class})
 class LoginControllerTest {
 
@@ -58,7 +64,10 @@ class LoginControllerTest {
     // then
     mockMvc.perform(get("/login").contentType(MediaType.APPLICATION_JSON)).andDo(print())
         .andExpect(status().isSeeOther())
-        .andExpect(redirectedUrl(authUrl + "?client_id=" + clientId + "&scope=user"));
+        .andExpect(redirectedUrl(authUrl + "?client_id=" + clientId + "&scope=user"))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -79,7 +88,10 @@ class LoginControllerTest {
         get("/login").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
         .andDo(print())
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl(headers.getLocation().toString()));
+        .andExpect(redirectedUrl(headers.getLocation().toString()))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 
   @Test
@@ -112,6 +124,9 @@ class LoginControllerTest {
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(redirectUrl))
         .andExpect(cookie().value("jwt", jwt))
-        .andExpect(cookie().path("jwt", "/"));
+        .andExpect(cookie().path("jwt", "/"))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint())));
   }
 }

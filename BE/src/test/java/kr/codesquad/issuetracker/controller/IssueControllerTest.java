@@ -11,6 +11,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -20,9 +21,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
+import kr.codesquad.issuetracker.controller.response.IssueDetail;
+import kr.codesquad.issuetracker.domain.comment.CommentOfIssue;
+import kr.codesquad.issuetracker.domain.comment.ImageOfComment;
 import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
 import kr.codesquad.issuetracker.domain.label.LabelOfIssue;
 import kr.codesquad.issuetracker.domain.milestone.MilestoneOfIssue;
@@ -47,7 +52,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriHost = "13.124.148.192/api", uriPort = 80)
 @WebMvcTest(controllers = {IssueController.class})
 class IssueControllerTest {
 
@@ -265,5 +270,131 @@ class IssueControllerTest {
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint())));
+  }
+
+  @Test
+  @DisplayName("이슈 상세정보 보기 테스트")
+  void 이슈_상세정보_보기_테스트() throws Exception {
+    // given
+    Long issueNumber = 1L;
+
+    LocalDateTime now = LocalDateTime.now();
+
+    // user
+    UserOfIssue user1 = UserOfIssue.builder().nickname("dion").profileImage("dion image").build();
+    UserOfIssue user2 = UserOfIssue.builder().nickname("reese").profileImage("reese image").build();
+
+    // image
+    ImageOfComment image = ImageOfComment.builder().url("image url").build();
+
+    // comment
+    CommentOfIssue comment1 = CommentOfIssue.builder().description("이슈 만들었어요.")
+        .images(Arrays.asList(image)).writer(user1).createdAt(now).updatedAt(now).build();
+
+    // label
+    LabelOfIssue label1 = LabelOfIssue.builder().title("BE").color("#FFFFFF").build();
+
+    // milestone
+    MilestoneOfIssue milestone1 = MilestoneOfIssue.builder().title("Phase1").build();
+
+    // issue
+    IssueDetail issue = IssueDetail.builder()
+        .issueNumber(issueNumber)
+        .assignees(asList(user1, user2))
+        .author(user1)
+        .comments(asList(comment1))
+        .isOpened(true)
+        .labels(asList(label1))
+        .milestone(milestone1)
+        .title("이슈 생성 테스트입니다.")
+        .createdAt(now)
+        .updatedAt(now)
+        .build();
+    when(issueService.findIssueDetail(issueNumber)).thenReturn(issue);
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder = get("/issues/" + issueNumber.intValue())
+        .contentType(MediaType.APPLICATION_JSON)
+        .cookie(new Cookie("jwt", this.jwt));
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.issueNumber").value(Matchers
+            .anyOf(Matchers.equalTo((Number) issue.getIssueNumber()),
+                Matchers.equalTo(issue.getIssueNumber().intValue()))))
+        .andExpect(jsonPath("$.title", is(issue.getTitle())))
+        .andExpect(jsonPath("$.author.nickname", is(issue.getAuthor().getNickname())))
+        .andExpect(jsonPath("$.author.profileImage", is(issue.getAuthor().getProfileImage())))
+        .andExpect(jsonPath("$.assignees", hasSize(issue.getAssignees().size())))
+        .andExpect(jsonPath("$.assignees[0].nickname",
+            is(issue.getAssignees().get(0).getNickname())))
+        .andExpect(jsonPath("$.assignees[0].profileImage",
+            is(issue.getAssignees().get(0).getProfileImage())))
+        .andExpect(jsonPath("$.assignees[1].nickname",
+            is(issue.getAssignees().get(1).getNickname())))
+        .andExpect(jsonPath("$.assignees[1].profileImage",
+            is(issue.getAssignees().get(1).getProfileImage())))
+        .andExpect(jsonPath("$.labels", hasSize(issue.getLabels().size())))
+        .andExpect(jsonPath("$.labels[0].title", is(issue.getLabels().get(0).getTitle())))
+        .andExpect(jsonPath("$.labels[0].color", is(issue.getLabels().get(0).getColor())))
+        .andExpect(jsonPath("$.milestone.title", is(issue.getMilestone().getTitle())))
+        .andExpect(jsonPath("$.comments", hasSize(issue.getComments().size())))
+        .andExpect(jsonPath("$.comments[0].description",
+            is(issue.getComments().get(0).getDescription())))
+        .andExpect(jsonPath("$.comments[0].images",
+            hasSize(issue.getComments().get(0).getImages().size())))
+        .andExpect(jsonPath("$.comments[0].images[0].url",
+            is(issue.getComments().get(0).getImages().get(0).getUrl())))
+        .andExpect(jsonPath("$.comments[0].writer.nickname",
+            is(issue.getComments().get(0).getWriter().getNickname())))
+        .andExpect(jsonPath("$.comments[0].writer.profileImage",
+            is(issue.getComments().get(0).getWriter().getProfileImage())))
+        .andExpect(jsonPath("$.opened", is(issue.isOpened())))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+            relaxedResponseFields(
+                fieldWithPath("issueNumber").description("이슈의 번호(고유한 값)")
+                    .type(JsonFieldType.NUMBER),
+                fieldWithPath("title").description("이슈의 제목").type(JsonFieldType.STRING),
+                fieldWithPath("createdAt").description("이슈 생성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("updatedAt").description("이슈 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("author").description("이슈 작성자").type(JsonFieldType.OBJECT),
+                fieldWithPath("author.nickname").description("이슈 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("author.profileImage").description("이슈 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("assignees").description("이슈 담당자 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("assignees[].nickname").description("이슈 담당자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("assignees[].profileImage").description("이슈 담당자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("labels").description("이슈에 해당하는 라벨 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("labels[].title").description("라벨의 타이틀").type(JsonFieldType.STRING),
+                fieldWithPath("labels[].color").description("라벨의 배경 컬러(Hex Code)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("milestone").description("이슈의 마일스톤").type(JsonFieldType.OBJECT),
+                fieldWithPath("milestone.title").description("이슈의 마일스톤 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments").description("이슈의 코멘트 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("comments[].description").description("코멘트의 내용")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].createdAt").description("코멘트 작성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].updatedAt").description("코멘트 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].images").description("코멘트에 등록된 이미지 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("comments[].images[].url").description("이미지의 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].writer").description("코멘트 작성자")
+                    .type(JsonFieldType.OBJECT),
+                fieldWithPath("comments[].writer.nickname").description("코멘트 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].writer.profileImage").description("코멘트 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("opened").description("이슈 오픈 여부").type(JsonFieldType.BOOLEAN)
+            )));
   }
 }
