@@ -11,6 +11,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -348,6 +349,52 @@ class IssueControllerTest {
             is(issue.getComments().get(0).getWriter().getNickname())))
         .andExpect(jsonPath("$.comments[0].writer.profileImage",
             is(issue.getComments().get(0).getWriter().getProfileImage())))
-        .andExpect(jsonPath("$.opened", is(issue.isOpened())));
+        .andExpect(jsonPath("$.opened", is(issue.isOpened())))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+            relaxedResponseFields(
+                fieldWithPath("issueNumber").description("이슈의 번호(고유한 값)")
+                    .type(JsonFieldType.NUMBER),
+                fieldWithPath("title").description("이슈의 제목").type(JsonFieldType.STRING),
+                fieldWithPath("createdAt").description("이슈 생성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("updatedAt").description("이슈 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("author").description("이슈 작성자").type(JsonFieldType.OBJECT),
+                fieldWithPath("author.nickname").description("이슈 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("author.profileImage").description("이슈 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("assignees").description("이슈 담당자 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("assignees[].nickname").description("이슈 담당자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("assignees[].profileImage").description("이슈 담당자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("labels").description("이슈에 해당하는 라벨 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("labels[].title").description("라벨의 타이틀").type(JsonFieldType.STRING),
+                fieldWithPath("labels[].color").description("라벨의 배경 컬러(Hex Code)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("milestone").description("이슈의 마일스톤").type(JsonFieldType.OBJECT),
+                fieldWithPath("milestone.title").description("이슈의 마일스톤 타이틀")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments").description("이슈의 코멘트 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("comments[].description").description("코멘트의 내용")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].createdAt").description("코멘트 작성일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].updatedAt").description("코멘트 수정일시 (yyyy-MM-dd hh:mm:ss)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].images").description("코멘트에 등록된 이미지 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("comments[].images[].url").description("이미지의 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].writer").description("코멘트 작성자")
+                    .type(JsonFieldType.OBJECT),
+                fieldWithPath("comments[].writer.nickname").description("코멘트 작성자의 닉네임")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("comments[].writer.profileImage").description("코멘트 작성자의 프로필 이미지 주소")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("opened").description("이슈 오픈 여부").type(JsonFieldType.BOOLEAN)
+            )));
   }
 }

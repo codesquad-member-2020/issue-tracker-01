@@ -52,6 +52,24 @@ include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테�
 
 include::{snippets}/issue-controller-test/선택한_이슈_일괄_클로즈_테스트/http-response.adoc[]
 
+=== GET 이슈 상세정보 issueNumber를 이용해서 가져오기
+
+==== CURL
+
+include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/response-fields.adoc[]
+
 == Login 관련 API
 
 === GET JWT 없이 로그인 하는 경우
