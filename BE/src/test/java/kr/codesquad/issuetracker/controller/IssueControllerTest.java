@@ -14,6 +14,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.Cookie;
+import kr.codesquad.issuetracker.controller.request.IssueCreateRequest;
 import kr.codesquad.issuetracker.controller.request.IssuesOpenStatusChangeRequest;
 import kr.codesquad.issuetracker.controller.response.IssueDetail;
 import kr.codesquad.issuetracker.domain.comment.CommentOfIssue;
@@ -396,5 +398,30 @@ class IssueControllerTest {
                     .type(JsonFieldType.STRING),
                 fieldWithPath("opened").description("이슈 오픈 여부").type(JsonFieldType.BOOLEAN)
             )));
+  }
+
+  @Test
+  @DisplayName("이슈 생성 테스트")
+  void 이슈_생성_테스트() throws Exception {
+    // given
+    IssueCreateRequest request = new IssueCreateRequest();
+    request.setTitle("이슈 제목");
+    request.setMilestoneId(1L);
+    request.setComment("이슈 코멘트");
+    request.setLabelIdList(Arrays.asList(1L, 2L));
+    request.setAssigneeUserIdList(Arrays.asList("test"));
+
+    when(issueService.createIssue(any(IssueCreateRequest.class), any(Long.class)))
+        .thenReturn(true);
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder = post("/issues")
+        .contentType(MediaType.APPLICATION_JSON)
+        .cookie(new Cookie("jwt", this.jwt)).content(asJsonString(request));
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.message", is("성공")));
   }
 }
