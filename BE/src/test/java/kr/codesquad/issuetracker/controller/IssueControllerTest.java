@@ -11,7 +11,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -354,7 +354,7 @@ class IssueControllerTest {
         .andExpect(jsonPath("$.opened", is(issue.isOpened())))
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
-            relaxedResponseFields(
+            responseFields(
                 fieldWithPath("issueNumber").description("이슈의 번호(고유한 값)")
                     .type(JsonFieldType.NUMBER),
                 fieldWithPath("title").description("이슈의 제목").type(JsonFieldType.STRING),
@@ -422,6 +422,19 @@ class IssueControllerTest {
         .andDo(print())
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")));
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            requestFields(
+                fieldWithPath("title").description("이슈의 제목").type(JsonFieldType.STRING),
+                fieldWithPath("comment").description("이슈의 설명이자 첫번째 코멘트").type(JsonFieldType.STRING),
+                fieldWithPath("assigneeUserIdList").optional().description("담당자의 UserId 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("labelIdList").optional().description("이슈에 할당할 라벨의 Id 목록")
+                    .type(JsonFieldType.ARRAY),
+                fieldWithPath("milestoneId").optional().description("이슈에 할당할 마일스톤의 Id")
+                    .type(JsonFieldType.NUMBER)
+            )));
   }
 }
