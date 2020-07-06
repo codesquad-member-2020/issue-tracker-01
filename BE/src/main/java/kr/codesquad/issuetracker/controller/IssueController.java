@@ -22,6 +22,8 @@ import kr.codesquad.issuetracker.service.MilestoneService;
 import kr.codesquad.issuetracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,13 +65,14 @@ public class IssueController {
   }
 
   @PostMapping("")
-  public JobResponse createIssue(@RequestBody IssueCreateRequest issueCreateRequest,
+  public ResponseEntity<JobResponse> createIssue(@RequestBody IssueCreateRequest issueCreateRequest,
       HttpServletRequest request
   ) {
     log.debug("요청 객체: {}", issueCreateRequest);
     Long id = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
 
-    return JobResponse.of(issueService.createIssue(issueCreateRequest, id));
+    return new ResponseEntity<>(JobResponse.of(issueService.createIssue(issueCreateRequest, id)),
+        HttpStatus.CREATED);
   }
 
   @PutMapping("{issueNumber}")

@@ -70,6 +70,24 @@ include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/h
 
 include::{snippets}/issue-controller-test/이슈_상세정보_보기_테스트/response-fields.adoc[]
 
+=== POST 이슈 생성
+
+==== CURL
+
+include::{snippets}/issue-controller-test/이슈_생성_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/issue-controller-test/이슈_생성_테스트/http-request.adoc[]
+
+==== HTTP Request Fields
+
+include::{snippets}/issue-controller-test/이슈_생성_테스트/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/issue-controller-test/이슈_생성_테스트/http-response.adoc[]
+
 == Login 관련 API
 
 === GET JWT 없이 로그인 하는 경우
