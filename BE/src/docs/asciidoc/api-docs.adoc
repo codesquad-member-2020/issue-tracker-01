@@ -108,15 +108,15 @@ include::{snippets}/login-controller-test/j-w-t_없이_로그인_테스트/http-
 
 ==== CURL
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/curl-request.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/curl-request.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-request.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/http-request.adoc[]
 
 ==== HTTP RESPONSE
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-response.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/http-response.adoc[]
 
 === GET OAuth 요청이 들어오는 경우(Github에서만 사용)
 
