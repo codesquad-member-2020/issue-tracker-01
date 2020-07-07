@@ -3,6 +3,14 @@ package kr.codesquad.issuetracker.controller;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,6 +35,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs(uriHost = "13.124.148.192/api", uriPort = 80)
@@ -96,6 +105,21 @@ class LabelControllerTest {
         .andExpect(jsonPath("$.labels[1].description", is(labels.get(1).getDescription())))
         .andExpect(jsonPath("$.labels[1].openedIssueCount").value(Matchers.anyOf(
             Matchers.equalTo(labels.get(1).getOpenedIssueCount()),
-            Matchers.equalTo(labels.get(1).getOpenedIssueCount().intValue()))));
+            Matchers.equalTo(labels.get(1).getOpenedIssueCount().intValue()))))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            requestParameters(parameterWithName("title").optional().description("검색할 라벨의 title")),
+            responseFields(
+                fieldWithPath("labels").description("라벨의 목록").type(JsonFieldType.ARRAY),
+                fieldWithPath("labels[].id").description("라벨의 고유 id").type(JsonFieldType.NUMBER),
+                fieldWithPath("labels[].title").description("라벨의 표기명").type(JsonFieldType.STRING),
+                fieldWithPath("labels[].color").description("라벨의 배경 컬러(Hex Code)")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("labels[].description").description("라벨 설명")
+                    .type(JsonFieldType.STRING),
+                fieldWithPath("labels[].openedIssueCount")
+                    .description("라벨에 속한 Issue중 열려있는 Issue의 개수").type(JsonFieldType.NUMBER)
+            )));
   }
 }
