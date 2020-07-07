@@ -72,7 +72,7 @@ class LoginControllerTest {
 
   @Test
   @DisplayName("JWT 있을 때 로그인 테스트")
-  void JWT_있을_떄_로그인_테스트() throws Exception {
+  void JWT_있을_때_로그인_테스트() throws Exception {
     // given
     String jwt = "jwt";
     UserDTO userDTO = UserDTO.of("1", "test", "test", "test@test.com");
