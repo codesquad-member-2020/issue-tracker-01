@@ -1,10 +1,10 @@
 = Issue Tracker API Docs
 Dion[ksundong@gmail.com]
-1.0.0, 2020/09/06
+1.0.9, 2020/09/06
 :toc: left // 왼쪽 테이블
 :sectnums: // 숫자매기기
 
-== Issue 목록 API
+== Issue 관련 API
 
 === GET issue List 열려있는 모든 이슈 가져오기
 
@@ -108,15 +108,15 @@ include::{snippets}/login-controller-test/j-w-t_없이_로그인_테스트/http-
 
 ==== CURL
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/curl-request.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/curl-request.adoc[]
 
 ==== HTTP Request
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-request.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/http-request.adoc[]
 
 ==== HTTP RESPONSE
 
-include::{snippets}/login-controller-test/j-w-t_있을_떄_로그인_테스트/http-response.adoc[]
+include::{snippets}/login-controller-test/j-w-t_있을_때_로그인_테스트/http-response.adoc[]
 
 === GET OAuth 요청이 들어오는 경우(Github에서만 사용)
 
@@ -131,3 +131,29 @@ include::{snippets}/login-controller-test/o-auth-redirect-test/http-request.adoc
 ==== HTTP RESPONSE
 
 include::{snippets}/login-controller-test/o-auth-redirect-test/http-response.adoc[]
+
+== Label 관련 API
+
+=== GET label List 검색조건에 해당하는 label 목록가져오기
+
+==== CURL
+
+include::{snippets}/label-controller-test/label_목록_조회_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/label-controller-test/label_목록_조회_테스트/http-request.adoc[]
+
+==== HTTP Query Parameter
+
+?title='검색어' 와 같은 형식으로 요청을 보내면 됩니다.
+
+include::{snippets}/label-controller-test/label_목록_조회_테스트/request-parameters.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/label-controller-test/label_목록_조회_테스트/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/label-controller-test/label_목록_조회_테스트/response-fields.adoc[]
