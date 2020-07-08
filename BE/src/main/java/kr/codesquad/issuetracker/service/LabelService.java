@@ -22,14 +22,14 @@ public class LabelService {
 
   private final LabelRepository labelRepository;
 
-  public boolean createLabel(LabelRequest labelRequest) {
+  public Long createLabel(LabelRequest labelRequest) {
     Label label = new Label(labelRequest);
     log.debug("저장 전 label: {}", label);
 
     Long labelId = labelRepository.save(label);
     label = labelRepository.find(labelId).orElseThrow(LabelNotFoundException::new);
     log.debug("저장 후 label: {}", label);
-    return label.getId() != null;
+    return label.getId();
   }
 
   @Transactional(readOnly = true)
