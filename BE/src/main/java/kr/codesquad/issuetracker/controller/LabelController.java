@@ -1,11 +1,14 @@
 package kr.codesquad.issuetracker.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.LabelListResponse;
 import kr.codesquad.issuetracker.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +38,12 @@ public class LabelController {
   }
 
   @PostMapping("")
-  public JobResponse createLabel(@RequestBody LabelRequest labelRequest) {
+  public ResponseEntity<URI> createLabel(@RequestBody LabelRequest labelRequest)
+      throws URISyntaxException {
     log.debug("요청 객체: {}", labelRequest);
-
-    return JobResponse.of(labelService.createLabel(labelRequest));
+    return ResponseEntity.created(
+        new URI("http://13.124.148.192/api/labels/" + labelService.createLabel(labelRequest)))
+        .build();
   }
 
   @PutMapping("/{id}")
