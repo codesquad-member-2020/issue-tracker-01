@@ -1,5 +1,6 @@
 package kr.codesquad.issuetracker.controller;
 
+import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -136,13 +138,16 @@ class LabelControllerTest {
     labelRequest.setColor("#AAAAAA");
     labelRequest.setDescription("설명");
 
-    long createdLabelId = 1L;
+    Long createdLabelId = 1L;
     when(labelService.createLabel(any(LabelRequest.class))).thenReturn(createdLabelId);
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/labels")
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(labelRequest))
         .cookie(new Cookie("jwt", this.jwt));
-    mockMvc.perform(requestBuilder).andDo(print());
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isCreated())
+        .andExpect(redirectedUrl(HOST + "/labels/" + createdLabelId.intValue()));
   }
 }
