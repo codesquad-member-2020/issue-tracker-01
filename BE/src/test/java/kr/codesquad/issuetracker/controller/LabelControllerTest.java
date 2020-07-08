@@ -2,6 +2,7 @@ package kr.codesquad.issuetracker.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
@@ -12,6 +13,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.Cookie;
+import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.domain.label.LabelOfLabelList;
 import kr.codesquad.issuetracker.domain.user.User;
 import kr.codesquad.issuetracker.domain.user.UserDTO;
@@ -37,6 +40,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 @AutoConfigureRestDocs(uriHost = "13.124.148.192/api", uriPort = 80)
 @WebMvcTest(controllers = {LabelController.class})
@@ -121,5 +125,24 @@ class LabelControllerTest {
                 fieldWithPath("labels[].openedIssueCount")
                     .description("라벨에 속한 Issue중 열려있는 Issue의 개수").type(JsonFieldType.NUMBER)
             )));
+  }
+
+  @Test
+  @DisplayName("Label 생성 테스트")
+  void label_생성_테스트() throws Exception {
+    // given
+    LabelRequest labelRequest = new LabelRequest();
+    labelRequest.setTitle("타이틀");
+    labelRequest.setColor("#AAAAAA");
+    labelRequest.setDescription("설명");
+
+    long createdLabelId = 1L;
+    when(labelService.createLabel(any(LabelRequest.class))).thenReturn(createdLabelId);
+    // then
+    MockHttpServletRequestBuilder requestBuilder = post("/labels")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(labelRequest))
+        .cookie(new Cookie("jwt", this.jwt));
+    mockMvc.perform(requestBuilder).andDo(print());
   }
 }
