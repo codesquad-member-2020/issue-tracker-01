@@ -10,6 +10,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -143,11 +144,21 @@ class LabelControllerTest {
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/labels")
         .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("UTF-8")
         .content(asJsonString(labelRequest))
         .cookie(new Cookie("jwt", this.jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isCreated())
-        .andExpect(redirectedUrl(HOST + "/labels/" + createdLabelId.intValue()));
+        .andExpect(redirectedUrl(HOST + "/labels/" + createdLabelId.intValue()))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            requestFields(
+                fieldWithPath("title").description("Label의 타이틀"),
+                fieldWithPath("color").description("Label의 배경 컬러(Hex code)"),
+                fieldWithPath("description").description("Label에 대한 설명")
+            )))
+    ;
   }
 }
