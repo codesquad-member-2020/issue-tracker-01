@@ -40,7 +40,7 @@ public class LabelController {
   }
 
   @PostMapping("")
-  public ResponseEntity<URI> createLabel(@RequestBody LabelRequest labelRequest)
+  public ResponseEntity<Void> createLabel(@RequestBody LabelRequest labelRequest)
       throws URISyntaxException {
     log.debug("요청 객체: {}", labelRequest);
 
