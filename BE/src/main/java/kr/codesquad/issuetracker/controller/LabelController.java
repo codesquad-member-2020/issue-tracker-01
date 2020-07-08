@@ -1,5 +1,7 @@
 package kr.codesquad.issuetracker.controller;
 
+import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import kr.codesquad.issuetracker.controller.request.LabelRequest;
@@ -41,9 +43,9 @@ public class LabelController {
   public ResponseEntity<URI> createLabel(@RequestBody LabelRequest labelRequest)
       throws URISyntaxException {
     log.debug("요청 객체: {}", labelRequest);
-    return ResponseEntity.created(
-        new URI("http://13.124.148.192/api/labels/" + labelService.createLabel(labelRequest)))
-        .build();
+
+    URI location = new URI(HOST + "/labels/" + labelService.createLabel(labelRequest));
+    return ResponseEntity.created(location).build();
   }
 
   @PutMapping("/{id}")
