@@ -16,6 +16,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -64,6 +65,7 @@ class LabelControllerTest {
   String jwt = "jwt";
   UserDTO userDTO = UserDTO
       .of(User.builder().id(1L).userId("jwtUser").email("jwt@idion.dev").nickname("jwt").build());
+  Cookie cookie = new Cookie("jwt", jwt);
 
   public static String asJsonString(final Object obj) {
     try {
@@ -89,9 +91,10 @@ class LabelControllerTest {
 
     List<LabelOfLabelList> labels = Arrays.asList(labelDTO1, labelDTO2);
     when(labelService.findLabelsByQueryString(null)).thenReturn(labels);
+
     // then
     mockMvc.perform(
-        get("/labels").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
+        get("/labels").contentType(MediaType.APPLICATION_JSON).cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.labels", hasSize(labels.size())))
@@ -141,12 +144,13 @@ class LabelControllerTest {
 
     Long createdLabelId = 1L;
     when(labelService.createLabel(any(LabelRequest.class))).thenReturn(createdLabelId);
+
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/labels")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(asJsonString(labelRequest))
-        .cookie(new Cookie("jwt", this.jwt));
+        .cookie(cookie);
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isCreated())
@@ -160,5 +164,42 @@ class LabelControllerTest {
                 fieldWithPath("description").description("Label에 대한 설명")
             )))
     ;
+  }
+
+  @Test
+  @DisplayName("Label 수정 테스트")
+  void label_수정_테스트() throws Exception {
+    // given
+    Long labelId = 1L;
+    LabelRequest labelRequest = new LabelRequest();
+    labelRequest.setTitle("수정할 타이틀");
+    labelRequest.setColor("#AAAAAA");
+    labelRequest.setDescription("설명");
+
+    when(labelService.updateLabel(any(Long.class), any(LabelRequest.class))).thenReturn(true);
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder = put("/labels/" + labelId.intValue())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("UTF-8")
+        .content(asJsonString(labelRequest))
+        .cookie(this.cookie);
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            requestFields(
+                fieldWithPath("title").description("Label의 타이틀"),
+                fieldWithPath("color").description("Label의 배경 컬러(Hex code)"),
+                fieldWithPath("description").description("Label에 대한 설명")
+            ),
+            responseFields(
+                fieldWithPath("success").description("성공 여부").type(JsonFieldType.BOOLEAN),
+                fieldWithPath("message").description("정보성 메시지").type(JsonFieldType.STRING)
+            )));
   }
 }
