@@ -37,6 +37,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    alias: {
+      Styles: path.resolve(__dirname, "./src/styles/"),
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
