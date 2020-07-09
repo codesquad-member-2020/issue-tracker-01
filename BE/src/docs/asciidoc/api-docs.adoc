@@ -175,3 +175,25 @@ include::{snippets}/label-controller-test/label_생성_테스트/request-fields.
 ==== HTTP Response
 
 include::{snippets}/label-controller-test/label_생성_테스트/http-response.adoc[]
+
+=== PUT 라벨 수정
+
+==== CURL
+
+include::{snippets}/label-controller-test/label_수정_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/label-controller-test/label_수정_테스트/http-request.adoc[]
+
+==== HTTP Request Fields
+
+include::{snippets}/label-controller-test/label_수정_테스트/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/label-controller-test/label_수정_테스트/http-response.adoc[]
+
+==== HTTP Response Fields
+
+include::{snippets}/label-controller-test/label_수정_테스트/response-fields.adoc[]
