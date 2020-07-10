@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import IssueListPage from "Pages/IssueListPage";
 
 const LoginPage = () => <div>LoginPage</div>;
-const IssueListPage = () => <div>IssueListPage</div>;
 const IssueDetailPage = () => <div>IssueDetailPage</div>;
 const CreateIssuePage = () => <div>CreateIssuePage</div>;
 const MilestoneListPage = () => <div>MilestoneListPage</div>;
