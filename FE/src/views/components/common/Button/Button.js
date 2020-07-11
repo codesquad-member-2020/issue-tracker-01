@@ -6,6 +6,7 @@ export const StyledButton = styled(Button)`
     color: #fff;
     transition: none;
     border: none;
+    cursor: default;
     &:hover,
     &:active {
       color: #fff;
