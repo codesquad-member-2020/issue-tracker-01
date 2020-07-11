@@ -8,5 +8,12 @@ module.exports = {
         regenerator: true,
       },
     ],
+    [
+      "import",
+      {
+        libraryName: "antd",
+        style: "css",
+      },
+    ],
   ],
 };

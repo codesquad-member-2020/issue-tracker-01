@@ -4,14 +4,13 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
-  devtool: "cheap-module-source-map",
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
         terserOptions: {
           compress: {
             drop_console: true,
@@ -30,8 +29,8 @@ module.exports = merge(common, {
     },
   },
   performance: {
-    hints: "error",
-    maxEntrypointSize: 400000,
-    maxAssetSize: 250000,
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
 });
