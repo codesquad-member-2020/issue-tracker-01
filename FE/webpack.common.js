@@ -45,6 +45,7 @@ module.exports = {
       Styles: path.resolve(__dirname, "./src/styles/"),
       "@Common": path.resolve(__dirname, "./src/views/components/common/"),
       Pages: path.resolve(__dirname, "./src/views/pages/"),
+      Assets: path.resolve(__dirname, "./src/assets/"),
     },
   },
   plugins: [

@@ -15,6 +15,19 @@ const GlobalStyle = createGlobalStyle`
   a {
     cursor: pointer;
   }
+
+  #root {
+    height: 100%;
+  }
+
+  main {
+    height: 100%;
+  }
+
+  .container {
+    height: 100%;
+    padding: 2% 15%;
+  }
 `;
 
 export default GlobalStyle;
