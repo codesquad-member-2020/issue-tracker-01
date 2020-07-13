@@ -186,6 +186,10 @@ include::{snippets}/label-controller-test/label_수정_테스트/curl-request.ad
 
 include::{snippets}/label-controller-test/label_수정_테스트/http-request.adoc[]
 
+==== HTTP Path Parameters
+
+include::{snippets}/label-controller-test/label_수정_테스트/path-parameters.adoc[]
+
 ==== HTTP Request Fields
 
 include::{snippets}/label-controller-test/label_수정_테스트/request-fields.adoc[]
@@ -197,3 +201,21 @@ include::{snippets}/label-controller-test/label_수정_테스트/http-response.a
 ==== HTTP Response Fields
 
 include::{snippets}/label-controller-test/label_수정_테스트/response-fields.adoc[]
+
+=== DELETE 라벨 삭제
+
+==== CURL
+
+include::{snippets}/label-controller-test/label_삭제_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/label-controller-test/label_삭제_테스트/http-request.adoc[]
+
+==== HTTP Path Parameters
+
+include::{snippets}/label-controller-test/label_삭제_테스트/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/label-controller-test/label_삭제_테스트/http-response.adoc[]
