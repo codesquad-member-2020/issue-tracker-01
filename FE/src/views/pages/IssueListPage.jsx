@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import Button from "@Common/Button";
 import Dropdown from "@Common/Dropdown";
 import Header from "@Common/Header";
@@ -38,13 +38,18 @@ const IssueListPage = () => {
               <Input
                 prefix={<SearchOutlined />}
                 defaultValue="is:open"
-                style={{ flex: "1", minWidth: "120px" }}
+                style={{ flex: "1", minWidth: "120px", marginRight: "5px" }}
               />
             </IssueFilterInput>
             <NavButtons menus={["Labels", "Milestones"]} />
             <Button type="primary" text="New" />
           </IssueListTab>
-          <ResetQueriesWrapper></ResetQueriesWrapper>
+          <ResetQueriesWrapper>
+            <a>
+              <CloseSquareOutlined style={{ marginRight: "5px" }} />
+              Clear current search query, filters, and sorts
+            </a>
+          </ResetQueriesWrapper>
         </div>
       </main>
     </>
@@ -58,16 +63,21 @@ const IssueListTab = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  div,
-  .ant-btn-primary {
+  .ant-radio-group {
     margin: 0 5px;
   }
+  .ant-btn-primary {
+    margin-left: 5px;
+  }
+  margin-bottom: 10px;
 `;
+
 const IssueFilterInput = styled.div`
   display: flex;
   min-width: 300px;
   flex: 1;
 `;
+
 const ResetQueriesWrapper = styled.div``;
 
 const IssueListWrapper = styled.div``;
