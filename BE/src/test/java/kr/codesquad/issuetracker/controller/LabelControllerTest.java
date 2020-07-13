@@ -6,6 +6,10 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -13,10 +17,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -170,7 +172,7 @@ class LabelControllerTest {
   @DisplayName("Label 수정 테스트")
   void label_수정_테스트() throws Exception {
     // given
-    Long labelId = 1L;
+    long labelId = 1L;
     LabelRequest labelRequest = new LabelRequest();
     labelRequest.setTitle("수정할 타이틀");
     labelRequest.setColor("#AAAAAA");
@@ -179,7 +181,7 @@ class LabelControllerTest {
     when(labelService.updateLabel(any(Long.class), any(LabelRequest.class))).thenReturn(true);
 
     // then
-    MockHttpServletRequestBuilder requestBuilder = put("/labels/" + labelId.intValue())
+    MockHttpServletRequestBuilder requestBuilder = put("/labels/{id}", labelId)
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(asJsonString(labelRequest))
@@ -192,6 +194,9 @@ class LabelControllerTest {
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
+            pathParameters(
+                parameterWithName("id").description("라벨의 id")
+            ),
             requestFields(
                 fieldWithPath("title").description("Label의 타이틀"),
                 fieldWithPath("color").description("Label의 배경 컬러(Hex code)"),
@@ -200,6 +205,29 @@ class LabelControllerTest {
             responseFields(
                 fieldWithPath("success").description("성공 여부").type(JsonFieldType.BOOLEAN),
                 fieldWithPath("message").description("정보성 메시지").type(JsonFieldType.STRING)
+            )));
+  }
+
+  @Test
+  @DisplayName("Label 삭제 테스트")
+  void label_삭제_테스트() throws Exception {
+    // given
+    Long labelId = 1L;
+
+    // then
+    MockHttpServletRequestBuilder requestBuilder = delete("/labels/{id}", labelId)
+        .contentType(MediaType.APPLICATION_JSON)
+        .cookie(this.cookie);
+    mockMvc.perform(requestBuilder)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success", is(true)))
+        .andExpect(jsonPath("$.message", is("성공")))
+        .andDo(document("{class-name}/{method-name}",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
+            pathParameters(
+                parameterWithName("id").description("라벨의 id")
             )));
   }
 }
