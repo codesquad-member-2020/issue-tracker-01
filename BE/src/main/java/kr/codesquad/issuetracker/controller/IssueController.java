@@ -1,7 +1,11 @@
 package kr.codesquad.issuetracker.controller;
 
+import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import kr.codesquad.issuetracker.controller.request.CommentRequest;
@@ -22,7 +26,6 @@ import kr.codesquad.issuetracker.service.MilestoneService;
 import kr.codesquad.issuetracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,14 +68,16 @@ public class IssueController {
   }
 
   @PostMapping("")
-  public ResponseEntity<JobResponse> createIssue(@RequestBody IssueCreateRequest issueCreateRequest,
+  public ResponseEntity<Void> createIssue(@RequestBody IssueCreateRequest issueCreateRequest,
       HttpServletRequest request
-  ) {
+  ) throws URISyntaxException {
     log.debug("요청 객체: {}", issueCreateRequest);
-    Long id = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
+    Long userId = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
 
-    return new ResponseEntity<>(JobResponse.of(issueService.createIssue(issueCreateRequest, id)),
-        HttpStatus.CREATED);
+    URI location = new URI(
+        HOST + "/issues/" + issueService.createIssue(issueCreateRequest, userId));
+
+    return ResponseEntity.created(location).build();
   }
 
   @PutMapping("{issueNumber}")

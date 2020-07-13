@@ -61,7 +61,7 @@ public class IssueService {
     return issueNumbers.equals(updatedIssueNumbers);
   }
 
-  public boolean createIssue(IssueCreateRequest issueCreateRequest, Long id) {
+  public Long createIssue(IssueCreateRequest issueCreateRequest, Long id) {
     LocalDateTime now = LocalDateTime.now();
     User author = userRepository.find(id);
     List<User> assignees = issueCreateRequest.getAssigneeUserIdList()
@@ -101,7 +101,7 @@ public class IssueService {
         .issue(newIssue)
         .build());
 
-    return newIssue.getIssueNumber() != null;
+    return newIssue.getIssueNumber();
   }
 
   @Transactional(readOnly = true)

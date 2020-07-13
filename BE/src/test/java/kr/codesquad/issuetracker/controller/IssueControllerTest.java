@@ -2,6 +2,7 @@ package kr.codesquad.issuetracker.controller;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -411,18 +413,19 @@ class IssueControllerTest {
     request.setLabelIdList(Arrays.asList(1L, 2L));
     request.setAssigneeUserIdList(Arrays.asList("test"));
 
+    Long createdIssueId = 1L;
     when(issueService.createIssue(any(IssueCreateRequest.class), any(Long.class)))
-        .thenReturn(true);
+        .thenReturn(createdIssueId);
 
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/issues")
         .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("UTF-8")
         .cookie(new Cookie("jwt", this.jwt)).content(asJsonString(request));
     mockMvc.perform(requestBuilder)
         .andDo(print())
         .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")))
+        .andExpect(redirectedUrl(HOST + "/issues/" + createdIssueId.intValue()))
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
