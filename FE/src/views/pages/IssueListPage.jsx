@@ -1,16 +1,20 @@
 import React from "react";
+import styled from "styled-components";
+import { Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import Button from "@Common/Button";
-import Label from "@Common/Label";
-import NavButtons from "@Common/NavButtons";
 import Dropdown from "@Common/Dropdown";
 import Header from "@Common/Header";
+import Label from "@Common/Label";
+import NavButtons from "@Common/NavButtons";
 
 const IssueListPage = () => {
   const onClickHandler = ({ key }) => {
     const [action, value] = key.split("_");
     console.log("action: ", action, "value: ", value);
   };
-  const dropdownProps = {
+
+  const filterInputProps = {
     type: "button",
     title: "Filters",
     items: [
@@ -28,12 +32,19 @@ const IssueListPage = () => {
       <Header />
       <main>
         <div className="container">
-          <Button type="primary" size="large" text="New" />
-          <Button type="default" size="large" text="Cancel" />
-          <Label text="FE" color="#f911e2" />
-          <Button type="text" text="Edit" />
-          <NavButtons menus={["Labels", "Milestones"]} />
-          <Dropdown {...dropdownProps} />
+          <IssueListTab>
+            <IssueFilterInput>
+              <Dropdown {...filterInputProps} />
+              <Input
+                prefix={<SearchOutlined />}
+                defaultValue="is:open"
+                style={{ flex: "1", minWidth: "120px" }}
+              />
+            </IssueFilterInput>
+            <NavButtons menus={["Labels", "Milestones"]} />
+            <Button type="primary" text="New" />
+          </IssueListTab>
+          <ResetQueriesWrapper></ResetQueriesWrapper>
         </div>
       </main>
     </>
@@ -41,3 +52,28 @@ const IssueListPage = () => {
 };
 
 export default IssueListPage;
+
+const IssueListTab = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  div,
+  .ant-btn-primary {
+    margin: 0 5px;
+  }
+`;
+const IssueFilterInput = styled.div`
+  display: flex;
+  min-width: 300px;
+  flex: 1;
+`;
+const ResetQueriesWrapper = styled.div``;
+
+const IssueListWrapper = styled.div``;
+
+const IssueListHeader = styled.div``;
+const IssueStateWrapper = styled.div``;
+const IssueFilterWrapper = styled.div``;
+
+const IssueListBody = styled.div``;
