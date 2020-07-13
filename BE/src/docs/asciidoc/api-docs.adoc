@@ -1,8 +1,14 @@
 = Issue Tracker API Docs
 Dion[ksundong@gmail.com]
 1.0.9, 2020/09/06
-:toc: left // 왼쪽 테이블
-:sectnums: // 숫자매기기
+:doctype: book
+:sectlinks:
+:docinfo: shared-head
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectnums:
 
 == Issue 관련 API
 
