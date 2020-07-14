@@ -1,0 +1,92 @@
+package kr.codesquad.issuetracker.common.error;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import kr.codesquad.issuetracker.common.error.exception.BusinessException;
+import kr.codesquad.issuetracker.common.error.exception.LoginRequiredException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@Slf4j
+@RestControllerAdvice
+public class GlobalRestExceptionHandler {
+
+  /**
+   * javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다. HttpMessageConverter 에서 등록한
+   * HttpMessageConverter binding 못할경우 발생 주로 @RequestBody, @RequestPart 어노테이션에서 발생
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException e) {
+    log.error("handleMethodArgumentNotValidException", e);
+    final ErrorResponse response =
+        ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
+      HttpMessageNotReadableException e) {
+    log.info("handleHttpMessageNotReadableException", e);
+    final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  /**
+   * 지원하지 않은 HTTP method 호출 할 경우 발생
+   */
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
+      HttpRequestMethodNotSupportedException e) {
+    log.info("handleHttpRequestMethodNotSupportedException", e);
+    final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
+    return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  /**
+   * 로그인시 쿠키가 만료된 경우 자동으로 삭제할 수 있도록 설정
+   */
+  @ExceptionHandler(LoginRequiredException.class)
+  protected ResponseEntity<ErrorResponse> handleLoginRequiredException(LoginRequiredException e,
+      HttpServletRequest request, HttpServletResponse response) {
+    log.error("handleLoginRequiredException:", e);
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals("jwt")) {
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+      }
+    }
+    final ErrorCode errorCode = e.getErrorCode();
+    final ErrorResponse errorResponse = ErrorResponse.of(errorCode);
+    return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCode.getStatus()));
+  }
+
+  /**
+   * 비즈니스 로직상의 에러
+   */
+  @ExceptionHandler(BusinessException.class)
+  protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
+    log.error("handleEntityNotFoundException", e);
+    final ErrorCode errorCode = e.getErrorCode();
+    final ErrorResponse response = ErrorResponse.of(errorCode);
+    return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+  }
+
+  /**
+   * 처리되지 않은 에러
+   */
+  @ExceptionHandler(Exception.class)
+  protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+    log.error("handleException", e);
+    final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+}

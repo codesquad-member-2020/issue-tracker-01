@@ -1,27 +1,26 @@
 package kr.codesquad.issuetracker.controller.response;
 
-import kr.codesquad.issuetracker.domain.Issue;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import kr.codesquad.issuetracker.domain.issue.IssueOfIssueList;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class IssueResponseTest {
 
-    @Test
-    @DisplayName("toString method test")
-    void toStringMethodTest() {
-        List<Issue> issues = new ArrayList<>();
-        assertThat(new IssueResponse(issues).toString().contains("@")).isFalse();
-    }
+  @Test
+  @DisplayName("toString method test")
+  void toStringMethodTest() {
+    List<IssueOfIssueList> issues = new ArrayList<>();
+    assertThat(new IssueResponse(issues).toString().contains("@")).isFalse();
+  }
 
-    @Test
-    @DisplayName("AllArgsConstructor annotation test")
-    void allArgsConstructorAnnotationTest() {
-        List<Issue> issues = new ArrayList<>();
-        assertThat(new IssueResponse(issues).getIssues()).isEqualTo(issues);
-    }
+  @Test
+  @DisplayName("AllArgsConstructor annotation test")
+  void allArgsConstructorAnnotationTest() {
+    List<IssueOfIssueList> issues = new ArrayList<>();
+    assertThat(new IssueResponse(issues).getIssues()).isEqualTo(issues);
+  }
 }
