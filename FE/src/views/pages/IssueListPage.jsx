@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { Input } from "antd";
-import { SearchOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import Button from "@Common/Button";
-import Dropdown from "@Common/Dropdown";
-import Header from "@Common/Header";
-import Label from "@Common/Label";
-import NavButtons from "@Common/NavButtons";
+import { Input, Checkbox } from "antd";
+import {
+  SearchOutlined,
+  CloseSquareOutlined,
+  ExclamationCircleOutlined,
+  CheckOutlined,
+} from "@ant-design/icons";
+import Button from "@/common/Button";
+import Dropdown from "@/common/Dropdown";
+import Header from "@/common/Header";
+import NavButtons from "@/common/NavButtons";
+import IssueItem from "@/issues/IssueItem";
+import { list } from "Assets/mockIssue";
 
 const IssueListPage = () => {
   const onClickHandler = ({ key }) => {
@@ -50,6 +56,21 @@ const IssueListPage = () => {
               Clear current search query, filters, and sorts
             </a>
           </ResetQueriesWrapper>
+          <IssueListWrapper>
+            <IssueListHeader>
+              <Checkbox />
+              <IssueStateWrapper>
+                <Button type="text" icon={<ExclamationCircleOutlined />} text="Open" />
+                <Button type="text" icon={<CheckOutlined />} text="Closed" />
+              </IssueStateWrapper>
+              <IssueFilterWrapper>{/* put filter dropdown menus here */}</IssueFilterWrapper>
+            </IssueListHeader>
+            <IssueListBody>
+              {list.map((item) => (
+                <IssueItem key={item.issueNumber} {...item} />
+              ))}
+            </IssueListBody>
+          </IssueListWrapper>
         </div>
       </main>
     </>
@@ -78,12 +99,43 @@ const IssueFilterInput = styled.div`
   flex: 1;
 `;
 
-const ResetQueriesWrapper = styled.div``;
+const ResetQueriesWrapper = styled.div`
+  margin-bottom: 20px;
+`;
 
-const IssueListWrapper = styled.div``;
+const IssueListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #e1e4e8;
+  border-radius: 5px;
+`;
 
-const IssueListHeader = styled.div``;
-const IssueStateWrapper = styled.div``;
-const IssueFilterWrapper = styled.div``;
+const IssueListHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 12px;
+  background: #fafbfc;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  border-bottom: none;
+`;
 
-const IssueListBody = styled.div``;
+const IssueStateWrapper = styled.div`
+  display: flex;
+  width: fit-content;
+  margin-left: 10px;
+  margin-right: auto;
+`;
+
+const IssueFilterWrapper = styled.div`
+  background: tomato;
+  width: 300px;
+  height: 20px;
+`;
+
+const IssueListBody = styled.div`
+  width: 100%;
+`;
