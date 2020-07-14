@@ -43,8 +43,10 @@ module.exports = {
     extensions: [".js", ".jsx"],
     alias: {
       Styles: path.resolve(__dirname, "./src/styles/"),
-      "@Common": path.resolve(__dirname, "./src/views/components/common/"),
+      "@": path.resolve(__dirname, "./src/views/components/"),
       Pages: path.resolve(__dirname, "./src/views/pages/"),
+      Assets: path.resolve(__dirname, "./src/assets/"),
+      Utils: path.resolve(__dirname, "./src/utils/"),
     },
   },
   plugins: [
