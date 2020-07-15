@@ -12,6 +12,7 @@ import Dropdown from "@/common/Dropdown";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import IssueItem from "@/issues/IssueItem";
+import CustomizedDropdown from "@/common/CustomizedDropdown";
 import { list } from "Assets/mockIssue";
 
 const IssueListPage = () => {
@@ -31,6 +32,28 @@ const IssueListPage = () => {
       { action: "action5", value: "Closed issues" },
     ],
     onClickHandler,
+  };
+
+  const authorData = {
+    title: "Author",
+    itemList: ["reesekimm", "dion", "alex"],
+    onSelect: null,
+  };
+
+  const LabelData = {
+    title: "Label",
+    itemList: ["FE", "BE"],
+    onSelect: null,
+  };
+  const MilestoneData = {
+    title: "Milestones",
+    itemList: ["Phase1", "Phase2"],
+    onSelect: null,
+  };
+  const AssigneeData = {
+    title: "Assignee",
+    itemList: ["reesekimm", "alex"],
+    onSelect: null,
   };
 
   return (
@@ -63,7 +86,12 @@ const IssueListPage = () => {
                 <Button type="text" icon={<ExclamationCircleOutlined />} text="Open" />
                 <Button type="text" icon={<CheckOutlined />} text="Closed" />
               </IssueStateWrapper>
-              <IssueFilterWrapper>{/* put filter dropdown menus here */}</IssueFilterWrapper>
+              <IssueFilterWrapper>
+                <CustomizedDropdown {...authorData} />
+                <CustomizedDropdown {...LabelData} />
+                <CustomizedDropdown {...MilestoneData} />
+                <CustomizedDropdown {...AssigneeData} />
+              </IssueFilterWrapper>
             </IssueListHeader>
             <IssueListBody>
               {list.map((item) => (
@@ -131,9 +159,7 @@ const IssueStateWrapper = styled.div`
 `;
 
 const IssueFilterWrapper = styled.div`
-  background: tomato;
-  width: 300px;
-  height: 20px;
+  display: flex;
 `;
 
 const IssueListBody = styled.div`
