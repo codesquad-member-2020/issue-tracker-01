@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import useClickOutside from "Hooks/useClickOutside";
 
 const CustomizedDropdown = (props) => {
-  const [toggle, setToggle] = useState(false);
+  const { ref, isVisible, setIsVisible } = useClickOutside(false);
   const { title, itemList, onSelect } = props;
 
   return (
-    <DropdownWrapper>
-      <DropdownHeader onClick={() => setToggle(!toggle)}>
+    <DropdownWrapper ref={ref}>
+      <DropdownHeader onClick={() => setIsVisible(!isVisible)}>
         {title}
         <CaretDownOutlined style={{ marginLeft: "2px", paddingTop: "3px" }} />
       </DropdownHeader>
-      {toggle && (
+      {isVisible && (
         <ItemList>
           {itemList.map((item) => (
-            <Item key={item} onClick={() => setToggle(!toggle)}>
+            <Item key={item} onClick={() => setIsVisible(!isVisible)}>
               {item}
             </Item>
           ))}
