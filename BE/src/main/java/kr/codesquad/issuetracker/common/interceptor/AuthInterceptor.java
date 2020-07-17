@@ -35,11 +35,25 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     Optional<Cookie> jwtCookie = Optional.ofNullable(WebUtils.getCookie(request, "jwt"));
-    UserDTO user = jwtService
-        .getUserFromJws(jwtCookie.orElseThrow(LoginRequiredException::new).getValue());
-    request.setAttribute("user", user);
-    log.debug("user: {}", user);
-    log.debug("cookie: {}", jwtCookie);
+    try {
+      UserDTO user = jwtService
+          .getUserFromJws(jwtCookie.orElseThrow(LoginRequiredException::new).getValue());
+      request.setAttribute("user", user);
+      log.debug("user: {}", user);
+      log.debug("cookie: {}", jwtCookie);
+    } catch (LoginRequiredException e) {
+      Cookie[] cookies = request.getCookies();
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("jwt")) {
+          log.debug("토큰을 초기화합니다.", e);
+          cookie.setMaxAge(0);
+          response.addCookie(cookie);
+        }
+      }
+
+      response.setStatus(401);
+      return false;
+    }
     return true;
   }
 }
