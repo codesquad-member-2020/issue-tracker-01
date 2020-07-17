@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
 
   .container {
     height: 100%;
-    padding: 2% 15%;
+    padding: 100px 15%;
   }
 `;
 

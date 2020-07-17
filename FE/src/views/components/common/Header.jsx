@@ -17,6 +17,11 @@ const StyledHeader = styled.header`
   padding: 0 10px;
   display: flex;
   align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
 `;
 
 export default Header;

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import IssueListPage from "Pages/IssueListPage";
+import LabelListPage from "Pages/LabelListPage";
 
 const LoginPage = () => <div>LoginPage</div>;
 const IssueDetailPage = () => <div>IssueDetailPage</div>;
@@ -8,7 +9,6 @@ const CreateIssuePage = () => <div>CreateIssuePage</div>;
 const MilestoneListPage = () => <div>MilestoneListPage</div>;
 const CreateMilestonePage = () => <div>CreateMilestonePage</div>;
 const EditMilestonePage = () => <div>EditMilestonePage</div>;
-const LabelListPage = () => <div>LabelListPage</div>;
 const NotFoundPage = () => <div>404</div>;
 
 export default () => (

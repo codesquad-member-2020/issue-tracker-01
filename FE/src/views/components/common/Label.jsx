@@ -6,7 +6,10 @@ const Label = ({ title, color }) => {
     <Tag
       color={color}
       style={{
+        height: "22px",
+        width: "fit-content",
         fontSize: "12px",
+        fontWeight: "bold",
         lineHeight: "1.5",
         marginRight: "3px",
         borderRadius: "12px",
