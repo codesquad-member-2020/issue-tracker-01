@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Icon from "@ant-design/icons";
 
@@ -8,7 +7,7 @@ const Login = () => {
     <main>
       <div className="container" style={{ display: "flex", alignItems: "center" }}>
         <Button>
-          <StyledLink to="/issues">
+          <StyledLink href={process.env.BASE_URL + "login"}>
             Sign in with Github
             <GithubOutlined style={{ marginLeft: "10px" }} />
           </StyledLink>
@@ -46,7 +45,7 @@ const Button = styled.button`
   }
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
