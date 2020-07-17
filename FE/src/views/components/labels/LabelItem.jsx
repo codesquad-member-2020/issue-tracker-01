@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Label from "@/common/Label";
 import Button from "@/common/Button";
+import LabelEditor from "@/labels/LabelEditor";
 
 const LabelItem = (props) => {
+  const [editing, setEditing] = useState(false);
   const { id, title, color, description } = props;
 
   return (
-    <Wrapper>
-      <LabelWrapper>
-        <Label key={title} title={title} color={color} />
-      </LabelWrapper>
-      <Description>{description}</Description>
-      <ButtonWrapper>
-        <Button type="text" text="Edit" />
-        <Button type="text" text="Delete" />
-      </ButtonWrapper>
-    </Wrapper>
+    <div>
+      <Wrapper>
+        <LabelWrapper>
+          <Label title={title} color={color} />
+        </LabelWrapper>
+        <Description>{description}</Description>
+        <ButtonWrapper>
+          {!editing && <Button type="text" text="Edit" onClick={() => setEditing(true)} />}
+          <Button type="text" text="Delete" />
+        </ButtonWrapper>
+      </Wrapper>
+      {editing && <LabelEditor mode="edit" />}
+    </div>
   );
 };
 
