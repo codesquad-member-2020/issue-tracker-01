@@ -6,6 +6,8 @@ import {
   CloseSquareOutlined,
   ExclamationCircleOutlined,
   CheckOutlined,
+  TagOutlined,
+  FlagOutlined,
 } from "@ant-design/icons";
 import Button from "@/common/Button";
 import Dropdown from "@/common/Dropdown";
@@ -70,7 +72,12 @@ const IssueListPage = () => {
                 style={{ flex: "1", minWidth: "120px", marginRight: "5px" }}
               />
             </IssueFilterInput>
-            <NavButtons menus={["Labels", "Milestones"]} />
+            <NavButtons
+              menus={[
+                { icon: <TagOutlined />, title: "Labels", param: "/labels" },
+                { icon: <FlagOutlined />, title: "Milestones", param: "/milestones" },
+              ]}
+            />
             <Button type="primary" text="New" />
           </IssueListTab>
           <ResetQueriesWrapper>
