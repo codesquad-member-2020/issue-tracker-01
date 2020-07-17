@@ -53,7 +53,7 @@ const LabelListWrapper = styled.div`
 `;
 
 const LabelListHeader = styled.div`
-  padding: 16px 12px;
+  padding: 20px;
   background: #fafbfc;
   width: 100%;
   border-radius: 5px 5px 0 0;

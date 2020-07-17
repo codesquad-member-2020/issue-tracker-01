@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 12px;
+  padding: 12px 20px;
   border-top: 1px solid #e1e4e8;
   font-size: 12px;
 `;
