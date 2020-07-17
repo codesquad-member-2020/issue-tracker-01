@@ -21,6 +21,7 @@ const StyledHeader = styled.header`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 99;
 `;
 
 export default Header;
