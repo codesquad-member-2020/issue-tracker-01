@@ -1,14 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const NavButtons = ({ menus }) => {
+  const activeStyle = {
+    color: "#1890ff",
+  };
+
   return (
     <NavWrapper>
       {menus.length > 0 &&
         menus.map(({ icon, title, param }) => (
           <LinkWrapper key={param}>
-            <StyledLink to={param}>
+            <StyledLink to={param} activeStyle={activeStyle}>
               {icon}
               <Title>{title}</Title>
             </StyledLink>
@@ -35,7 +39,7 @@ const LinkWrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   width: 100%;
   height: 100%;
   display: flex;
