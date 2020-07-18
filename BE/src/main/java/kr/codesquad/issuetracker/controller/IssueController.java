@@ -122,12 +122,15 @@ public class IssueController {
   }
 
   @PostMapping("/{issueNumber}/comments")
-  public JobResponse createComment(@PathVariable Long issueNumber,
-      @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
+  public ResponseEntity<Void> createComment(@PathVariable Long issueNumber,
+      @RequestBody CommentRequest commentRequest, HttpServletRequest request)
+      throws URISyntaxException {
     log.debug("Comment를 추가하려는 issueNumber: {}, Comment 추가 정보: {}", issueNumber, commentRequest);
     Long id = Long.parseLong(((UserDTO) request.getAttribute("user")).getId());
 
-    return JobResponse.of(issueService.createComment(issueNumber, commentRequest, id));
+    URI location = new URI(
+        HOST + "/issues/" + issueService.createComment(issueNumber, commentRequest, id));
+    return ResponseEntity.created(location).build();
   }
 
   @PutMapping("/{issueNumber}/comments/{commentOrder}")
