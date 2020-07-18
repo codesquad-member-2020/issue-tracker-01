@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,14 +64,14 @@ public class MilestoneController {
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping("/{id}/open")
+  @PatchMapping("/{id}/open")
   public JobResponse openMilestone(@PathVariable Long id) {
     log.debug("열려는 milestone의 id: {}", id);
 
     return JobResponse.of(milestoneService.openMilestone(id));
   }
 
-  @PutMapping("/{id}/close")
+  @PatchMapping("/{id}/close")
   public JobResponse closeMilestone(@PathVariable Long id) {
     log.debug("닫으려는 milestone의 id: {}", id);
 
