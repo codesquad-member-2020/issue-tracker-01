@@ -127,7 +127,7 @@ public class IssueService {
     return issueNumber.equals(savedIssueNumber);
   }
 
-  public boolean createComment(Long issueNumber, CommentRequest commentRequest, Long id) {
+  public Long createComment(Long issueNumber, CommentRequest commentRequest, Long id) {
     Issue issue = issueRepository.find(issueNumber);
     LocalDateTime now = LocalDateTime.now();
     User writer = userRepository.find(id);
@@ -137,7 +137,7 @@ public class IssueService {
 
     Long commentId = issueRepository.saveComment(comment);
     log.debug("저장 후 코멘트 정보: {}", comment);
-    return commentId != null;
+    return commentId;
   }
 
   public boolean updateComment(Long issueNumber, int commentOrder, CommentRequest commentRequest) {

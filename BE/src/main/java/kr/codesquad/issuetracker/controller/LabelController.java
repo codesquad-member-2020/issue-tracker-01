@@ -56,10 +56,10 @@ public class LabelController {
   }
 
   @DeleteMapping("/{id}")
-  public JobResponse deleteLabel(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
     log.debug("조회한 Label의 id: {}", id);
 
     labelService.deleteLabel(id);
-    return JobResponse.of(!labelService.isExists(id));
+    return ResponseEntity.noContent().build();
   }
 }

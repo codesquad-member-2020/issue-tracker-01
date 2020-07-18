@@ -1,13 +1,19 @@
 package kr.codesquad.issuetracker.controller;
 
+import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import kr.codesquad.issuetracker.controller.request.MilestoneRequest;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.MilestoneListResponse;
 import kr.codesquad.issuetracker.service.MilestoneService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,10 +39,13 @@ public class MilestoneController {
   }
 
   @PostMapping("")
-  public JobResponse createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
+  public ResponseEntity<Void> createMilestone(@RequestBody MilestoneRequest milestoneRequest)
+      throws URISyntaxException {
     log.debug("요청 객체: {}", milestoneRequest);
 
-    return JobResponse.of(milestoneService.createMilestone(milestoneRequest));
+    URI location = new URI(
+        HOST + "/milestones/" + milestoneService.createMilestone(milestoneRequest));
+    return ResponseEntity.created(location).build();
   }
 
   @PutMapping("/{id}")
@@ -48,21 +57,21 @@ public class MilestoneController {
   }
 
   @DeleteMapping("/{id}")
-  public JobResponse deleteMilestone(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteMilestone(@PathVariable Long id) {
     log.debug("조회한 Milestone의 id: {}", id);
 
     milestoneService.deleteMilestone(id);
-    return JobResponse.of(!milestoneService.isExists(id));
+    return ResponseEntity.noContent().build();
   }
 
-  @PutMapping("/{id}/open")
+  @PatchMapping("/{id}/open")
   public JobResponse openMilestone(@PathVariable Long id) {
     log.debug("열려는 milestone의 id: {}", id);
 
     return JobResponse.of(milestoneService.openMilestone(id));
   }
 
-  @PutMapping("/{id}/close")
+  @PatchMapping("/{id}/close")
   public JobResponse closeMilestone(@PathVariable Long id) {
     log.debug("닫으려는 milestone의 id: {}", id);
 
