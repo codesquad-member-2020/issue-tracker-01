@@ -220,9 +220,7 @@ class LabelControllerTest {
         .cookie(this.cookie);
     mockMvc.perform(requestBuilder)
         .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.success", is(true)))
-        .andExpect(jsonPath("$.message", is("성공")))
+        .andExpect(status().isNoContent())
         .andDo(document("{class-name}/{method-name}",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
