@@ -56,11 +56,11 @@ public class MilestoneController {
   }
 
   @DeleteMapping("/{id}")
-  public JobResponse deleteMilestone(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteMilestone(@PathVariable Long id) {
     log.debug("조회한 Milestone의 id: {}", id);
 
     milestoneService.deleteMilestone(id);
-    return JobResponse.of(!milestoneService.isExists(id));
+    return ResponseEntity.noContent().build();
   }
 
   @PutMapping("/{id}/open")
