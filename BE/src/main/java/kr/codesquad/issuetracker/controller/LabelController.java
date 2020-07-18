@@ -4,8 +4,6 @@ import static kr.codesquad.issuetracker.common.constant.CommonConstant.HOST;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import kr.codesquad.issuetracker.common.error.ErrorCode;
-import kr.codesquad.issuetracker.common.error.exception.BusinessException;
 import kr.codesquad.issuetracker.controller.request.LabelRequest;
 import kr.codesquad.issuetracker.controller.response.JobResponse;
 import kr.codesquad.issuetracker.controller.response.LabelListResponse;
@@ -62,9 +60,6 @@ public class LabelController {
     log.debug("조회한 Label의 id: {}", id);
 
     labelService.deleteLabel(id);
-    if (labelService.isExists(id)) {
-      throw new BusinessException("서버에서 삭제를 정상적으로 처리하지 못했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
-    }
     return ResponseEntity.noContent().build();
   }
 }
