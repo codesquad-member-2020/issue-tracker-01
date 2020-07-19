@@ -98,7 +98,7 @@ const EditorWrapper = styled.div`
     width: 0;
     z-index: 1;
     left: -9px;
-    top: 7%;
+    top: 20px;
     margin-top: -10px;
   }
   &:before {
@@ -111,7 +111,7 @@ const EditorWrapper = styled.div`
     width: 0;
     z-index: 0;
     left: -10px;
-    top: 7%;
+    top: 20px;
     margin-top: -10px;
   }
 `;
