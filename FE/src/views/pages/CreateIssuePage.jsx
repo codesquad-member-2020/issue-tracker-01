@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import CustomizedDropdown from "@/common/CustomizedDropdown";
-import Comment from "@/issues/Comment";
+import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
 
 const CreateIssuePage = () => {
@@ -42,7 +42,7 @@ const CreateIssuePage = () => {
                 <TitleWrppaer>
                   <Input placeholder="Title" />
                 </TitleWrppaer>
-                <Comment />
+                <CommentEditor type="create-issue" />
               </EditorWrapper>
             </EditorColumn>
             <DropdownColumn>

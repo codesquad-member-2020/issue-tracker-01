@@ -2,7 +2,33 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@/common/Button";
 
-const Comment = () => {
+const makeButtons = (type) => {
+  switch (type) {
+    case "edit-comment":
+      return (
+        <>
+          <Button text="Cancel" />
+          <Button type="primary" text="Update comment" />
+        </>
+      );
+    case "create-comment":
+      return (
+        <>
+          <Button text="Cancel" />
+          <Button type="primary" text="Comment" />
+        </>
+      );
+    default:
+      return (
+        <>
+          <Button type="text" text="Cancel" />
+          <Button type="primary" text="Submit new issue" />
+        </>
+      );
+  }
+};
+
+const CommentEditor = ({ type }) => {
   return (
     <CommentWrapper>
       <CommentTab>
@@ -12,15 +38,12 @@ const Comment = () => {
       <CommentArea>
         <Textarea></Textarea>
       </CommentArea>
-      <ButtonWrapper>
-        <Button type="text" text="Cancel" />
-        <Button type="primary" text="Submit new issue" />
-      </ButtonWrapper>
+      <ButtonWrapper type={type}>{makeButtons(type)}</ButtonWrapper>
     </CommentWrapper>
   );
 };
 
-export default Comment;
+export default CommentEditor;
 
 const CommentWrapper = styled.div`
   height: fit-content;
@@ -48,6 +71,6 @@ const Tab = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.type === "create-issue" ? "space-between" : "flex-end")};
   margin-bottom: 12px;
 `;
