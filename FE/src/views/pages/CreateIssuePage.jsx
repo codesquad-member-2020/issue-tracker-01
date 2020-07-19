@@ -2,9 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import Button from "@/common/Button";
+import CustomizedDropdown from "@/common/CustomizedDropdown";
 import { Avatar, Input } from "antd";
 
 const CreateIssuePage = () => {
+  const AssigneeData = {
+    type: "wide",
+    title: "Assignee",
+    itemList: ["reesekimm", "alex"],
+    onSelect: null,
+  };
+
+  const LabelData = {
+    type: "wide",
+    title: "Label",
+    itemList: ["FE", "BE"],
+    onSelect: null,
+  };
+
+  const MilestoneData = {
+    type: "wide",
+    title: "Milestones",
+    itemList: ["Phase1", "Phase2"],
+    onSelect: null,
+  };
+
   return (
     <>
       <Header />
@@ -35,7 +57,20 @@ const CreateIssuePage = () => {
                 </CommentWrapper>
               </EditorWrapper>
             </EditorColumn>
-            <DropdownColumn>Put Dropdown menus here!</DropdownColumn>
+            <DropdownColumn>
+              <DropdownWrapper>
+                <CustomizedDropdown {...AssigneeData} />
+                <SelectedItem>reesekimm</SelectedItem>
+              </DropdownWrapper>
+              <DropdownWrapper>
+                <CustomizedDropdown {...LabelData} />
+                <SelectedItem>FE</SelectedItem>
+              </DropdownWrapper>
+              <DropdownWrapper>
+                <CustomizedDropdown {...MilestoneData} />
+                <SelectedItem>Phase1</SelectedItem>
+              </DropdownWrapper>
+            </DropdownColumn>
           </Wrapper>
         </div>
       </main>
@@ -130,4 +165,13 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+`;
+
+const DropdownWrapper = styled.div`
+  padding: 12px 0;
+  border-bottom: 1px solid lightgray;
+`;
+
+const SelectedItem = styled.div`
+  margin-top: 12px;
 `;
