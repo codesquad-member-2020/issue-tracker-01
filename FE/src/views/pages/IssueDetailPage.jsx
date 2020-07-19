@@ -4,6 +4,7 @@ import Header from "@/common/Header";
 import Label from "@/common/Label";
 import Button from "@/common/Button";
 import CustomizedDropdown from "@/common/CustomizedDropdown";
+import User from "@/common/User";
 import CommentViewer from "@/issues/CommentViewer";
 import CommentEditor from "@/issues/CommentEditor";
 import { getRelativeTime } from "Utils/utilFunctions";
@@ -82,15 +83,23 @@ const CreateIssuePage = () => {
             <DropdownColumn>
               <DropdownWrapper>
                 <CustomizedDropdown {...AssigneeData} />
-                <SelectedItem>reesekimm</SelectedItem>
+                <SelectedItem>
+                  {assignees.length > 0 &&
+                    assignees.map(({ nickname, profileImage }) => (
+                      <User nickname={nickname} profileImage={profileImage} />
+                    ))}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...LabelData} />
-                <SelectedItem>FE</SelectedItem>
+                <SelectedItem>
+                  {labels.length > 0 &&
+                    labels.map(({ title, color }) => <Label title={title} color={color} />)}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...MilestoneData} />
-                <SelectedItem>Phase1</SelectedItem>
+                <SelectedItem>{milestone.title}</SelectedItem>
               </DropdownWrapper>
             </DropdownColumn>
           </Wrapper>
