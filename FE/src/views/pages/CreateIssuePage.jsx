@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
-import Button from "@/common/Button";
 import CustomizedDropdown from "@/common/CustomizedDropdown";
+import Comment from "@/issues/Comment";
 import { Avatar, Input } from "antd";
 
 const CreateIssuePage = () => {
@@ -42,19 +42,7 @@ const CreateIssuePage = () => {
                 <TitleWrppaer>
                   <Input placeholder="Title" />
                 </TitleWrppaer>
-                <CommentWrapper>
-                  <CommentTab>
-                    <Button type="text" text="Write" />
-                    <Button type="text" text="Preview" />
-                  </CommentTab>
-                  <Comment>
-                    <Textarea></Textarea>
-                  </Comment>
-                  <ButtonWrapper>
-                    <Button type="text" text="Cancel" />
-                    <Button type="primary" text="Submit new issue" />
-                  </ButtonWrapper>
-                </CommentWrapper>
+                <Comment />
               </EditorWrapper>
             </EditorColumn>
             <DropdownColumn>
@@ -135,36 +123,6 @@ const TitleWrppaer = styled.div`
 const DropdownColumn = styled.div`
   flex: 1;
   padding: 12px;
-`;
-
-const CommentWrapper = styled.div`
-  height: fit-content;
-`;
-
-const CommentTab = styled.div`
-  display: flex;
-  margin-bottom: 8px;
-`;
-
-const Comment = styled.div``;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  min-height: 160px;
-  max-height: 440px;
-  margin-bottom: 12px;
-`;
-
-const Tab = styled.div`
-  :not(:last-child) {
-    margin-right: 10px;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
 `;
 
 const DropdownWrapper = styled.div`
