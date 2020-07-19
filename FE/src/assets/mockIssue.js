@@ -64,3 +64,67 @@ export const list = [
     opened: true,
   },
 ];
+
+export const detail = {
+  issueNumber: 1,
+  title: "이슈 생성 테스트입니다.",
+  createdAt: "2020-07-18T07:29:35.123",
+  updatedAt: "2020-07-18T07:29:35.123",
+  author: {
+    nickname: "dion",
+    profileImage: "",
+  },
+  assignees: [
+    {
+      nickname: "dion",
+      profileImage: "",
+    },
+    {
+      nickname: "reese",
+      profileImage:
+        "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+    },
+  ],
+  labels: [
+    {
+      title: "BE",
+      color: "#000",
+    },
+  ],
+  milestone: {
+    title: "Phase1",
+  },
+  comments: [
+    {
+      description: "이슈 만들었어요.",
+      createdAt: "2020-07-18T07:29:35.123",
+      updatedAt: "2020-07-18T07:29:35.123",
+      images: [
+        {
+          url:
+            "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+        },
+      ],
+      writer: {
+        nickname: "dion",
+        profileImage: "",
+      },
+    },
+    {
+      description: "리액트를 다루는 기술",
+      createdAt: "2020-07-18T07:29:35.123",
+      updatedAt: "2020-07-18T07:29:35.123",
+      images: [
+        {
+          url:
+            "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+        },
+      ],
+      writer: {
+        nickname: "reese",
+        profileImage: "",
+      },
+    },
+  ],
+  opened: true,
+};

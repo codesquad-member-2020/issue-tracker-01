@@ -1,17 +1,21 @@
 import React from "react";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { SettingOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import useClickOutside from "Hooks/useClickOutside";
 
 const CustomizedDropdown = (props) => {
   const { ref, isVisible, setIsVisible } = useClickOutside(false);
-  const { title, itemList, onSelect } = props;
+  const { type, title, itemList, onSelect } = props;
 
   return (
     <DropdownWrapper ref={ref}>
       <DropdownHeader onClick={() => setIsVisible(!isVisible)}>
-        {title}
-        <CaretDownOutlined style={{ marginLeft: "2px", paddingTop: "3px" }} />
+        <div>{title}</div>
+        {type === "wide" ? (
+          <SettingOutlined style={{ display: "inline-block" }} />
+        ) : (
+          <CaretDownOutlined style={{ marginLeft: "2px", paddingTop: "3px" }} />
+        )}
       </DropdownHeader>
       {isVisible && (
         <ItemList>
@@ -30,7 +34,7 @@ export default CustomizedDropdown;
 
 const DropdownWrapper = styled.div`
   position: relative;
-  width: fit-content;
+  width: 100%;
   :not(:last-child) {
     margin-right: 24px;
   }
@@ -38,7 +42,9 @@ const DropdownWrapper = styled.div`
 
 const DropdownHeader = styled.div`
   cursor: pointer;
+  width: 100%;
   display: flex;
+  justify-content: ${(props) => (props.type ? "flex-start" : "space-between")};
   align-items: center;
   font-size: 13px;
 `;
