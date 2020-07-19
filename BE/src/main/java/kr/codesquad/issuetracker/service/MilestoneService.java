@@ -22,14 +22,14 @@ public class MilestoneService {
 
   private final MilestoneRepository milestoneRepository;
 
-  public boolean createMilestone(MilestoneRequest milestoneRequest) {
+  public Long createMilestone(MilestoneRequest milestoneRequest) {
     Milestone milestone = new Milestone(milestoneRequest);
     log.debug("저장 전 milestone: {}", milestone);
 
     Long milestoneId = milestoneRepository.save(milestone);
     milestone = milestoneRepository.find(milestoneId).orElseThrow(MilestoneNotFoundException::new);
     log.debug("저장 후 milestone: {}", milestone);
-    return milestone.getId() != null;
+    return milestone.getId();
   }
 
   public boolean updateMilestone(Long id, MilestoneRequest milestoneRequest) {

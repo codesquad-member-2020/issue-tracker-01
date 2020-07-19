@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class LoginService {
 
   private static final URI ROOT_URL = URI.create(System.getenv("ROOT_URL"));
-  private static final int MAX_AGE = 7 * 24 * 60 * 60;
+  private static final int MAX_AGE = 60 * 60;
   private static final String AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 
   private final OAuthService authService;
@@ -28,12 +28,11 @@ public class LoginService {
 
   public HttpHeaders redirectToGithub() {
     HttpHeaders headers = new HttpHeaders();
-    URI uri =
-        UriComponentsBuilder.fromUriString(AUTHORIZE_URL)
-            .queryParam("client_id", githubKey.getClientId())
-            .queryParam("scope", "user")
-            .build()
-            .toUri();
+    URI uri = UriComponentsBuilder.fromUriString(AUTHORIZE_URL)
+        .queryParam("client_id", githubKey.getClientId())
+        .queryParam("scope", "user")
+        .build()
+        .toUri();
     headers.setLocation(uri);
     return headers;
   }
