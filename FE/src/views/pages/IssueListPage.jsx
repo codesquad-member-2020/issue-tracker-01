@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Input, Checkbox } from "antd";
 import {
@@ -18,6 +19,8 @@ import CustomizedDropdown from "@/common/CustomizedDropdown";
 import { list } from "Assets/mockIssue";
 
 const IssueListPage = () => {
+  const history = useHistory();
+
   const onClickHandler = ({ key }) => {
     const [action, value] = key.split("_");
     console.log("action: ", action, "value: ", value);
@@ -78,7 +81,7 @@ const IssueListPage = () => {
                 { icon: <FlagOutlined />, title: "Milestones", param: "/milestones" },
               ]}
             />
-            <Button type="primary" text="New" />
+            <Button type="primary" text="New" onClick={() => history.push("/issues/new")} />
           </IssueListTab>
           <ResetQueriesWrapper>
             <a>
@@ -102,7 +105,9 @@ const IssueListPage = () => {
             </IssueListHeader>
             <IssueListBody>
               {list.map((item) => (
-                <IssueItem key={item.issueNumber} {...item} />
+                <Link to={`/issues/${item.issueNumber}`} key={item.issueNumber}>
+                  <IssueItem {...item} />
+                </Link>
               ))}
             </IssueListBody>
           </IssueListWrapper>

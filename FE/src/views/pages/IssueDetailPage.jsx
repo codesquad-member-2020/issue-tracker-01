@@ -86,7 +86,7 @@ const CreateIssuePage = () => {
                 <SelectedItem>
                   {assignees.length > 0 &&
                     assignees.map(({ nickname, profileImage }) => (
-                      <User nickname={nickname} profileImage={profileImage} />
+                      <User key={nickname} nickname={nickname} profileImage={profileImage} />
                     ))}
                 </SelectedItem>
               </DropdownWrapper>
@@ -94,7 +94,9 @@ const CreateIssuePage = () => {
                 <CustomizedDropdown {...LabelData} />
                 <SelectedItem>
                   {labels.length > 0 &&
-                    labels.map(({ title, color }) => <Label title={title} color={color} />)}
+                    labels.map(({ title, color }) => (
+                      <Label key={title} title={title} color={color} />
+                    ))}
                 </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
