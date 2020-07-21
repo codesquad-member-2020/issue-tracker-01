@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "@/common/Button";
-import { Input } from "antd";
+import Input from "@/common/Input";
+// import { Input } from "antd";
 import { RetweetOutlined } from "@ant-design/icons";
 
 const LabelEditor = ({ mode }) => {
@@ -14,7 +15,7 @@ const LabelEditor = ({ mode }) => {
     <EditorWrapper mode={mode}>
       <InputWrapper>
         <StyledLabel>Label name</StyledLabel>
-        <Input placeholder="Label name"></Input>
+        <Input placeholder="Label name" />
       </InputWrapper>
       <InputWrapper>
         <StyledLabel>Description</StyledLabel>
@@ -26,7 +27,7 @@ const LabelEditor = ({ mode }) => {
           <Refresh>
             <RetweetOutlined style={{ color: "#fff", fontWeight: "bold" }} />
           </Refresh>
-          <Input defaultValue="#7057FF" style={{ flex: "1" }}></Input>
+          <Input style={{ flex: "1" }} />
         </ColorWrapper>
       </InputWrapper>
       <ButtonWrapper>
@@ -64,8 +65,8 @@ const ColorWrapper = styled.div`
 `;
 
 const Refresh = styled.div`
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 5px;
   background: #c6ddff;
   display: flex;
