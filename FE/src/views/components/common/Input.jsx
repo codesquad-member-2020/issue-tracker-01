@@ -6,7 +6,8 @@ const Input = ({ placeholder, defaultValue, value, style }) => {
     <StyledInput
       type="text"
       placeholder={placeholder}
-      value={defaultValue || value}
+      defaultValue={defaultValue}
+      value={value}
       style={style}
     />
   );
