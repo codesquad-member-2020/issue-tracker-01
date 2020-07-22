@@ -245,3 +245,22 @@ include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/
 ==== Response Fields
 
 include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/response-fields.adoc[]
+
+=== POST milestone 생성
+
+==== CURL
+
+include::{snippets}/milestone-controller-test/milestone_생성_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/milestone-controller-test/milestone_생성_테스트/http-request.adoc[]
+
+==== HTTP Request Fields
+
+include::{snippets}/milestone-controller-test/milestone_생성_테스트/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/milestone-controller-test/milestone_생성_테스트/http-response.adoc[]
+
