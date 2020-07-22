@@ -225,3 +225,23 @@ include::{snippets}/label-controller-test/label_삭제_테스트/path-parameters
 ==== HTTP Response
 
 include::{snippets}/label-controller-test/label_삭제_테스트/http-response.adoc[]
+
+== Milestone 관련 API
+
+=== GET milestone List 검색조건에 해당하는 milestone 목록가져오기
+
+==== CURL
+
+include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/curl-request.adoc[]
+
+==== HTTP Request
+
+include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/http-request.adoc[]
+
+==== HTTP RESPONSE
+
+include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/milestone-controller-test/milestone_목록_조회_테스트/response-fields.adoc[]

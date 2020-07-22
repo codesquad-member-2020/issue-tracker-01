@@ -21,8 +21,8 @@ public class MilestoneOfMilestoneList {
   private String description;
   private LocalDate dueDate;
   private LocalDateTime lastUpdatedDate;
-  private long openIssueCount;
-  private long closedIssueCount;
+  private Long openIssueCount;
+  private Long closedIssueCount;
   private Integer completeRatio;
 
   @Builder
@@ -63,8 +63,8 @@ public class MilestoneOfMilestoneList {
 
   private void setIssueCountAndCompletePercentage(List<Issue> issues, int issueSize) {
     if (issueSize == 0) {
-      this.openIssueCount = 0;
-      this.closedIssueCount = 0;
+      this.openIssueCount = 0L;
+      this.closedIssueCount = 0L;
       this.completeRatio = null;
       return;
     }
