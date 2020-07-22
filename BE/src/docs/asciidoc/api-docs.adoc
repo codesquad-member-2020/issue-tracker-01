@@ -228,7 +228,7 @@ include::{snippets}/label-controller-test/label_삭제_테스트/http-response.a
 
 == Milestone 관련 API
 
-=== GET milestone List 검색조건에 해당하는 milestone 목록가져오기
+=== GET milestone 전체 목록 가져오기
 
 ==== CURL
 
