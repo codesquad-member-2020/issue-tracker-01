@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import kr.codesquad.issuetracker.domain.issue.Issue;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,9 +21,24 @@ public class MilestoneOfMilestoneList {
   private String description;
   private LocalDate dueDate;
   private LocalDateTime lastUpdatedDate;
-  private long openIssueCount;
-  private long closedIssueCount;
-  private Integer complete;
+  private Long openIssueCount;
+  private Long closedIssueCount;
+  private Integer completeRatio;
+
+  @Builder
+  private MilestoneOfMilestoneList(Long id, boolean isOpened, String title,
+      String description, LocalDate dueDate, LocalDateTime lastUpdatedDate, long openIssueCount,
+      long closedIssueCount, Integer completeRatio) {
+    this.id = id;
+    this.isOpened = isOpened;
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.lastUpdatedDate = lastUpdatedDate;
+    this.openIssueCount = openIssueCount;
+    this.closedIssueCount = closedIssueCount;
+    this.completeRatio = completeRatio;
+  }
 
   public MilestoneOfMilestoneList(Milestone milestone) {
     this.id = milestone.getId();
@@ -47,13 +63,13 @@ public class MilestoneOfMilestoneList {
 
   private void setIssueCountAndCompletePercentage(List<Issue> issues, int issueSize) {
     if (issueSize == 0) {
-      this.openIssueCount = 0;
-      this.closedIssueCount = 0;
-      this.complete = null;
+      this.openIssueCount = 0L;
+      this.closedIssueCount = 0L;
+      this.completeRatio = null;
       return;
     }
     this.openIssueCount = issues.stream().filter(Issue::isOpened).count();
     this.closedIssueCount = issueSize - this.openIssueCount;
-    this.complete = Math.toIntExact(closedIssueCount * 100 / issueSize);
+    this.completeRatio = Math.toIntExact(closedIssueCount * 100 / issueSize);
   }
 }
