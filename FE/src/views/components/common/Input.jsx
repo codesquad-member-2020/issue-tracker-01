@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Input = ({ placeholder, defaultValue, value, style }) => {
+const Input = ({ placeholder, defaultValue, value, style, onChange, readOnly }) => {
   return (
     <StyledInput
       type="text"
@@ -9,6 +9,8 @@ const Input = ({ placeholder, defaultValue, value, style }) => {
       defaultValue={defaultValue}
       value={value}
       style={style}
+      onChange={onChange}
+      readOnly={readOnly}
     />
   );
 };

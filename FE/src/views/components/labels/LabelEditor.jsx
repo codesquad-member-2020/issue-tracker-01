@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import styled, { css } from "styled-components";
 import Button from "@/common/Button";
 import Input from "@/common/Input";
@@ -6,11 +6,43 @@ import Label from "@/common/Label";
 import { RetweetOutlined } from "@ant-design/icons";
 import { generateRandomColor } from "Utils/utilFunctions";
 
-const temp = {
-  id: null,
-  title: null,
-  color: null,
-  description: null,
+const initialValues = {
+  title: "",
+  color: "",
+  description: "",
+};
+
+/* Action Types */
+
+const inputActions = {
+  UPDATE_TITLE: "UPDATE_TITLE",
+  UPDATE_DESCRIPTION: "UPDATE_DESCRIPTION",
+  UPDATE_COLOR: "UPDATE_COLOR",
+};
+
+/* Action Creators */
+
+const updateTitle = (title) => ({ type: inputActions.UPDATE_TITLE, payload: title });
+const updateDescription = (description) => ({
+  type: inputActions.UPDATE_DESCRIPTION,
+  payload: description,
+});
+const updateColor = (color) => ({ type: inputActions.UPDATE_COLOR, payload: color });
+
+/* Reducer */
+
+const inputReducer = (state, { type, payload }) => {
+  const { UPDATE_TITLE, UPDATE_DESCRIPTION, UPDATE_COLOR } = inputActions;
+  switch (type) {
+    case UPDATE_TITLE:
+      return { ...state, title: payload };
+    case UPDATE_DESCRIPTION:
+      return { ...state, description: payload };
+    case UPDATE_COLOR:
+      return { ...state, color: payload };
+    default:
+      return state;
+  }
 };
 
 const buttons = {
@@ -18,19 +50,19 @@ const buttons = {
   list: "Save changes",
 };
 
-const LabelEditor = ({ mode, values = temp, handlers }) => {
-  const { id, title, color, description } = values;
+const LabelEditor = ({ mode, values, handlers }) => {
   const [editing, setEditing] = useState(false);
-  const [labelColor, setLabelColor] = useState(color);
+  const [inputValues, inputDispatch] = useReducer(inputReducer, values || initialValues);
+  const { id, title, color, description } = inputValues;
 
   useEffect(() => {
-    if (!color) setLabelColor(generateRandomColor());
+    if (!color) inputDispatch(updateColor(generateRandomColor()));
   }, []);
 
   return (
     <Wrapper mode={mode}>
       <PreviewWrapper>
-        <Label title={title || "Label preview"} color={labelColor} />
+        <Label title={title || "Label preview"} color={color} />
         {mode === "list" && (
           <>
             {!editing && <Description>{description}</Description>}
@@ -45,19 +77,30 @@ const LabelEditor = ({ mode, values = temp, handlers }) => {
         <EditorWrapper>
           <InputWrapper>
             <StyledLabel>Label name</StyledLabel>
-            <Input placeholder="Label name" value={title} />
+            <Input
+              placeholder="Label name"
+              value={title}
+              onChange={(e) => inputDispatch(updateTitle(e.target.value))}
+            />
           </InputWrapper>
           <InputWrapper>
             <StyledLabel>Description</StyledLabel>
-            <Input placeholder="Description (optional)" value={description} />
+            <Input
+              placeholder="Description (optional)"
+              value={description}
+              onChange={(e) => inputDispatch(updateDescription(e.target.value))}
+            />
           </InputWrapper>
           <InputWrapper>
             <StyledLabel>Color</StyledLabel>
             <ColorWrapper>
-              <Refresh color={labelColor} onClick={() => setLabelColor(generateRandomColor())}>
+              <Refresh
+                color={color}
+                onClick={() => inputDispatch(updateColor(generateRandomColor()))}
+              >
                 <RetweetOutlined style={{ color: "#fff", fontWeight: "bold" }} />
               </Refresh>
-              <Input style={{ flex: "1" }} value={labelColor} />
+              <Input style={{ flex: "1" }} value={color} readOnly />
             </ColorWrapper>
           </InputWrapper>
           <ButtonWrapper>
