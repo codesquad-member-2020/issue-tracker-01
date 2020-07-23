@@ -48,6 +48,7 @@ module.exports = {
       Assets: path.resolve(__dirname, "./src/assets/"),
       Utils: path.resolve(__dirname, "./src/utils/"),
       Hooks: path.resolve(__dirname, "./src/hooks/"),
+      Store: path.resolve(__dirname, "./src/store/"),
     },
   },
   plugins: [

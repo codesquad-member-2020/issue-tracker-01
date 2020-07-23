@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchLabels } from "Store/label/labelAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import Button from "@/common/Button";
 import LabelEditor from "@/labels/LabelEditor";
 import { TagOutlined, FlagOutlined } from "@ant-design/icons";
-import { list } from "Assets/mockLabel";
 
 const LabelListPage = () => {
   const [creating, setCreating] = useState(false);
+  const { loading, error, labels } = useSelector((state) => state.label);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchLabels()(dispatch);
+  }, [dispatch]);
 
   const handlersForCreateMode = {
     onClickCancel: setCreating,
@@ -36,17 +43,27 @@ const LabelListPage = () => {
           </Nav>
           {creating && <LabelEditor mode="create" handlers={handlersForCreateMode} />}
           <LabelListWrapper>
-            <LabelListHeader>2 labels</LabelListHeader>
-            <LabelListBody>
-              {list.map((item) => (
-                <LabelEditor
-                  key={item.id}
-                  mode="list"
-                  values={item}
-                  handlers={handlersForListMode}
-                />
-              ))}
-            </LabelListBody>
+            <LabelListHeader>
+              {labels && labels.length > 0 ? labels.length : 0} labels
+            </LabelListHeader>
+            {loading ? (
+              <h2>loading...</h2>
+            ) : error ? (
+              <h2>error</h2>
+            ) : labels.length > 0 ? (
+              <LabelListBody>
+                {labels.map((item) => (
+                  <LabelEditor
+                    key={item.id}
+                    mode="list"
+                    values={item}
+                    handlers={handlersForListMode}
+                  />
+                ))}
+              </LabelListBody>
+            ) : (
+              <h2>Create your first label!</h2>
+            )}
           </LabelListWrapper>
         </div>
       </main>
