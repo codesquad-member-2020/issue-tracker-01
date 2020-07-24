@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getLabels } from "Store/label/labelAction";
+import { finishLoading } from "Store/loading/loadingAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
@@ -10,15 +11,20 @@ import { TagOutlined, FlagOutlined } from "@ant-design/icons";
 
 const LabelListPage = () => {
   const [creating, setCreating] = useState(false);
-  const {
-    loading: { GET_LABELS },
-    error,
-    labels,
-  } = useSelector((state) => state.label);
+  const { error, labels } = useSelector((state) => state.label);
+  const { GET_LABELS } = useSelector((state) => state.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getLabels()(dispatch);
+    const getLabelsFn = async () => {
+      try {
+        await getLabels()(dispatch);
+      } catch (e) {
+        console.log(e);
+        dispatch(finishLoading("GET_LABELS"));
+      }
+    };
+    getLabelsFn();
   }, []);
 
   const handlers = {
