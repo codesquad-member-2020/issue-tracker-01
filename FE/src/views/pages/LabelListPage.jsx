@@ -53,11 +53,9 @@ const LabelListPage = () => {
             <LabelListHeader>
               {labels && labels.length > 0 ? labels.length : 0} labels
             </LabelListHeader>
-            {GET_LABELS ? (
-              <h2>loading...</h2>
-            ) : error ? (
-              <h2>error</h2>
-            ) : labels.length > 0 ? (
+            {GET_LABELS && <h2>loading...</h2>}
+            {error && <h2>error</h2>}
+            {!GET_LABELS && labels.length > 0 && (
               <LabelListBody>
                 {labels &&
                   labels.length > 0 &&
@@ -65,8 +63,6 @@ const LabelListPage = () => {
                     <LabelEditor key={item.id} mode="list" values={item} handlers={handlers} />
                   ))}
               </LabelListBody>
-            ) : (
-              <h2>Create your first label!</h2>
             )}
           </LabelListWrapper>
         </div>
