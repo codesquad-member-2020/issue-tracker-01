@@ -61,7 +61,7 @@ const LabelEditor = ({ mode, values, handlers }) => {
   const [inputValues, inputDispatch] = useReducer(inputReducer, values || initialValues);
   const { id, title, color, description } = inputValues;
 
-  const { CREATE_LABEL } = useSelector((state) => state.loading);
+  const { CREATE_LABEL, DELETE_LABEL } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (!color) inputDispatch(updateColor(generateRandomColor()));
@@ -76,7 +76,12 @@ const LabelEditor = ({ mode, values, handlers }) => {
             {!editing && <Description>{description}</Description>}
             <ButtonWrapper>
               {!editing && <Button type="text" text="Edit" onClick={() => setEditing(true)} />}
-              <Button type="text" text="Delete" />
+              <Button
+                type="text"
+                text="Delete"
+                onClick={() => handlers.onClickDelete(id)}
+                // loading={id && DELETE_LABEL}
+              />
             </ButtonWrapper>
           </>
         )}

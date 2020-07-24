@@ -14,3 +14,10 @@ export const CREATE_LABEL_SUCCESS = "CREATE_LABEL_SUCCESS";
 export const CREATE_LABEL_FAILURE = "CREATE_LABEL_FAILURE";
 
 export const createLabel = createRequestThunk(CREATE_LABEL, api.createLabel);
+
+/* Delete */
+export const DELETE_LABEL = "DELETE_LABEL";
+export const DELETE_LABEL_SUCCESS = "DELETE_LABEL_SUCCESS";
+export const DELETE_LABEL_FAILURE = "DELETE_LABEL_FAILURE";
+
+export const deleteLabel = createRequestThunk(DELETE_LABEL, api.deleteLabel);
