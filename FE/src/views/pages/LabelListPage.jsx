@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getLabels } from "Store/label/labelAction";
+import { getLabels, createLabel } from "Store/label/labelAction";
 import { finishLoading } from "Store/loading/loadingAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
@@ -29,7 +29,7 @@ const LabelListPage = () => {
 
   const handlers = {
     onClickCancel: setCreating,
-    onClickCreate: null,
+    onClickCreate: (label = {}) => createLabel(label)(dispatch),
     onClickEdit: null,
     onClickDelete: null,
   };

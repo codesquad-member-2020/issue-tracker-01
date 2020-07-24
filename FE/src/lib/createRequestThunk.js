@@ -9,7 +9,8 @@ export default function createReqeustThunk(type, request) {
     dispatch(startLoading(type));
     try {
       const { data } = await request(params);
-      dispatch({ type: SUCCESS, payload: data });
+      console.log("data : ", data, "params : ", params);
+      dispatch({ type: SUCCESS, payload: data || params });
     } catch (e) {
       dispatch({ type: FAILURE, payload: e });
       throw e;

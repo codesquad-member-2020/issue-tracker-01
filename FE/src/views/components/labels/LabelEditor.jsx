@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useReducer } from "react";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import Button from "@/common/Button";
 import Input from "@/common/Input";
 import Label from "@/common/Label";
 import { RetweetOutlined } from "@ant-design/icons";
-import { generateRandomColor } from "Utils/utilFunctions";
+import { generateRandomColor } from "Lib/utilFunctions";
 
 const initialValues = {
+  id: null,
   title: "",
   color: "",
   description: "",
@@ -18,6 +20,7 @@ const inputActions = {
   UPDATE_TITLE: "UPDATE_TITLE",
   UPDATE_DESCRIPTION: "UPDATE_DESCRIPTION",
   UPDATE_COLOR: "UPDATE_COLOR",
+  RESET_VALUES: "RESET_VALUES",
 };
 
 /* Action Creators */
@@ -28,11 +31,12 @@ const updateDescription = (description) => ({
   payload: description,
 });
 const updateColor = (color) => ({ type: inputActions.UPDATE_COLOR, payload: color });
+const resetValues = () => ({ type: inputActions.RESET_VALUES });
 
 /* Reducer */
 
 const inputReducer = (state, { type, payload }) => {
-  const { UPDATE_TITLE, UPDATE_DESCRIPTION, UPDATE_COLOR } = inputActions;
+  const { UPDATE_TITLE, UPDATE_DESCRIPTION, UPDATE_COLOR, RESET_VALUES } = inputActions;
   switch (type) {
     case UPDATE_TITLE:
       return { ...state, title: payload };
@@ -40,6 +44,8 @@ const inputReducer = (state, { type, payload }) => {
       return { ...state, description: payload };
     case UPDATE_COLOR:
       return { ...state, color: payload };
+    case RESET_VALUES:
+      return { ...state, title: "", description: "", color: generateRandomColor() };
     default:
       return state;
   }
@@ -54,6 +60,8 @@ const LabelEditor = ({ mode, values, handlers }) => {
   const [editing, setEditing] = useState(false);
   const [inputValues, inputDispatch] = useReducer(inputReducer, values || initialValues);
   const { id, title, color, description } = inputValues;
+
+  const { CREATE_LABEL } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (!color) inputDispatch(updateColor(generateRandomColor()));
@@ -108,7 +116,15 @@ const LabelEditor = ({ mode, values, handlers }) => {
               text="Cancel"
               onClick={() => (mode === "create" ? handlers.onClickCancel() : setEditing())}
             />
-            <Button type="primary" text={buttons[mode]} />
+            <Button
+              type="primary"
+              text={buttons[mode]}
+              onClick={async () => {
+                await handlers.onClickCreate(inputValues);
+                inputDispatch(resetValues());
+              }}
+              loading={CREATE_LABEL}
+            />
           </ButtonWrapper>
         </EditorWrapper>
       )}
