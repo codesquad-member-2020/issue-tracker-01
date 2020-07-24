@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchLabels } from "Store/label/labelAction";
+import { getLabels } from "Store/label/labelAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
@@ -10,21 +10,22 @@ import { TagOutlined, FlagOutlined } from "@ant-design/icons";
 
 const LabelListPage = () => {
   const [creating, setCreating] = useState(false);
-  const { loading, error, labels } = useSelector((state) => state.label);
+  const {
+    loading: { GET_LABELS },
+    error,
+    labels,
+  } = useSelector((state) => state.label);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchLabels()(dispatch);
-  }, [dispatch]);
+    getLabels()(dispatch);
+  }, []);
 
-  const handlersForCreateMode = {
+  const handlers = {
     onClickCancel: setCreating,
-    onClickConfirm: null,
-  };
-
-  const handlersForListMode = {
+    onClickCreate: null,
+    onClickEdit: null,
     onClickDelete: null,
-    onClickConfirm: null,
   };
 
   return (
@@ -41,25 +42,22 @@ const LabelListPage = () => {
             />
             <Button type="primary" text="New label" onClick={() => setCreating(!creating)} />
           </Nav>
-          {creating && <LabelEditor mode="create" handlers={handlersForCreateMode} />}
+          {creating && <LabelEditor mode="create" handlers={handlers} />}
           <LabelListWrapper>
             <LabelListHeader>
               {labels && labels.length > 0 ? labels.length : 0} labels
             </LabelListHeader>
-            {loading ? (
+            {GET_LABELS ? (
               <h2>loading...</h2>
             ) : error ? (
               <h2>error</h2>
             ) : labels.length > 0 ? (
               <LabelListBody>
-                {labels.map((item) => (
-                  <LabelEditor
-                    key={item.id}
-                    mode="list"
-                    values={item}
-                    handlers={handlersForListMode}
-                  />
-                ))}
+                {labels &&
+                  labels.length > 0 &&
+                  labels.map((item) => (
+                    <LabelEditor key={item.id} mode="list" values={item} handlers={handlers} />
+                  ))}
               </LabelListBody>
             ) : (
               <h2>Create your first label!</h2>

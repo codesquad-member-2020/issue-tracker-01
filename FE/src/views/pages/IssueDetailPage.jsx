@@ -7,7 +7,7 @@ import CustomizedDropdown from "@/common/CustomizedDropdown";
 import User from "@/common/User";
 import CommentViewer from "@/issues/CommentViewer";
 import CommentEditor from "@/issues/CommentEditor";
-import { getRelativeTime } from "Utils/utilFunctions";
+import { getRelativeTime } from "Lib/utilFunctions";
 import { detail } from "Assets/mockIssue";
 
 const CreateIssuePage = () => {

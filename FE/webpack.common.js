@@ -46,7 +46,7 @@ module.exports = {
       "@": path.resolve(__dirname, "./src/views/components/"),
       Pages: path.resolve(__dirname, "./src/views/pages/"),
       Assets: path.resolve(__dirname, "./src/assets/"),
-      Utils: path.resolve(__dirname, "./src/utils/"),
+      Lib: path.resolve(__dirname, "./src/lib/"),
       Hooks: path.resolve(__dirname, "./src/hooks/"),
       Store: path.resolve(__dirname, "./src/store/"),
     },

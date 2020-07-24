@@ -1,27 +1,45 @@
-import { FETCH_LABELS_REQUEST, FETCH_LABELS_SUCCESS, FETCH_LABELS_FAILURE } from "./labelAction";
+import { GET_LABELS, GET_LABELS_SUCCESS, GET_LABELS_FAILURE } from "./labelAction";
 
 const initialState = {
-  loading: false,
+  loading: {
+    GET_LABELS: false,
+    CREATE_LABEL: false,
+    EDIT_LABEL: false,
+    DELETE_LABEL: false,
+  },
   error: "",
   labels: [],
 };
 
 const labelReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case FETCH_LABELS_REQUEST:
+    case GET_LABELS:
       return {
         ...state,
-        loading: true,
+        loading: {
+          ...state.loading,
+          GET_LABELS: true,
+        },
       };
-    case FETCH_LABELS_SUCCESS:
+    case GET_LABELS_SUCCESS:
+      const updatedLabelList = state.labels
+        .concat(payload.labels)
+        .sort((a, b) => a.title.localeCompare(b.title));
       return {
         ...state,
-        loading: false,
+        loading: {
+          ...state.loading,
+          GET_LABELS: false,
+        },
+        labels: updatedLabelList,
       };
-    case FETCH_LABELS_FAILURE:
+    case GET_LABELS_FAILURE:
       return {
         ...state,
-        loading: false,
+        loading: {
+          ...state.loading,
+          GET_LABELS: false,
+        },
         error: payload,
       };
     default:
