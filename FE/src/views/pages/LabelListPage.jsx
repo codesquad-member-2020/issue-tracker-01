@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getLabels, createLabel, editLabel, deleteLabel } from "Store/label/labelAction";
+import { finishLoading } from "Store/loading/loadingAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import Button from "@/common/Button";
-import LabelItem from "@/labels/LabelItem";
 import LabelEditor from "@/labels/LabelEditor";
-import Label from "@/common/Label";
 import { TagOutlined, FlagOutlined } from "@ant-design/icons";
-import { list } from "Assets/mockLabel";
 
 const LabelListPage = () => {
+  const [creating, setCreating] = useState(false);
+  const { error, labels } = useSelector((state) => state.label);
+  const { GET_LABELS } = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getLabelsFn = async () => {
+      try {
+        await getLabels()(dispatch);
+      } catch (e) {
+        console.log(e);
+        dispatch(finishLoading("GET_LABELS"));
+      }
+    };
+    getLabelsFn();
+  }, []);
+
+  const handlers = {
+    onClickCancel: setCreating,
+    onClickCreate: (label = {}) => createLabel(label)(dispatch),
+    onClickEdit: (labelId = null, updatedValues = {}) =>
+      editLabel({ labelId, updatedValues })(dispatch),
+    onClickDelete: (id = null) => deleteLabel(id)(dispatch),
+  };
+
   return (
     <>
       <Header />
@@ -22,21 +47,24 @@ const LabelListPage = () => {
                 { icon: <FlagOutlined />, title: "Milestones", param: "/milestones" },
               ]}
             />
-            <Button type="primary" text="New label" />
+            <Button type="primary" text="New label" onClick={() => setCreating(!creating)} />
           </Nav>
-          <LabelMaker>
-            <PreviewWrapper>
-              <Label title="Label preview" color="#7057FF" />
-            </PreviewWrapper>
-            <LabelEditor mode="create" />
-          </LabelMaker>
+          {creating && <LabelEditor mode="create" handlers={handlers} />}
           <LabelListWrapper>
-            <LabelListHeader>2 labels</LabelListHeader>
-            <LabelListBody>
-              {list.map((item) => (
-                <LabelItem key={item.id} {...item} />
-              ))}
-            </LabelListBody>
+            <LabelListHeader>
+              {labels && labels.length > 0 ? labels.length : 0} labels
+            </LabelListHeader>
+            {GET_LABELS && <h2>loading...</h2>}
+            {error && <h2>error</h2>}
+            {!GET_LABELS && labels.length > 0 && (
+              <LabelListBody>
+                {labels &&
+                  labels.length > 0 &&
+                  labels.map((item) => (
+                    <LabelEditor key={item.id} mode="list" values={item} handlers={handlers} />
+                  ))}
+              </LabelListBody>
+            )}
           </LabelListWrapper>
         </div>
       </main>
@@ -52,25 +80,13 @@ const Nav = styled.div`
   margin-bottom: 16px;
 `;
 
-const LabelMaker = styled.div`
-  width: 100%;
-  background: #fafbfc;
-  border-radius: 5px;
-  border: 1px solid #e1e4e8;
-  margin-bottom: 16px;
-`;
-
-const PreviewWrapper = styled.div`
-  width: 100%;
-  padding: 20px;
-`;
-
 const LabelListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid #e1e4e8;
   border-radius: 5px;
+  margin-top: 16px;
 `;
 
 const LabelListHeader = styled.div`

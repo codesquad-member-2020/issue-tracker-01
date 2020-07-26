@@ -3,7 +3,7 @@ import { Checkbox, Avatar } from "antd";
 import { ExclamationCircleOutlined, FlagOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Label from "@/common/Label";
-import { getRelativeTime } from "Utils/utilFunctions";
+import { getRelativeTime } from "Lib/utilFunctions";
 
 const IssueItem = (props) => {
   const { issueNumber, title, createdAt, author, assignees, labels, milestone, opened } = props;

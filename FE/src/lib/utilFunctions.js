@@ -20,3 +20,8 @@ export const getRelativeTime = (actionTime) => {
   const year = month / 12;
   return parseInt(year.toString()) + " year" + (year > 1 ? "s" : "");
 };
+
+export const generateRandomColor = () =>
+  "#000000".replace(/0/g, function () {
+    return (~~(Math.random() * 16)).toString(16);
+  });
