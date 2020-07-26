@@ -3,14 +3,16 @@ import { Checkbox, Avatar } from "antd";
 import { ExclamationCircleOutlined, FlagOutlined, UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import Label from "@/common/Label";
-import { getRelativeTime } from "Utils/utilFunctions";
+import { getRelativeTime } from "Lib/utilFunctions";
 
 const IssueItem = (props) => {
-  const { issueNumber, title, createdAt, author, assignees, labels, milestone } = props;
+  const { issueNumber, title, createdAt, author, assignees, labels, milestone, opened } = props;
   return (
     <StyledIssueItem>
       <Checkbox />
-      <ExclamationCircleOutlined style={{ marginLeft: "10px" }} />
+      <ExclamationCircleOutlined
+        style={{ marginLeft: "10px", color: opened ? "#2EA44F" : "#D73A4A" }}
+      />
       <ContentsWrapper>
         <TitleWrapper>
           <Title>{title}</Title>
@@ -55,6 +57,7 @@ const StyledIssueItem = styled.div`
 const ContentsWrapper = styled.div`
   margin-left: 8px;
   margin-right: auto;
+  color: #898989;
 `;
 
 const TitleWrapper = styled.div`
@@ -76,7 +79,6 @@ const LabelWrapper = styled.div`
 
 const Details = styled.span`
   font-size: 12px;
-  color: #898989;
 `;
 
 const AssigneesWrapper = styled.div`
