@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useReducer } from "react";
-import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import Button from "@/common/Button";
 import Input from "@/common/Input";
@@ -46,7 +45,6 @@ const LabelEditor = ({ mode, values, handlers }) => {
   const [editing, setEditing] = useState(false);
   const [inputValues, inputDispatch] = useReducer(inputReducer, values || initialValues);
   const { id, title, color, description } = inputValues;
-  const { CREATE_LABEL } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (!color) updateColor(generateRandomColor());
@@ -118,12 +116,7 @@ const LabelEditor = ({ mode, values, handlers }) => {
               text="Cancel"
               onClick={() => (mode === "create" ? handlers.onClickCancel() : setEditing())}
             />
-            <Button
-              type="primary"
-              text={buttons[mode]}
-              onClick={handleConfirm}
-              loading={CREATE_LABEL}
-            />
+            <Button type="primary" text={buttons[mode]} onClick={handleConfirm} />
           </ButtonWrapper>
         </EditorWrapper>
       )}

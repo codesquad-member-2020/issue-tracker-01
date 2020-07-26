@@ -10,7 +10,7 @@ export default function createReqeustThunk(type, request) {
     try {
       const response = await request(params);
       console.log("response : ", response, "params : ", params);
-      dispatch({ type: SUCCESS, payload: response || params });
+      dispatch({ type: SUCCESS, payload: params || response });
     } catch (e) {
       dispatch({ type: FAILURE, payload: e });
       throw e;

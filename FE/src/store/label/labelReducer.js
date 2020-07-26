@@ -17,9 +17,16 @@ const initialState = {
 const labelReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_LABELS_SUCCESS:
+      const initialList = state.labels
+        .concat(payload.data.labels)
+        .sort((a, b) => a.title.localeCompare(b.title));
+      return {
+        ...state,
+        labels: initialList,
+      };
     case CREATE_LABEL_SUCCESS:
       const updatedLabelList = state.labels
-        .concat(payload.data.labels || payload)
+        .concat(payload)
         .sort((a, b) => a.title.localeCompare(b.title));
       return {
         ...state,
@@ -30,11 +37,12 @@ const labelReducer = (state = initialState, { type, payload }) => {
         labelId,
         updatedValues: { title, description, color },
       } = payload;
-      const updateLabel = (label) =>
-        label.id === labelId ? { ...label, title, description, color } : label;
+      const updatedList = state.labels
+        .map((label) => (label.id === labelId ? { ...label, title, description, color } : label))
+        .sort((a, b) => a.title.localeCompare(b.title));
       return {
         ...state,
-        labels: state.labels.map(updateLabel),
+        labels: updatedList,
       };
     case DELETE_LABEL_SUCCESS:
       return {
