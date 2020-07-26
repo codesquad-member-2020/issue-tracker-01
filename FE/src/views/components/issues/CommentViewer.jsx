@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@/common/Button";
 import { Avatar, Input } from "antd";
-import { getRelativeTime } from "Utils/utilFunctions";
+import { getRelativeTime } from "Lib/utilFunctions";
 
 const CommentViewer = ({ author, ...comment }) => {
   const { description, createdAt, updatedAt, images, writer } = comment;

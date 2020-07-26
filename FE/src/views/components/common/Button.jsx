@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 
-const MyButton = ({ type, size, shape, icon, text, bgcolor, block, onClick }) => {
+const MyButton = ({ type, size, shape, icon, text, bgcolor, block, onClick, loading = false }) => {
   return (
     <Button
       type={type}
@@ -14,6 +14,7 @@ const MyButton = ({ type, size, shape, icon, text, bgcolor, block, onClick }) =>
         alignItems: "center",
       }}
       onClick={onClick}
+      loading={loading}
     >
       {icon && <div style={{ marginRight: "5px" }}>{icon}</div>}
       <div>{text}</div>
