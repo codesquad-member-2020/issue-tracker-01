@@ -46,8 +46,7 @@ const LabelEditor = ({ mode, values, handlers }) => {
   const [editing, setEditing] = useState(false);
   const [inputValues, inputDispatch] = useReducer(inputReducer, values || initialValues);
   const { id, title, color, description } = inputValues;
-  const { labelIdToDelete } = useSelector((state) => state.label);
-  const { CREATE_LABEL, DELETE_LABEL } = useSelector((state) => state.loading);
+  const { CREATE_LABEL } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (!color) updateColor(generateRandomColor());
@@ -62,6 +61,16 @@ const LabelEditor = ({ mode, values, handlers }) => {
   const updateColor = (labelColor) =>
     inputDispatch({ type: inputActions.UPDATE_COLOR, payload: labelColor });
   const resetValues = () => inputDispatch({ type: inputActions.RESET_VALUES });
+
+  const handleConfirm = async () => {
+    if (mode === "create") {
+      await handlers.onClickCreate(inputValues);
+      resetValues();
+    } else {
+      await handlers.onClickEdit(id, inputValues);
+      setEditing(false);
+    }
+  };
 
   return (
     <Wrapper mode={mode}>
@@ -112,10 +121,7 @@ const LabelEditor = ({ mode, values, handlers }) => {
             <Button
               type="primary"
               text={buttons[mode]}
-              onClick={async () => {
-                await handlers.onClickCreate(inputValues);
-                resetValues();
-              }}
+              onClick={handleConfirm}
               loading={CREATE_LABEL}
             />
           </ButtonWrapper>
