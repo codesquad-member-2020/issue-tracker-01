@@ -1,30 +1,69 @@
-import React from "react";
+import React, { useReducer, useCallback } from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import CustomizedDropdown from "@/common/CustomizedDropdown";
 import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
 
+const initialState = {
+  title: "",
+  assignees: [],
+  labels: [],
+  milestone: null,
+};
+
+const issueActions = {
+  UPDATE_TITLE: "UPDATE_TITLE",
+  UPDATE_ASSIGNEES: "UPDATE_ASSIGNEES",
+  UPDATE_LABELS: "UPDATE_LABELS",
+  UPDATE_MILESTONE: "UPDATE_MILESTONE",
+};
+
+const issueReducer = (state, { type, payload }) => {
+  const { UPDATE_TITLE, UPDATE_ASSIGNEES, UPDATE_LABELS, UPDATE_MILESTONE } = issueActions;
+  switch (type) {
+    case UPDATE_TITLE:
+      return {
+        ...state,
+        title: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const AssigneeData = {
+  type: "wide",
+  title: "Assignee",
+  itemList: ["reesekimm", "alex"],
+  onSelect: null,
+};
+
+const LabelData = {
+  type: "wide",
+  title: "Label",
+  itemList: ["FE", "BE"],
+  onSelect: null,
+};
+
+const MilestoneData = {
+  type: "wide",
+  title: "Milestones",
+  itemList: ["Phase1", "Phase2"],
+  onSelect: null,
+};
+
 const CreateIssuePage = () => {
-  const AssigneeData = {
-    type: "wide",
-    title: "Assignee",
-    itemList: ["reesekimm", "alex"],
-    onSelect: null,
-  };
+  const [issue, issueDispatch] = useReducer(issueReducer, initialState);
 
-  const LabelData = {
-    type: "wide",
-    title: "Label",
-    itemList: ["FE", "BE"],
-    onSelect: null,
-  };
+  const updateTitle = useCallback(
+    (e) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: e.target.value }),
+    []
+  );
 
-  const MilestoneData = {
-    type: "wide",
-    title: "Milestones",
-    itemList: ["Phase1", "Phase2"],
-    onSelect: null,
+  const handlers = {
+    onClickCancel: null,
+    onClickSubmit: null,
   };
 
   return (
@@ -35,14 +74,14 @@ const CreateIssuePage = () => {
           <Wrapper>
             <EditorColumn>
               <Avatar
-                src="https://avatars1.githubusercontent.com/u/38597469?s=460&u=2dfb09e65b47940c7661b7093c6cf8c91b8f13ea&v=4"
+                src="https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4"
                 style={{ width: "44px", height: "44px", marginRight: "12px" }}
               />
               <EditorWrapper>
                 <TitleWrppaer>
-                  <Input placeholder="Title" />
+                  <Input placeholder="Title" onChange={updateTitle} />
                 </TitleWrppaer>
-                <CommentEditor type="create-issue" />
+                <CommentEditor values={issue} handlers={handlers} />
               </EditorWrapper>
             </EditorColumn>
             <DropdownColumn>
