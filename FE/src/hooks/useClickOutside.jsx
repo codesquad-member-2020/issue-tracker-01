@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
-const useClickOutside = (initialIsVisible) => {
-  const [isVisible, setIsVisible] = useState(initialIsVisible);
+const useClickOutside = ({ initialIsVisibility, closingCb }) => {
+  const [isVisible, setIsVisible] = useState(initialIsVisibility);
 
   const ref = useRef(null);
 
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
+      if (closingCb) closingCb();
       setIsVisible(false);
     }
   };

@@ -2,6 +2,7 @@ import React, { useReducer, useCallback } from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import CustomizedDropdown from "@/common/CustomizedDropdown";
+import User from "@/common/User";
 import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
 
@@ -27,30 +28,28 @@ const issueReducer = (state, { type, payload }) => {
         ...state,
         title: payload,
       };
+    case UPDATE_ASSIGNEES:
+      return {
+        ...state,
+        assignees: payload,
+      };
     default:
       return state;
   }
 };
 
-const AssigneeData = {
-  type: "wide",
-  title: "Assignee",
-  itemList: ["reesekimm", "alex"],
-  onSelect: null,
-};
-
 const LabelData = {
   type: "wide",
-  title: "Label",
-  itemList: ["FE", "BE"],
-  onSelect: null,
+  title: "Labels",
+  openingCallback: "",
+  closingCallback: "labels closing cb",
 };
 
 const MilestoneData = {
   type: "wide",
-  title: "Milestones",
-  itemList: ["Phase1", "Phase2"],
-  onSelect: null,
+  title: "Milestone",
+  openingCallback: "",
+  closingCallback: "milestone closing cb",
 };
 
 const CreateIssuePage = () => {
@@ -60,6 +59,18 @@ const CreateIssuePage = () => {
     (e) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: e.target.value }),
     []
   );
+
+  const updateAssignees = useCallback(
+    (newList) => issueDispatch({ type: issueActions.UPDATE_ASSIGNEES, payload: newList }),
+    []
+  );
+
+  const AssigneeData = {
+    type: "wide",
+    title: "Assignees",
+    openingCallback: "",
+    closingCallback: updateAssignees,
+  };
 
   const handlers = {
     onClickCancel: null,
@@ -87,7 +98,11 @@ const CreateIssuePage = () => {
             <DropdownColumn>
               <DropdownWrapper>
                 <CustomizedDropdown {...AssigneeData} />
-                <SelectedItem>reesekimm</SelectedItem>
+                <SelectedItem>
+                  {issue.assignees.map(({ nickname, profileImage }, i) => (
+                    <User key={nickname + i} nickname={nickname} profileImage={profileImage} />
+                  ))}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...LabelData} />
