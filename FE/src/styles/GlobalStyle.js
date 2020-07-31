@@ -7,6 +7,11 @@ const GlobalStyle = createGlobalStyle`
     &:before, &:after {
       box-sizing: border-box;
     }
+    -ms-overflow-style: none;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   a {
