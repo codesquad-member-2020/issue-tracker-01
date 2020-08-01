@@ -15,7 +15,7 @@ import Dropdown from "@/common/Dropdown";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import IssueItem from "@/issues/IssueItem";
-import CustomizedDropdown from "@/common/CustomizedDropdown";
+import CustomizedDropdown from "@/common/Dropdown/Dropdown";
 import { list } from "Assets/mockIssue";
 
 const IssueListPage = () => {
@@ -40,25 +40,31 @@ const IssueListPage = () => {
   };
 
   const authorData = {
-    title: "Author",
-    itemList: ["reesekimm", "dion", "alex"],
-    onSelect: null,
+    category: "users",
+    title: "Assignees",
+    openingCallback: null,
+    closingCallback: null,
   };
 
   const LabelData = {
-    title: "Label",
-    itemList: ["FE", "BE"],
-    onSelect: null,
+    category: "labels",
+    title: "Labels",
+    openingCallback: null,
+    closingCallback: null,
   };
+
   const MilestoneData = {
-    title: "Milestones",
-    itemList: ["Phase1", "Phase2"],
-    onSelect: null,
+    category: "milestones",
+    title: "Milestone",
+    openingCallback: null,
+    closingCallback: null,
   };
+
   const AssigneeData = {
-    title: "Assignee",
-    itemList: ["reesekimm", "alex"],
-    onSelect: null,
+    category: "users",
+    title: "Assignees",
+    openingCallback: null,
+    closingCallback: null,
   };
 
   return (

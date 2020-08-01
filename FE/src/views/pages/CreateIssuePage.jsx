@@ -1,7 +1,7 @@
 import React, { useReducer, useCallback } from "react";
 import styled from "styled-components";
 import Header from "@/common/Header";
-import CustomizedDropdown from "@/common/CustomizedDropdown";
+import CustomizedDropdown from "@/common/Dropdown/Dropdown";
 import User from "@/common/User";
 import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
@@ -40,6 +40,7 @@ const issueReducer = (state, { type, payload }) => {
 
 const LabelData = {
   type: "wide",
+  category: "labels",
   title: "Labels",
   openingCallback: "",
   closingCallback: "labels closing cb",
@@ -47,6 +48,7 @@ const LabelData = {
 
 const MilestoneData = {
   type: "wide",
+  category: "milestones",
   title: "Milestone",
   openingCallback: "",
   closingCallback: "milestone closing cb",
@@ -67,6 +69,7 @@ const CreateIssuePage = () => {
 
   const AssigneeData = {
     type: "wide",
+    category: "users",
     title: "Assignees",
     openingCallback: "",
     closingCallback: updateAssignees,

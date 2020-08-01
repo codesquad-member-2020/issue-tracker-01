@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import { SettingOutlined, CaretDownOutlined, CheckOutlined } from "@ant-design/icons";
-import User from "@/common/User";
+import { SettingOutlined, CaretDownOutlined } from "@ant-design/icons";
+import UserListItem from "./UserListItem";
+import LabelListItem from "./LabelListItem";
+import MilestonListItem from "./MilestonListItem";
 import useClickOutside from "Hooks/useClickOutside";
 import itemList from "Assets/mockItemList";
 
-const CustomizedDropdown = (props) => {
-  const { type, title, openingCallback, closingCallback } = props;
-  const [items, setItems] = useState(itemList[title]);
+const components = {
+  users: UserListItem,
+  labels: LabelListItem,
+  milestones: MilestonListItem,
+};
+
+const Dropdown = (props) => {
+  const { type, category, title, openingCallback, closingCallback } = props;
+  const [items, setItems] = useState(itemList[category]);
   const { ref, isVisible, setIsVisible } = useClickOutside({
     initialIsVisibility: false,
     closingCb: () => {
-      if (items) closingCallback(items.filter((item) => item.selected));
+      if (items && closingCallback) closingCallback(items.filter((item) => item.selected));
     },
   });
+
+  const Item = components[category];
 
   const openMenu = () => {
     setIsVisible(!isVisible);
@@ -41,13 +51,8 @@ const CustomizedDropdown = (props) => {
       </DropdownHeader>
       {isVisible && (
         <ItemList type={type} onClick={toggleItem}>
-          {items.map(({ id, nickname, profileImage, selected }) => (
-            <Item key={id} className="item" data-index={id}>
-              <CheckOutlined
-                style={{ marginRight: "10px", visibility: selected ? "visible" : "hidden" }}
-              />
-              <User nickname={nickname} profileImage={profileImage} />
-            </Item>
+          {items.map((item) => (
+            <Item key={item.id} className="item" data-index={item.id} props={item} />
           ))}
         </ItemList>
       )}
@@ -55,7 +60,7 @@ const CustomizedDropdown = (props) => {
   );
 };
 
-export default CustomizedDropdown;
+export default Dropdown;
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -87,16 +92,4 @@ const ItemList = styled.ul`
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
   z-index: 20;
   list-style: none;
-`;
-
-const Item = styled.li`
-  cursor: pointer;
-  padding: 5px 12px;
-  line-height: 22px;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  :hover {
-    background: #f5f5f5;
-  }
 `;

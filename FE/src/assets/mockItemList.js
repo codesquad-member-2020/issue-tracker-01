@@ -1,5 +1,5 @@
 export default {
-  Assignees: [
+  users: [
     {
       id: 2,
       nickname: "0_reese",
@@ -45,7 +45,7 @@ export default {
       profileImage: "",
     },
   ],
-  Labels: [
+  labels: [
     {
       id: 43,
       title: "FE",
@@ -57,7 +57,7 @@ export default {
       color: "#F233FF",
     },
   ],
-  Milestone: [
+  milestones: [
     { id: 7, title: "Phase1" },
     { id: 12, title: "Phase2" },
     { id: 90, title: "Phase3" },
