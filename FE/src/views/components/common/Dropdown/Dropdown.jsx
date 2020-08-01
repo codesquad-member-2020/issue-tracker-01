@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { SettingOutlined, CaretDownOutlined } from "@ant-design/icons";
@@ -17,11 +17,12 @@ const components = {
 const Dropdown = (props) => {
   const { type, category, title, openingCallback, closingCallback } = props;
   const [items, setItems] = useState(itemList[category]);
-  const { ref, isVisible, setIsVisible } = useClickOutside({
-    initialIsVisibility: false,
-    closingCb: () => {
-      if (items && closingCallback) closingCallback(items.filter((item) => item.selected));
-    },
+  const [isVisible, setIsVisible] = useState(false);
+
+  const ref = useRef();
+  useClickOutside(ref, () => {
+    closingCallback(items.filter((item) => item.selected));
+    setIsVisible(false);
   });
 
   const Item = components[category];
@@ -40,7 +41,7 @@ const Dropdown = (props) => {
   };
 
   return (
-    <DropdownWrapper ref={ref}>
+    <DropdownWrapper>
       <DropdownHeader onClick={openMenu}>
         <div>{title}</div>
         {type === "wide" ? (
@@ -50,7 +51,7 @@ const Dropdown = (props) => {
         )}
       </DropdownHeader>
       {isVisible && (
-        <ItemList type={type} onClick={toggleItem}>
+        <ItemList ref={ref} type={type} onClick={toggleItem}>
           {items.map((item) => (
             <Item key={item.id} className="item" data-index={item.id} props={item} />
           ))}
