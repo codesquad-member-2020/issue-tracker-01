@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "@/common/Header";
 import CustomizedDropdown from "@/common/Dropdown/Dropdown";
 import User from "@/common/User";
+import Label from "@/common/Label";
 import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
 
@@ -33,29 +34,24 @@ const issueReducer = (state, { type, payload }) => {
         ...state,
         assignees: payload,
       };
+    case UPDATE_LABELS:
+      return {
+        ...state,
+        labels: payload,
+      };
+    case UPDATE_MILESTONE:
+      return {
+        ...state,
+        milestone: payload,
+      };
     default:
       return state;
   }
 };
 
-const LabelData = {
-  type: "wide",
-  category: "labels",
-  title: "Labels",
-  openingCallback: "",
-  closingCallback: "labels closing cb",
-};
-
-const MilestoneData = {
-  type: "wide",
-  category: "milestones",
-  title: "Milestone",
-  openingCallback: "",
-  closingCallback: "milestone closing cb",
-};
-
 const CreateIssuePage = () => {
   const [issue, issueDispatch] = useReducer(issueReducer, initialState);
+  const { assignees, labels, milestone } = issue;
 
   const updateTitle = useCallback(
     (e) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: e.target.value }),
@@ -67,12 +63,38 @@ const CreateIssuePage = () => {
     []
   );
 
+  const updateLabels = useCallback(
+    (newList) => issueDispatch({ type: issueActions.UPDATE_LABELS, payload: newList }),
+    []
+  );
+
+  const updateMilestone = useCallback(
+    (newMilestone) => issueDispatch({ type: issueActions.UPDATE_MILESTONE, payload: newMilestone }),
+    []
+  );
+
   const AssigneeData = {
     type: "wide",
     category: "users",
     title: "Assignees",
     openingCallback: "",
     closingCallback: updateAssignees,
+  };
+
+  const LabelData = {
+    type: "wide",
+    category: "labels",
+    title: "Labels",
+    openingCallback: "",
+    closingCallback: updateLabels,
+  };
+
+  const MilestoneData = {
+    type: "wide",
+    category: "milestones",
+    title: "Milestone",
+    openingCallback: "",
+    closingCallback: updateMilestone,
   };
 
   const handlers = {
@@ -102,18 +124,24 @@ const CreateIssuePage = () => {
               <DropdownWrapper>
                 <CustomizedDropdown {...AssigneeData} />
                 <SelectedItem>
-                  {issue.assignees.map(({ nickname, profileImage }, i) => (
-                    <User key={nickname + i} nickname={nickname} profileImage={profileImage} />
+                  {assignees.map(({ id, nickname, profileImage }) => (
+                    <User key={id} nickname={nickname} profileImage={profileImage} />
                   ))}
                 </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...LabelData} />
-                <SelectedItem>FE</SelectedItem>
+                <SelectedItem>
+                  {labels.map(({ id, title, color }) => (
+                    <Label key={id} title={title} color={color} />
+                  ))}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...MilestoneData} />
-                <SelectedItem>Phase1</SelectedItem>
+                <SelectedItem>
+                  <Milestone>{milestone ? milestone[0].title : ""}</Milestone>
+                </SelectedItem>
               </DropdownWrapper>
             </DropdownColumn>
           </Wrapper>
@@ -189,4 +217,8 @@ const DropdownWrapper = styled.div`
 
 const SelectedItem = styled.div`
   margin-top: 12px;
+`;
+
+const Milestone = styled.span`
+  font-weight: 600;
 `;

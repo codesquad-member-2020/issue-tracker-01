@@ -48,13 +48,15 @@ export default {
   labels: [
     {
       id: 43,
-      title: "FE",
+      title: "test~test~test~test~test~test~test~test~test~test~test~test~test~",
       color: "#1890FF",
+      description: "test~test~test~test~test~test~test~test~test~test~test~test~test~",
     },
     {
       id: 6,
       title: "BE",
       color: "#F233FF",
+      description: "",
     },
   ],
   milestones: [

@@ -93,4 +93,15 @@ const ItemList = styled.ul`
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
   z-index: 20;
   list-style: none;
+  & > li {
+    padding: 7px 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+    :hover {
+      background: #f5f5f5;
+    }
+    :not(:first-child) {
+      border-top: 1px solid #e1e4e8;
+    }
+  }
 `;

@@ -16,16 +16,7 @@ const UserListItem = ({ props }) => {
 export default UserListItem;
 
 const Item = styled.li`
-  cursor: pointer;
-  padding: 5px 12px;
-  line-height: 22px;
-  transition: all 0.3s;
   display: flex;
   align-items: center;
-  :hover {
-    background: #f5f5f5;
-  }
-  :not(:first-child) {
-    border-top: 1px solid lightgray;
-  }
+  font-weight: 600;
 `;
