@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
-const User = ({ nickname, profileImage }) => {
+const User = ({ nickname, profileImage, size }) => {
   return (
     <Wrapper>
       <Avatar
         src={profileImage}
         icon={profileImage ? "" : <UserOutlined />}
+        size={size}
         style={{ marginRight: "5px" }}
       />{" "}
       {nickname}
