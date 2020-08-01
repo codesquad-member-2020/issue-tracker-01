@@ -12,7 +12,7 @@ const CustomizedDropdown = (props) => {
   const { ref, isVisible, setIsVisible } = useClickOutside({
     initialIsVisibility: false,
     closingCb: () => {
-      closingCallback(items.filter((item) => item.selected));
+      if (items) closingCallback(items.filter((item) => item.selected));
     },
   });
 
@@ -23,8 +23,8 @@ const CustomizedDropdown = (props) => {
 
   const toggleItem = (e) => {
     const targetItemIdx = ReactDOM.findDOMNode(e.target).closest(".item").dataset.index;
-    const updatedList = items.map((item, i) =>
-      i == targetItemIdx ? { ...item, selected: !item.selected } : item
+    const updatedList = items.map((item) =>
+      item.id == targetItemIdx ? { ...item, selected: !item.selected } : item
     );
     setItems(updatedList);
   };
@@ -41,8 +41,8 @@ const CustomizedDropdown = (props) => {
       </DropdownHeader>
       {isVisible && (
         <ItemList type={type} onClick={toggleItem}>
-          {items.map(({ nickname, profileImage, selected }, i) => (
-            <Item key={nickname + i} className="item" data-index={i}>
+          {items.map(({ id, nickname, profileImage, selected }) => (
+            <Item key={id} className="item" data-index={id}>
               <CheckOutlined
                 style={{ marginRight: "10px", visibility: selected ? "visible" : "hidden" }}
               />
