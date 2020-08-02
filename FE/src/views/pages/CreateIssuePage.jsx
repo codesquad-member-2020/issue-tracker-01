@@ -126,8 +126,8 @@ const CreateIssuePage = () => {
               <DropdownWrapper>
                 <CustomizedDropdown {...AssigneeData} />
                 <SelectedItem>
-                  {assignees.map(({ id, nickname, profileImage }) => (
-                    <User key={id} nickname={nickname} profileImage={profileImage} />
+                  {assignees.map(({ userId, nickname, profileImage }) => (
+                    <User key={userId} nickname={nickname} profileImage={profileImage} />
                   ))}
                 </SelectedItem>
               </DropdownWrapper>

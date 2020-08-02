@@ -4,9 +4,9 @@ import User from "@/common/User";
 import { CheckOutlined } from "@ant-design/icons";
 
 const UserListItem = ({ props }) => {
-  const { id, nickname, profileImage, selected } = props;
+  const { userId, nickname, profileImage, selected } = props;
   return (
-    <Item className="item" data-index={id}>
+    <Item className="item" data-index={userId}>
       <CheckOutlined style={{ marginRight: "10px", visibility: selected ? "visible" : "hidden" }} />
       <User nickname={nickname} profileImage={profileImage} size="small" />
     </Item>

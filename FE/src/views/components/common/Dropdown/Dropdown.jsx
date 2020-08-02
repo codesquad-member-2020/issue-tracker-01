@@ -35,7 +35,7 @@ const Dropdown = (props) => {
   const toggleItem = (e) => {
     const targetItemIdx = ReactDOM.findDOMNode(e.target).closest(".item").dataset.index;
     const updatedList = items.map((item) =>
-      item.id == targetItemIdx ? { ...item, selected: !item.selected } : item
+      (item.id || item.userId) == targetItemIdx ? { ...item, selected: !item.selected } : item
     );
     setItems(updatedList);
   };
@@ -53,7 +53,12 @@ const Dropdown = (props) => {
       {isVisible && (
         <ItemList ref={ref} type={type} onClick={toggleItem}>
           {items.map((item) => (
-            <Item key={item.id} className="item" data-index={item.id} props={item} />
+            <Item
+              key={item.id || item.userId}
+              className="item"
+              data-index={item.id || item.userId}
+              props={item}
+            />
           ))}
         </ItemList>
       )}

@@ -1,46 +1,44 @@
 export default {
   users: [
     {
-      id: 2,
-      nickname: "0_reese",
+      userId: "reesekimm",
+      nickname: "Reese Kim",
       profileImage:
         "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
     },
     {
-      id: 30,
-      nickname: "1_reese",
-      profileImage:
-        "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+      userId: "guswns1659",
+      nickname: "DevJun",
+      profileImage: "https://avatars0.githubusercontent.com/u/55608425?v=4",
     },
     {
-      id: 11,
-      nickname: "2_reese",
-      profileImage:
-        "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+      userId: "ksundong",
+      nickname: "IdionKim",
+      profileImage: "https://avatars2.githubusercontent.com/u/42695954?v=4",
     },
     {
-      id: 4,
+      userId: "4",
       nickname: "3_haveagood",
       profileImage: "",
     },
     {
-      id: 9,
+      userId: "9",
       nickname: "4_reese",
       profileImage:
         "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
     },
     {
-      id: 8,
+      userId: "8",
       nickname: "5_haveagood",
       profileImage: "",
     },
     {
-      id: 10,
+      userId: "10",
       nickname: "6_haveagood",
       profileImage: "",
     },
     {
-      id: 130,
+      userId: "130",
       nickname: "7_haveagood",
       profileImage: "",
     },
