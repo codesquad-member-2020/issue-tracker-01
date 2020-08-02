@@ -1,10 +1,9 @@
 export default {
   users: [
     {
-      userId: "reesekimm",
-      nickname: "Reese Kim",
-      profileImage:
-        "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
+      nickname: "IdionKim",
+      profileImage: "https://avatars0.githubusercontent.com/u/38597469?v=4",
+      userId: "ksundong",
     },
     {
       userId: "guswns1659",
@@ -12,57 +11,19 @@ export default {
       profileImage: "https://avatars0.githubusercontent.com/u/55608425?v=4",
     },
     {
-      userId: "ksundong",
-      nickname: "IdionKim",
+      userId: "reesekimm",
+      nickname: "Reese Kim",
       profileImage: "https://avatars2.githubusercontent.com/u/42695954?v=4",
-    },
-    {
-      userId: "4",
-      nickname: "3_haveagood",
-      profileImage: "",
-    },
-    {
-      userId: "9",
-      nickname: "4_reese",
-      profileImage:
-        "https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4",
-    },
-    {
-      userId: "8",
-      nickname: "5_haveagood",
-      profileImage: "",
-    },
-    {
-      userId: "10",
-      nickname: "6_haveagood",
-      profileImage: "",
-    },
-    {
-      userId: "130",
-      nickname: "7_haveagood",
-      profileImage: "",
     },
   ],
   labels: [
-    {
-      id: 43,
-      title: "test~test~test~test~test~test~test~test~test~test~test~test~test~",
-      color: "#1890FF",
-      description: "test~test~test~test~test~test~test~test~test~test~test~test~test~",
-    },
-    {
-      id: 6,
-      title: "BE",
-      color: "#F233FF",
-      description: "",
-    },
+    { id: 4, title: "lavender", color: "#c7c7ee", description: "purple" },
+    { id: 20, title: "zalemonaaa", color: "#e7ee29", description: "yellowaaa" },
+    { id: 21, title: "pastel", color: "#95cec4", description: "green" },
+    { id: 22, title: "asf", color: "#0cb57a", description: "dssss" },
+    { id: 23, title: "test123", color: "#6933e0", description: "stest123" },
+    { id: 25, title: "performance", color: "#ae6a3a", description: "props" },
+    { id: 26, title: "1234", color: "#503cca", description: "asdf" },
   ],
-  milestones: [
-    { id: 7, title: "Phase1" },
-    { id: 12, title: "Phase2" },
-    { id: 90, title: "Phase3" },
-    { id: 160, title: "Phase4" },
-    { id: 2, title: "Phase5" },
-    { id: 80, title: "Phase6" },
-  ],
+  milestones: [{ id: 1, title: "Mile" }],
 };
