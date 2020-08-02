@@ -1,5 +1,7 @@
 import React, { useReducer, useCallback } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createIssue } from "Store/issue/issueAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
 import CustomizedDropdown from "@/common/Dropdown/Dropdown";
@@ -52,11 +54,12 @@ const issueReducer = (state, { type, payload }) => {
 
 const CreateIssuePage = () => {
   const [issue, issueDispatch] = useReducer(issueReducer, initialState);
-  const { assignees, labels, milestone } = issue;
+  const { title, assignees, labels, milestone } = issue;
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const updateTitle = useCallback(
-    (e) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: e.target.value }),
+    ({ target: { value } }) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: value }),
     []
   );
 
@@ -101,7 +104,7 @@ const CreateIssuePage = () => {
 
   const handlers = {
     onClickCancel: () => history.push("/issues"),
-    onClickSubmit: null,
+    onClickSubmit: (issue) => createIssue(issue)(dispatch),
   };
 
   return (
@@ -119,7 +122,7 @@ const CreateIssuePage = () => {
                 <TitleWrppaer>
                   <Input placeholder="Title" onChange={updateTitle} />
                 </TitleWrppaer>
-                <CommentEditor values={issue} handlers={handlers} />
+                <CommentEditor issueData={issue} handlers={handlers} />
               </EditorWrapper>
             </EditorColumn>
             <DropdownColumn>

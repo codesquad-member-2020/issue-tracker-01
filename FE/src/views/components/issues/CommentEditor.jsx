@@ -4,9 +4,30 @@ import { CodeBlock, InlineCodeBlock, BlockQuote, LinkRenderer } from "Styles/Mar
 import styled from "styled-components";
 import Button from "@/common/Button";
 
-const CommentEditor = ({ type, values, handlers }) => {
+const CommentEditor = ({ type, issueData, previousComment, handlers }) => {
   const [isPreview, setIsPreview] = useState(false);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState(previousComment);
+
+  const processIssueData = () => {
+    let copy = JSON.parse(JSON.stringify(issueData));
+    copy.assigneeUserIdList = copy.assignees
+      ? copy.assignees.reduce((result, user) => {
+          result.push(user.userId);
+          return result;
+        }, [])
+      : [];
+    copy.labelIdList = copy.labels.length
+      ? copy.labels.reduce((result, label) => {
+          result.push(label.id);
+          return result;
+        }, [])
+      : [];
+    copy.milestoneId = copy.milestone ? copy.milestone[0].id : "";
+    delete copy.assignees;
+    delete copy.labels;
+    delete copy.milestone;
+    return copy;
+  };
 
   const makeButtons = useCallback(
     (type) => {
@@ -32,13 +53,15 @@ const CommentEditor = ({ type, values, handlers }) => {
               <Button
                 type="primary"
                 text="Submit new issue"
-                onClick={() => console.log({ ...values, comment })}
+                onClick={() => {
+                  handlers.onClickSubmit({ ...processIssueData(issueData), comment });
+                }}
               />
             </>
           );
       }
     },
-    [type, values, comment]
+    [type, issueData, comment]
   );
 
   return (
@@ -48,10 +71,9 @@ const CommentEditor = ({ type, values, handlers }) => {
         <Button type="text" text="Preview" onClick={() => setIsPreview(true)} />
       </CommentTab>
       <CommentArea>
-        {!isPreview && (
+        {!isPreview ? (
           <Textarea value={comment} onChange={(e) => setComment(e.currentTarget.value)}></Textarea>
-        )}
-        {isPreview && (
+        ) : (
           <Preview>
             <ReactMarkdown
               source={comment}

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getIssues } from "Store/issue/issueAction";
 import styled from "styled-components";
 import { Input, Checkbox } from "antd";
 import {
@@ -16,10 +18,24 @@ import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import IssueItem from "@/issues/IssueItem";
 import CustomizedDropdown from "@/common/Dropdown/Dropdown";
-import { list } from "Assets/mockIssue";
 
 const IssueListPage = () => {
+  const { error, issues } = useSelector((state) => state.issue);
+  const { GET_ISSUES } = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    const getIssuesFn = async () => {
+      try {
+        await getIssues()(dispatch);
+      } catch (e) {
+        console.log(e);
+        dispatch(finishLoading("GET_ISSUES"));
+      }
+    };
+    getIssuesFn();
+  }, []);
 
   const onClickHandler = ({ key }) => {
     const [action, value] = key.split("_");
@@ -110,11 +126,14 @@ const IssueListPage = () => {
               </IssueFilterWrapper>
             </IssueListHeader>
             <IssueListBody>
-              {list.map((item) => (
-                <Link to={`/issues/${item.issueNumber}`} key={item.issueNumber}>
-                  <IssueItem {...item} />
-                </Link>
-              ))}
+              {GET_ISSUES && <h2>loading...</h2>}
+              {error && <h2>error</h2>}
+              {!GET_ISSUES &&
+                issues.map((item) => (
+                  <Link to={`/issues/${item.issueNumber}`} key={item.issueNumber}>
+                    <IssueItem {...item} />
+                  </Link>
+                ))}
             </IssueListBody>
           </IssueListWrapper>
         </div>
