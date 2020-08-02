@@ -28,15 +28,11 @@ const CommentEditor = ({ type, values, handlers }) => {
         default:
           return (
             <>
-              <Button
-                type="text"
-                text="Cancel"
-                onClick={() => console.log({ ...values, comment })}
-              />
+              <Button type="text" text="Cancel" onClick={handlers.onClickCancel} />
               <Button
                 type="primary"
                 text="Submit new issue"
-                onClick={() => handlers.onClickSubmit({ ...values, comment })}
+                onClick={() => console.log({ ...values, comment })}
               />
             </>
           );
