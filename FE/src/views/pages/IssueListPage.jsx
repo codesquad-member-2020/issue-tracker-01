@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getIssues } from "Store/issue/issueAction";
 import styled from "styled-components";
 import { Input, Checkbox } from "antd";
 import {
@@ -15,11 +17,25 @@ import Dropdown from "@/common/Dropdown";
 import Header from "@/common/Header";
 import NavButtons from "@/common/NavButtons";
 import IssueItem from "@/issues/IssueItem";
-import CustomizedDropdown from "@/common/CustomizedDropdown";
-import { list } from "Assets/mockIssue";
+import CustomizedDropdown from "@/common/Dropdown/Dropdown";
 
 const IssueListPage = () => {
+  const { error, issues } = useSelector((state) => state.issue);
+  const { GET_ISSUES } = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    const getIssuesFn = async () => {
+      try {
+        await getIssues()(dispatch);
+      } catch (e) {
+        console.log(e);
+        dispatch(finishLoading("GET_ISSUES"));
+      }
+    };
+    getIssuesFn();
+  }, []);
 
   const onClickHandler = ({ key }) => {
     const [action, value] = key.split("_");
@@ -40,25 +56,31 @@ const IssueListPage = () => {
   };
 
   const authorData = {
+    category: "users",
     title: "Author",
-    itemList: ["reesekimm", "dion", "alex"],
-    onSelect: null,
+    openingCallback: null,
+    closingCallback: null,
   };
 
   const LabelData = {
-    title: "Label",
-    itemList: ["FE", "BE"],
-    onSelect: null,
+    category: "labels",
+    title: "Labels",
+    openingCallback: null,
+    closingCallback: null,
   };
+
   const MilestoneData = {
-    title: "Milestones",
-    itemList: ["Phase1", "Phase2"],
-    onSelect: null,
+    category: "milestones",
+    title: "Milestone",
+    openingCallback: null,
+    closingCallback: null,
   };
+
   const AssigneeData = {
-    title: "Assignee",
-    itemList: ["reesekimm", "alex"],
-    onSelect: null,
+    category: "users",
+    title: "Assignees",
+    openingCallback: null,
+    closingCallback: null,
   };
 
   return (
@@ -104,11 +126,14 @@ const IssueListPage = () => {
               </IssueFilterWrapper>
             </IssueListHeader>
             <IssueListBody>
-              {list.map((item) => (
-                <Link to={`/issues/${item.issueNumber}`} key={item.issueNumber}>
-                  <IssueItem {...item} />
-                </Link>
-              ))}
+              {GET_ISSUES && <h2>loading...</h2>}
+              {error && <h2>error</h2>}
+              {!GET_ISSUES &&
+                issues.map((item) => (
+                  <Link to={`/issues/${item.issueNumber}`} key={item.issueNumber}>
+                    <IssueItem {...item} />
+                  </Link>
+                ))}
             </IssueListBody>
           </IssueListWrapper>
         </div>

@@ -13,8 +13,11 @@ const Label = ({ title, color }) => {
         lineHeight: "1.5",
         marginRight: "3px",
         borderRadius: "12px",
-        display: "flex",
-        alignItems: "center",
+        display: "inline-block",
+        maxWidth: "150px",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
       }}
     >
       {title}

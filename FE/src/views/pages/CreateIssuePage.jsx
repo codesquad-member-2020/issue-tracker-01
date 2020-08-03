@@ -1,30 +1,110 @@
-import React from "react";
+import React, { useReducer, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createIssue } from "Store/issue/issueAction";
 import styled from "styled-components";
 import Header from "@/common/Header";
-import CustomizedDropdown from "@/common/CustomizedDropdown";
+import CustomizedDropdown from "@/common/Dropdown/Dropdown";
+import User from "@/common/User";
+import Label from "@/common/Label";
 import CommentEditor from "@/issues/CommentEditor";
 import { Avatar, Input } from "antd";
 
+const initialState = {
+  title: "",
+  assignees: [],
+  labels: [],
+  milestone: null,
+};
+
+const issueActions = {
+  UPDATE_TITLE: "UPDATE_TITLE",
+  UPDATE_ASSIGNEES: "UPDATE_ASSIGNEES",
+  UPDATE_LABELS: "UPDATE_LABELS",
+  UPDATE_MILESTONE: "UPDATE_MILESTONE",
+};
+
+const issueReducer = (state, { type, payload }) => {
+  const { UPDATE_TITLE, UPDATE_ASSIGNEES, UPDATE_LABELS, UPDATE_MILESTONE } = issueActions;
+  switch (type) {
+    case UPDATE_TITLE:
+      return {
+        ...state,
+        title: payload,
+      };
+    case UPDATE_ASSIGNEES:
+      return {
+        ...state,
+        assignees: payload,
+      };
+    case UPDATE_LABELS:
+      return {
+        ...state,
+        labels: payload,
+      };
+    case UPDATE_MILESTONE:
+      return {
+        ...state,
+        milestone: payload,
+      };
+    default:
+      return state;
+  }
+};
+
 const CreateIssuePage = () => {
+  const [issue, issueDispatch] = useReducer(issueReducer, initialState);
+  const { title, assignees, labels, milestone } = issue;
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const updateTitle = useCallback(
+    ({ target: { value } }) => issueDispatch({ type: issueActions.UPDATE_TITLE, payload: value }),
+    []
+  );
+
+  const updateAssignees = useCallback(
+    (newList) => issueDispatch({ type: issueActions.UPDATE_ASSIGNEES, payload: newList }),
+    []
+  );
+
+  const updateLabels = useCallback(
+    (newList) => issueDispatch({ type: issueActions.UPDATE_LABELS, payload: newList }),
+    []
+  );
+
+  const updateMilestone = useCallback(
+    (newMilestone) => issueDispatch({ type: issueActions.UPDATE_MILESTONE, payload: newMilestone }),
+    []
+  );
+
   const AssigneeData = {
     type: "wide",
-    title: "Assignee",
-    itemList: ["reesekimm", "alex"],
-    onSelect: null,
+    category: "users",
+    title: "Assignees",
+    openingCallback: "",
+    closingCallback: updateAssignees,
   };
 
   const LabelData = {
     type: "wide",
-    title: "Label",
-    itemList: ["FE", "BE"],
-    onSelect: null,
+    category: "labels",
+    title: "Labels",
+    openingCallback: "",
+    closingCallback: updateLabels,
   };
 
   const MilestoneData = {
     type: "wide",
-    title: "Milestones",
-    itemList: ["Phase1", "Phase2"],
-    onSelect: null,
+    category: "milestones",
+    title: "Milestone",
+    openingCallback: "",
+    closingCallback: updateMilestone,
+  };
+
+  const handlers = {
+    onClickCancel: () => history.push("/issues"),
+    onClickSubmit: (issue) => createIssue(issue, () => history.push("/issues"))(dispatch),
   };
 
   return (
@@ -35,28 +115,38 @@ const CreateIssuePage = () => {
           <Wrapper>
             <EditorColumn>
               <Avatar
-                src="https://avatars1.githubusercontent.com/u/38597469?s=460&u=2dfb09e65b47940c7661b7093c6cf8c91b8f13ea&v=4"
+                src="https://avatars0.githubusercontent.com/u/42695954?s=460&u=5227f8eb42e141c22cbffc2cc813e4d8ba2a9fd2&v=4"
                 style={{ width: "44px", height: "44px", marginRight: "12px" }}
               />
               <EditorWrapper>
                 <TitleWrppaer>
-                  <Input placeholder="Title" />
+                  <Input placeholder="Title" onChange={updateTitle} />
                 </TitleWrppaer>
-                <CommentEditor type="create-issue" />
+                <CommentEditor issueData={issue} handlers={handlers} />
               </EditorWrapper>
             </EditorColumn>
             <DropdownColumn>
               <DropdownWrapper>
                 <CustomizedDropdown {...AssigneeData} />
-                <SelectedItem>reesekimm</SelectedItem>
+                <SelectedItem>
+                  {assignees.map(({ userId, nickname, profileImage }) => (
+                    <User key={userId} nickname={nickname} profileImage={profileImage} />
+                  ))}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...LabelData} />
-                <SelectedItem>FE</SelectedItem>
+                <SelectedItem>
+                  {labels.map(({ id, title, color }) => (
+                    <Label key={id} title={title} color={color} />
+                  ))}
+                </SelectedItem>
               </DropdownWrapper>
               <DropdownWrapper>
                 <CustomizedDropdown {...MilestoneData} />
-                <SelectedItem>Phase1</SelectedItem>
+                <SelectedItem>
+                  <Milestone>{milestone ? milestone[0].title : ""}</Milestone>
+                </SelectedItem>
               </DropdownWrapper>
             </DropdownColumn>
           </Wrapper>
@@ -132,4 +222,8 @@ const DropdownWrapper = styled.div`
 
 const SelectedItem = styled.div`
   margin-top: 12px;
+`;
+
+const Milestone = styled.span`
+  font-weight: 600;
 `;

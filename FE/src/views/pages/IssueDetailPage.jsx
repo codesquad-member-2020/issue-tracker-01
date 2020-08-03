@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Header from "@/common/Header";
 import Label from "@/common/Label";
 import Button from "@/common/Button";
-import CustomizedDropdown from "@/common/CustomizedDropdown";
+import CustomizedDropdown from "@/common/Dropdown/Dropdown";
 import User from "@/common/User";
 import CommentViewer from "@/issues/CommentViewer";
 import CommentEditor from "@/issues/CommentEditor";
@@ -13,6 +13,7 @@ import { detail } from "Assets/mockIssue";
 const CreateIssuePage = () => {
   const AssigneeData = {
     type: "wide",
+    category: "users",
     title: "Assignee",
     itemList: ["reesekimm", "alex"],
     onSelect: null,
@@ -20,6 +21,7 @@ const CreateIssuePage = () => {
 
   const LabelData = {
     type: "wide",
+    category: "labels",
     title: "Label",
     itemList: ["FE", "BE"],
     onSelect: null,
@@ -27,6 +29,7 @@ const CreateIssuePage = () => {
 
   const MilestoneData = {
     type: "wide",
+    category: "milestones",
     title: "Milestones",
     itemList: ["Phase1", "Phase2"],
     onSelect: null,
