@@ -57,7 +57,7 @@ const IssueListPage = () => {
 
   const authorData = {
     category: "users",
-    title: "Assignees",
+    title: "Author",
     openingCallback: null,
     closingCallback: null,
   };
