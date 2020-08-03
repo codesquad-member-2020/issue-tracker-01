@@ -104,7 +104,7 @@ const CreateIssuePage = () => {
 
   const handlers = {
     onClickCancel: () => history.push("/issues"),
-    onClickSubmit: (issue) => createIssue(issue)(dispatch),
+    onClickSubmit: (issue) => createIssue(issue, () => history.push("/issues"))(dispatch),
   };
 
   return (
