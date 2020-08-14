@@ -96,7 +96,7 @@ class LabelControllerTest {
 
     // then
     mockMvc.perform(
-        get("/labels").contentType(MediaType.APPLICATION_JSON).cookie(cookie))
+        get("/labels").header("Origin", "*").contentType(MediaType.APPLICATION_JSON).cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.labels", hasSize(labels.size())))
@@ -149,6 +149,7 @@ class LabelControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/labels")
+        .header("Origin", "*")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(asJsonString(labelRequest))
@@ -182,6 +183,7 @@ class LabelControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder = put("/labels/{id}", labelId)
+        .header("Origin", "*")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(asJsonString(labelRequest))
@@ -216,6 +218,7 @@ class LabelControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder = delete("/labels/{id}", labelId)
+        .header("Origin", "*")
         .contentType(MediaType.APPLICATION_JSON)
         .cookie(this.cookie);
     mockMvc.perform(requestBuilder)
