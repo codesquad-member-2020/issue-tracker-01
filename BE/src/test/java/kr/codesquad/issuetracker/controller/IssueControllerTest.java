@@ -133,7 +133,8 @@ class IssueControllerTest {
 
     // then
     mockMvc.perform(
-        get("/issues").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
+        get("/issues").header("Origin", "*").contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt)))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.issues", hasSize(issues.size())))
@@ -241,6 +242,7 @@ class IssueControllerTest {
     // then
     MockHttpServletRequestBuilder requestBuilder =
         put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .header("Origin", "*")
             .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
@@ -265,6 +267,7 @@ class IssueControllerTest {
     // then
     MockHttpServletRequestBuilder requestBuilder =
         put("/issues/state").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON)
+            .header("Origin", "*")
             .cookie(new Cookie("jwt", jwt));
     mockMvc.perform(requestBuilder)
         .andDo(print())
@@ -318,6 +321,7 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder = get("/issues/" + issueNumber.intValue())
+        .header("Origin", "*")
         .contentType(MediaType.APPLICATION_JSON)
         .cookie(new Cookie("jwt", this.jwt));
     mockMvc.perform(requestBuilder)
@@ -419,6 +423,7 @@ class IssueControllerTest {
 
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/issues")
+        .header("Origin", "*")
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .cookie(new Cookie("jwt", this.jwt)).content(asJsonString(request));

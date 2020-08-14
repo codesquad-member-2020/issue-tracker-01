@@ -103,7 +103,8 @@ class MilestoneControllerTest {
     when(milestoneService.findAll()).thenReturn(milestoneList);
 
     // then
-    mockMvc.perform(get("/milestones").contentType(MediaType.APPLICATION_JSON).cookie(cookie))
+    mockMvc.perform(get("/milestones").header("Origin", "*").contentType(MediaType.APPLICATION_JSON)
+        .cookie(cookie))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.milestones", hasSize(milestoneList.size())))
@@ -166,6 +167,7 @@ class MilestoneControllerTest {
     // then
     MockHttpServletRequestBuilder requestBuilder = post("/milestones")
         .contentType(MediaType.APPLICATION_JSON)
+        .header("Origin", "*")
         .characterEncoding("UTF-8")
         .content(asJsonString(milestoneRequest))
         .cookie(cookie);

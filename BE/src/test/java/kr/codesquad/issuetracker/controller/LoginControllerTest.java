@@ -62,7 +62,8 @@ class LoginControllerTest {
     when(loginService.redirectToGithub()).thenReturn(headers);
 
     // then
-    mockMvc.perform(get("/login").contentType(MediaType.APPLICATION_JSON)).andDo(print())
+    mockMvc.perform(get("/login").header("Origin", "*").contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
         .andExpect(status().isSeeOther())
         .andExpect(redirectedUrl(authUrl + "?client_id=" + clientId + "&scope=user"))
         .andDo(document("{class-name}/{method-name}",
@@ -85,7 +86,8 @@ class LoginControllerTest {
     when(loginService.redirectWithCookie(jwt)).thenReturn(headers);
 
     mockMvc.perform(
-        get("/login").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("jwt", jwt)))
+        get("/login").header("Origin", "*").contentType(MediaType.APPLICATION_JSON)
+            .cookie(new Cookie("jwt", jwt)))
         .andDo(print())
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(headers.getLocation().toString()))
@@ -119,7 +121,8 @@ class LoginControllerTest {
     when(loginService.redirectWithCookie(jwt)).thenReturn(headers);
 
     mockMvc.perform(
-        get("/login/oauth").contentType(MediaType.APPLICATION_JSON).param("code", code))
+        get("/login/oauth").header("Origin", "*").contentType(MediaType.APPLICATION_JSON)
+            .param("code", code))
         .andDo(print())
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(redirectUrl))
