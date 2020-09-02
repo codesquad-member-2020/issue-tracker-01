@@ -1,5 +1,7 @@
 package kr.codesquad.issuetracker.common.error;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import kr.codesquad.issuetracker.common.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,11 +52,16 @@ public class GlobalRestExceptionHandler {
    * 비즈니스 로직상의 에러
    */
   @ExceptionHandler(BusinessException.class)
-  protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
+  protected ResponseEntity<String> handleBusinessException(final BusinessException e,
+      HttpServletRequest req) {
+    StringBuilder sb = new StringBuilder();
+    for (Cookie cookie : req.getCookies()) {
+      sb.append(cookie.getName()).append(": ").append(cookie.getValue());
+    }
     log.error("handleEntityNotFoundException", e);
     final ErrorCode errorCode = e.getErrorCode();
     final ErrorResponse response = ErrorResponse.of(errorCode);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+    return new ResponseEntity<>(sb.toString(), HttpStatus.valueOf(errorCode.getStatus()));
   }
 
   /**
