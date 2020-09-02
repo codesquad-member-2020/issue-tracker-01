@@ -32,11 +32,19 @@ public class LoginController {
 
   @GetMapping
   public ResponseEntity<Object> loginWithGithub(
-      @CookieValue(value = "jwt", required = false) String jwt) {
+      @CookieValue(value = "jwt", required = false) String jwt,
+      HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (jwt != null) {
       log.debug("jwt token : {}", jwt);
       log.debug("jwt token value : {}", jwtService.getUserFromJws(jwt));
       HttpHeaders headers = loginService.redirectWithCookie(jwt);
+
+      String userAgent = request.getHeader("User-Agent");
+      if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+        response.sendRedirect("issue://oauth?token=" + jwt);
+        return new ResponseEntity<>(HttpStatus.FOUND);
+      }
+
       return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);
     }
     HttpHeaders headers = loginService.redirectToGithub();
