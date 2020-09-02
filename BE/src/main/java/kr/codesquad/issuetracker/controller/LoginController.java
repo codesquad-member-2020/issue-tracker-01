@@ -1,6 +1,9 @@
 package kr.codesquad.issuetracker.controller;
 
 import io.swagger.annotations.Api;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import kr.codesquad.issuetracker.domain.user.UserDTO;
 import kr.codesquad.issuetracker.service.JwtService;
 import kr.codesquad.issuetracker.service.LoginService;
@@ -41,7 +44,8 @@ public class LoginController {
   }
 
   @GetMapping("/oauth")
-  public ResponseEntity<String> oauthAuthentication(@RequestParam String code) {
+  public ResponseEntity<String> oauthAuthentication(@RequestParam String code,
+      HttpServletRequest request, HttpServletResponse response) throws IOException {
     String accessToken = authService.getTokenFromCode(code).getAccessToken();
     log.debug("AccessToken : {}", accessToken);
 
@@ -50,6 +54,13 @@ public class LoginController {
     log.debug("Jwt String : {}", jws);
 
     HttpHeaders headers = loginService.redirectWithCookie(jws);
+
+    String userAgent = request.getHeader("User-Agent");
+    if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+      response.sendRedirect("issue:token=" + jws);
+      return new ResponseEntity<>(HttpStatus.FOUND);
+    }
+
     return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);
   }
 }
