@@ -50,11 +50,11 @@ public class GlobalRestExceptionHandler {
    * 비즈니스 로직상의 에러
    */
   @ExceptionHandler(BusinessException.class)
-  protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
+  protected ResponseEntity<String> handleBusinessException(final BusinessException e) {
     log.error("handleEntityNotFoundException", e);
     final ErrorCode errorCode = e.getErrorCode();
-    final ErrorResponse response = ErrorResponse.of(errorCode);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+//    final ErrorResponse response = ErrorResponse.of(errorCode);
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(errorCode.getStatus()));
   }
 
   /**
