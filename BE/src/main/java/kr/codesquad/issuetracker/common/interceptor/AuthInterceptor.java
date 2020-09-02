@@ -34,6 +34,11 @@ public class AuthInterceptor implements HandlerInterceptor {
       return true;
     }
 
+    String userAgent = request.getHeader("User-Agent");
+    if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+      return true;
+    }
+
     Optional<Cookie> jwtCookie = Optional.ofNullable(WebUtils.getCookie(request, "jwt"));
     try {
       UserDTO user = jwtService
