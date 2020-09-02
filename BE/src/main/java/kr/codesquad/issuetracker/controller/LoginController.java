@@ -57,7 +57,7 @@ public class LoginController {
 
     String userAgent = request.getHeader("User-Agent");
     if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
-      response.sendRedirect("issue:token=" + jws);
+      response.sendRedirect("issue://token=" + jws);
       return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
