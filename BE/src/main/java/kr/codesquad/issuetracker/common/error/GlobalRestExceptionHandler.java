@@ -59,6 +59,9 @@ public class GlobalRestExceptionHandler {
       sb.append(cookie.getName()).append(": ").append(cookie.getValue());
     }
     sb.append(req.getHeader("User-Agent"));
+    for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+      sb.append("\n").append(stackTraceElement.toString());
+    }
     log.error("handleEntityNotFoundException", e);
     final ErrorCode errorCode = e.getErrorCode();
     final ErrorResponse response = ErrorResponse.of(errorCode);
