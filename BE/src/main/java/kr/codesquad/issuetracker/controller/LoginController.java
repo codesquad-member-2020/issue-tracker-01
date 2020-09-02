@@ -37,7 +37,7 @@ public class LoginController {
     if (jwt != null) {
       log.debug("jwt token : {}", jwt);
       String userAgent = request.getHeader("User-Agent");
-      if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+      if (userAgent != null && userAgent.matches(".+(iPhone|iPad).+")) {
         response.sendRedirect("issue://oauth?token=" + jwt);
         return new ResponseEntity<>(HttpStatus.FOUND);
       }

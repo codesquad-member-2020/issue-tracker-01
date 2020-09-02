@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     String userAgent = request.getHeader("User-Agent");
-    if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+    if (userAgent != null && userAgent.matches(".+(iPhone|iPad).+")) {
       return true;
     }
 
