@@ -64,7 +64,7 @@ public class LoginController {
     HttpHeaders headers = loginService.redirectWithCookie(jws);
 
     String userAgent = request.getHeader("User-Agent");
-    if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
+    if (userAgent != null && userAgent.matches(".+(iPhone|iPad).+")) {
       response.sendRedirect("issue://oauth?token=" + jws);
       return new ResponseEntity<>(HttpStatus.FOUND);
     }
