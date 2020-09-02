@@ -36,14 +36,14 @@ public class LoginController {
       HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (jwt != null) {
       log.debug("jwt token : {}", jwt);
-      log.debug("jwt token value : {}", jwtService.getUserFromJws(jwt));
-      HttpHeaders headers = loginService.redirectWithCookie(jwt);
-
       String userAgent = request.getHeader("User-Agent");
       if (userAgent != null && userAgent.matches(".+(iOS|iPad).+")) {
         response.sendRedirect("issue://oauth?token=" + jwt);
         return new ResponseEntity<>(HttpStatus.FOUND);
       }
+
+      log.debug("jwt token value : {}", jwtService.getUserFromJws(jwt));
+      HttpHeaders headers = loginService.redirectWithCookie(jwt);
 
       return new ResponseEntity<>("redirect", headers, HttpStatus.FOUND);
     }
